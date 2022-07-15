@@ -1,0 +1,340 @@
+﻿@model Survey.Core.ViewModels.SkipLogicViewModel;
+@{
+    int indexforquestion = Model.questionindex;
+
+}
+
+
+
+
+@for (int i = 0; i < Model.Model.Count; i++)
+{
+    <div class="questioncontainer">
+
+
+        <div class="card-body isquestion">
+            <input type="hidden" value="@Model.Model[i].QuestionId" name="Model[@indexforquestion].QuestionId" />
+            <input type="hidden" value="@Model.Model[i].QuestionText" name="Model[@indexforquestion].QuestionText" />
+            <input type="hidden" value="@Model.Model[i].QuestionType" name="Model[@indexforquestion].QuestionType" />
+
+
+            <label data-val-question="@Model.Model[i].QuestionId" class="questiontext">@Model.Model[i].QuestionText</label>
+            <p class="questiondescription">@Model.Model[i].QuestionDescription</p>
+
+            @if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Text)
+            {
+                <div class="form-group">
+                    <textarea name="Model[@indexforquestion].Answer" class="form-control" style="height:100px"></textarea>
+                </div>
+                @*            <span asp-validation-for="@Model[i].Answer" class="text-danger"></span>
+                *@
+                <br />
+            }
+
+            else if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Numbers || Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Decimal)
+            {
+                <div class="form-group">
+                    <input type="number" name="Model[@indexforquestion].Answer" oninput="@(Model.Model[i].isParent ? "checkNumber(" + Model.Model[i].QuestionId + ",this" + ")" : null)" class="form-control" style=" height: 40px;">
+                </div>
+                @*            <span asp-validation-for="@Model[i].Answer" class="text-danger"></span>
+                *@
+                <br />
+
+            }                    
+            else if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Date_Time)
+            {
+
+                <div class="form-group row">
+
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <div class="input-group date" id="kt_datetimepicker_1" data-target-input="nearest">
+                            <input type="text" name="Model[@indexforquestion].Answer" class="form-control datetimepicker-input" placeholder="Select date & time" data-target="#kt_datetimepicker_1" />
+                            <div class="input-group-append" data-target="#kt_datetimepicker_1" data-toggle="datetimepicker">
+                                <span class="input-group-text">
+                                    <i class="ki ki-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+            }
+           else if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Select_One)
+            {
+
+                <input checked class="d-none" type="radio" name="Model[@indexforquestion].OptionId" value="0" />
+
+                <div class=" col-form-label" style=" padding-top: 0px;">
+                    <div class="radio-list">
+                        @for (int j = 0; j < Model.Model[i]._Options.Count; j++)
+                        {
+                            <input type="hidden" name="Model[@indexforquestion]._Options[@j].Id" value="@Model.Model[i]._Options[j].Id" />
+                            <input type="hidden" name="Model[@indexforquestion]._Options[@j].OptionText" value="@Model.Model[i]._Options[j].OptionText" />
+                            <input type="hidden" name="Model[@indexforquestion]._Options[@j].Question_Id" value="@Model.Model[i]._Options[j].Question_Id" />
+
+
+
+
+
+                            <label class="radio">
+                                <input id="single_select_option_Id" class="custom-radio" onclick="@(Model.Model[i]._Options[j].Skip_Logic ? "checkCondition(" + Model.Model[i]._Options[j].Id + ",this" + ")" : "checkCondition(null,this)")" type="radio" name="Model[@indexforquestion].OptionId" value="@Model.Model[i]._Options[j].Id" />
+                                <span></span>
+                                <div class="option-text">
+                                    @Model.Model[i]._Options[j].OptionText
+                                </div>
+                            </label>
+
+
+
+                        }
+
+                    </div>
+                </div>
+
+                @*            <span asp-validation-for="@Model[i].OptionId" class="text-danger"></span>
+                *@
+            }
+            else if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Select_Multiple)
+
+            {
+                @for (int j = 0; j < Model.Model[i]._Options.Count; j++)
+                {
+                    <input type="hidden" name="Model[@indexforquestion]._Options[@j].Id" value="@Model.Model[i]._Options[j].Id" />
+                    <input type="hidden" name="Model[@indexforquestion]._Options[@j].OptionText" value="@Model.Model[i]._Options[j].OptionText" />
+                    <input type="hidden" name="Model[@indexforquestion]._Options[@j].Question_Id" value="@Model.Model[i]._Options[j].Question_Id" />
+
+                    <label class="container9 option-text" >
+                        @Model.Model[i]._Options[j].OptionText
+                        <input type="checkbox" name="Model[@indexforquestion]._Options[@j].isSelected" value="true" onclick="@(Model.Model[i]._Options[j].Skip_Logic? "checkconditionmulti("+Model.Model[i]._Options[j].Id+",this"+")" : null)" class="form-check-input" id="multiple_select_option_Id" />
+                        <span class="checkmark"></span>
+                    </label>
+
+                }
+            }
+          
+          
+
+        </div>
+                @if (Model.Model[i].isParent)
+                {
+                    if (Model.Model[i].QuestionType == Survey.Core.HelperClasses.QType.Numbers)
+                    {
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onload="addcondition(this)" name='@Html.Raw(Model.json)' />
+
+                    }
+
+                    if (Model.Model[i].QuestionType != Survey.Core.HelperClasses.QType.Select_Multiple)
+                    {
+                        <div class="childQuestion">
+
+
+                        </div>
+                    }
+                    else
+                    {
+                        @for (int j = 0; j < Model.Model[i]._Options.Count; j++)
+                        {
+
+                            <div id="Model[@indexforquestion]._Options[@j].isSelected" class=""></div>
+                        }
+                    }
+                }
+            </div>
+    indexforquestion++;
+}
+
+
+<style>
+
+    .file {
+        opacity: 0;
+        width: 0.1px;
+        height: 0.1px;
+        position: absolute;
+    }
+
+    .file-input1 label {
+        display: block;
+        position: relative;
+        padding: 0.65rem 1rem;
+        width: 170px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #D0144E;
+        background-color: white;
+        border: 1px solid #D0144E;
+        border-radius: .75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: transform .2s ease-out;
+    }
+
+    input:hover + label,
+    input:focus + label {
+        transform: scale(1.02);
+    }
+
+
+    .file-name {
+        position: relative;
+        font-size: 0.85rem;
+        font-weight: 500;
+        align-items: center;
+        padding: .5rem 1rem;
+        margin-top: .75rem;
+        border-radius: .75rem;
+        color: #7e8299;
+    }
+
+
+
+    .questiontext {
+        font-size: 15px;
+        font-weight: 600;
+        width: 76%;
+    }
+
+    .questiondescription {
+        color: #7F7F7F;
+    }
+
+    .questioncontainer {
+        padding: 0px 35px;
+    }
+
+    .datepicker tbody tr > td.day.active {
+        background: #D0144E;
+        color: #ffffff;
+    }
+    td.day.today {
+        position: relative;
+        background: #d0144e4f !important;
+        color: #D0144E !important;
+    }
+
+    .datepicker tbody tr > td.day.today:before {
+       
+        border-bottom-color: #D0144E;
+        border-top-color: #D0144E;
+    }
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    .bootstrap-datetimepicker-widget .datepicker .datepicker-days table tbody tr > td.today {
+        position: relative;
+        background: #d0144e4f !important;
+        color: #D0144E !important;
+    }
+    datetimepicker-widget .datepicker .datepicker-days table tbody tr > td.active {
+        background: #D0144E !important;
+        color: #ffffff !important;
+    }
+
+
+        .container9 {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .container9 input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    .card-body {
+        padding: 25px 2.25em;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container9:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container9 input:checked ~ .checkmark {
+        background-color: #595959;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .form-control:focus {
+        border-color: #D0144E !important;
+    }
+
+    /* Show the checkmark when checked */
+    .container9 input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container9 .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .input-group-text {
+        background-color: #D0144E;
+        color: white;
+    }
+
+    .btn.btn-bg-redish {
+        background-color: #D0144E;
+        border-color: #D0144E;
+        color: white;
+    }
+    .radio > input:checked ~ span {
+        background-color: #D0144E;
+    }
+</style>
+<script src="~/Admin/theme/demo4/dist/assets/js/pages/features/forms/widgets/bootstrap-datepicker.js"></script>
+
+<script>
+
+    const file = document.querySelector('#fileupload');
+    file.addEventListener('change', (e) => {
+        // Get the selected file
+        const [file] = e.target.files;
+        // Get the file name and size
+        const { name: fileName, size } = file;
+        // Convert size in bytes to kilo bytes
+        const fileSize = (size / 1000).toFixed(2);
+        // Set the text content
+        const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+        document.querySelector('.file-name').textContent = fileNameAndSize;
+    });
+</script>
+

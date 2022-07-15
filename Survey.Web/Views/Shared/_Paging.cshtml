@@ -1,0 +1,144 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using X.PagedList
+@model (IPagedList page, string link);
+    @{
+        int page = 1;
+        if (3 < Model.page.PageNumber)
+        {
+            page = page - 2;
+        }
+    }
+    <div id='Paging' class="pag-tab" style="text-align: center">
+        @*Dorpdownlist generation code*@
+
+
+
+
+        @*    Page @(Model.PageCount < Model.PageNumber? 0 : Model.PageNumber)
+            of @Model.PageNumber
+        *@
+        <div class="dataTables_paginate paging_simple_numbers" id="example3_paginate">
+            @if (Model.page.HasPreviousPage)
+            {
+                <button class="paginate_button next paginationbutton" data-val-link='@(Model.link+@$"/?pageNumber={Model.page.PageNumber-1}&pageSize={Model.page.PageSize}")'> <i class="fas fa-chevron-left"></i> Previous</button>
+            }
+            
+            <span>
+                @for (int i = 1; i <= Model.page.PageCount; i++)
+                {
+                    @if ((i) >= 10)
+                    {
+                        <span>......</span><button class="paginate_button current paginationbutton " data-val-link='@(Model.link+@$"/?pageNumber={page}")' aria-controls="example3" data-dt-idx="1" tabindex="0"> @(page)</button>
+                        break;
+                    }
+                    //Selced
+                    if (@Model.page.PageNumber == page)
+                    {
+                        <button class="paginate_button current aktive paginationbutton" data-val-link='@(Model.link+@$"/?pageNumber={page}")' aria-controls="example3" data-dt-idx="1" tabindex="0"> @(page)</button>
+                        page++;
+                        continue;
+                    }
+                    <button class="paginate_button current linku-pag paginationbutton" data-val-link='@(Model.link+@$"/?pageNumber={page}")' aria-controls="example3" data-dt-idx="1" tabindex="0"> @(page)</button>
+                    page++;
+                }
+            </span>
+            @if (Model.page.HasNextPage)
+            {
+                <button class="paginate_button next paginationbutton" data-val-link='@(Model.link+@$"/?pageNumber={Model.page.PageNumber+1}")'>Next <i class="fas fa-chevron-right"></i></button>
+            }
+        </div>
+        <div>
+            <select id="pageSize" class="dropdown-pag" value="@Model.page.PageSize" name="pageSize">
+                @for (int i = 10; i <= 50; i = i + 10)
+                {
+                    if (i == Model.page.PageSize)
+                    {
+                        <option selected value="@i">@i</option>
+                        continue;
+                    }
+                    <option value="@i">@i</option>
+                }
+
+            </select> <span class="ml-2" style=" font-size: 12px; color: #6a6a6a;">
+                Showing 1 - @Model.page.PageSize of @Model.page.TotalItemCount
+            </span>
+        </div>
+    </div>
+    <script src="~/Client/ltr/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/PaginationJs.js">
+       
+    </script>
+
+    <style>
+        .paginationbutton {
+        border:none;
+        }
+        .dropdown-pag {
+            border-radius: 6px;
+            padding: 4px 6px 4px 6px;
+            background-color: #f2f2f2;
+            color: #7E8299;
+            border: none;
+        }
+
+        .pag-tab {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .fa-chevron-right, .fa-chevron-left {
+            font-size: 10px;
+        }
+
+    .pag-tab {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px 0;
+    }
+      
+    .fa-chevron-right, .fa-chevron-left {
+        font-size: 10px;
+    }
+   
+
+        .linku-pag {
+            font-size: 0.9rem;
+            line-height: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            color: #7E8299;
+            align-items: center;
+            height: 2.25rem;
+            background-color: #f2f2f296;
+            min-width: 2.25rem;
+            padding: 5px 12px;
+        }
+
+        .aktive {
+            background-color: #ED7D31;
+            color: #FFFFFF;
+            border-radius: 6px;
+            padding: 4px 12px;
+        }
+
+        .next {
+            font-size: 12px;
+            border-radius: 6px;
+            padding: 4px 12px;
+            background-color: #f2f2f296;
+            color: #7E8299;
+        }
+
+            .linku-pag:hover, .next:hover {
+                background-color: #ea6308;
+                color: #FFFFFF;
+            }
+
+                .next:hover i {
+                    color: #FFFFFF;
+                }
+    </style>

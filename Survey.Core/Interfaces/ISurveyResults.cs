@@ -13,7 +13,6 @@ namespace Survey.Core.Interfaces
         Task<ServiceResponse<SurveyResultsViewModel>> getDashbord(int id);
         Task<ServiceResponse<SurveyResultsViewModel>> getTable(int id,int pageNumber,int pageSize);
         Task<ServiceResponse<SurveyResultsViewModel>> getMedia(int id);
-        Task<ServiceResponse<SurveyResultsViewModel>> getMap(int id);
         Task<ServiceResponse<SurveyResultsViewModel>> getReports(int id);
 
     }

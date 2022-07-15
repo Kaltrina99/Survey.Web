@@ -12,6 +12,6 @@ namespace Survey.Core.Interfaces
     {
         void Update(Projects objProject);
         IEnumerable<SelectListItem> GetAllDropdownList(string obj);
-        List<Projects> GetProjects(List<int> clientId, List<int> projectId,int? filterpojectid, string searchkeyword);
+        List<Projects> GetProjects(int? filterpojectid, string searchkeyword);
     }
 }

@@ -21,9 +21,9 @@ namespace Survey.Core.Interfaces
         bool UpdateForm(Forms form);
         IEnumerable<SelectListItem> GetAllDropdownList(string obj);
         Task<ServiceResponse<XSSFWorkbook>> CreateExcelFromForm(int id);
-        Task<ServiceResponse<bool>> CreateFormFromExcel(IFormFile file,string tenantid,int id);
-        IPagedList<Forms> GetForms(List<int> clientId, List<int> projectId, FormFilter filter,int pagenumber,int pagesize);
-        List<Projects> GetProjects(List<int> clientId, List<int> projectId);
+        Task<ServiceResponse<bool>> CreateFormFromExcel(IFormFile file,int id);
+        IPagedList<Forms> GetForms( FormFilter filter,int pagenumber,int pagesize);
+        List<Projects> GetProjects();
 
     }
 }

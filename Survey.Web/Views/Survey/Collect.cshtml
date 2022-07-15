@@ -1,0 +1,199 @@
+﻿@using Survey.Infrastructure.Utility
+@model Survey.Core.ViewModels.FormViewModel
+
+@{
+    ViewData["Title"] = "ManageForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <!--begin::Page Heading-->
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <!--begin::Page Title-->
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Survey</h5>
+                        <!--end::Page Title-->
+                        <!--begin::Breadcrumb-->
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                           
+                            <li class="breadcrumb-item text-muted">
+                                <a class="text-muted" href="/Survey/ManageForm">Manage survey</a>
+                            </li>
+                            <li class="breadcrumb-item text-muted">
+                                <a class="text-muted">Collect Data</a>
+                            </li>
+                        </ul>
+                        <!--end::Breadcrumb-->
+                    </div>
+                    <!--end::Page Heading-->
+                </div>
+                <!--end::Info-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container">
+                <div class="card card-custom gutter-b" style="background-color:#404040;">
+                    <div class="card-body d-flex align-items-center py-5 py-lg-15">
+                        <!--begin::Icon-->
+                        <div class="d-flex flex-center position-relative ml-5 mr-15 ml-lg-9">
+                            <span class="svg-icon svg-icon-5x svg-icon-orange position-absolute opacity-15">
+                                <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-polygon.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="70px" height="70px" viewBox="0 0 70 70" fill="none">
+                                    <g stroke="none" stroke-width="1" fill-rule="evenodd">
+                                        <path d="M28 4.04145C32.3316 1.54059 37.6684 1.54059 42 4.04145L58.3109 13.4585C62.6425 15.9594 65.3109 20.5812 65.3109 25.5829V44.4171C65.3109 49.4188 62.6425 54.0406 58.3109 56.5415L42 65.9585C37.6684 68.4594 32.3316 68.4594 28 65.9585L11.6891 56.5415C7.3575 54.0406 4.68911 49.4188 4.68911 44.4171V25.5829C4.68911 20.5812 7.3575 15.9594 11.6891 13.4585L28 4.04145Z" fill="#000000" />
+                                    </g>
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="svg-icon svg-icon-orange svg-icon-2x">
+                                <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo1/dist/../src/media/svg/icons/Code/Info-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                                        <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
+                                        <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                        </div>
+                        <!--end::Icon-->
+                        <!--begin::Description-->
+                        <div class="m-0  font-size-md">
+                            <p class="mb-0" style="color:#F7F7F7;">You can use the link below to share the survey with your target audience. Although multiple project team members may edit the same survey, they will each produce unique links to the same survey. Also note that your unique link below will remain the same for this specific survey at all times regardless of the edits made to the survey.   </p>
+                        </div>
+                        <!--end::Description-->
+                    </div>
+                </div>
+                <!--begin::Dashboard-->
+                <!--begin::Tables Widget 5-->
+                <div class="card card-custom">
+                    <div style="box-shadow: 0 0 30px 0 #523f690d;" class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title">
+                            <h3 class="">
+                                Collect Data
+                                @*<span class="d-block text-muted pt-2 font-size-sm"> Find all the forms below: </span>*@
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                        </div>
+                    </div>
+                    <!--begin::Body-->
+                    <div class="card-body ">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Share this link</label>
+                            <div class="col-lg-9">
+                                <input asp-for="SurveyLink" type="text" class="form-control" placeholder="Survey Link" id="surveylink" readonly />
+                                <span asp-validation-for="SurveyLink" class="form-text text-muted"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="  margin: auto; ">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-9 text-center ">
+                                <button class="btn  btn-grey pr-10 pl-10" style="margin:auto;    background-color: #797979;" onclick="copyLink()" >Copy Link</button>
+                                <button class="btn btn-orange pr-10 pl-10" style="margin:auto" onclick="openLink()">Open Link</button>
+                                <button class="btn btn-light pr-10 pl-10" style="margin:auto" onclick="goBack()">Back To List</button>
+                            </div>
+                         
+
+                        </div>
+
+                    </div>
+                    <!--end::Entry-->
+                </div>
+                <!--end::Content-->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
+
+    <style>
+
+
+        .label.label-light-warning {
+            color: #35b653;
+            background-color: #35b65345;
+        }
+
+        th span {
+            color: #b5b5c3 !important;
+            font-size: .9rem;
+            text-transform: uppercase;
+            font-weight: 600 !important;
+            letter-spacing: .1rem;
+        }
+
+        .card.card-custom {
+            box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
+            border: 0;
+        }
+
+        tbody tr:hover {
+            background-color: #F3F6F9;
+        }
+
+        .datatable-row {
+            border-bottom: 1px solid #EBEDF3;
+        }
+
+            .datatable-row > .datatable-cell:first-child {
+                padding-left: 10px !important;
+            }
+
+
+        .nav-link p {
+            margin-bottom: 0px;
+        }
+
+        .dropdown-item.active, .dropdown-item:active {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #ffffff;
+        }
+
+        .nav .show > .nav-link, .nav .nav-link:hover:not(.disabled), .nav .nav-link.active, .nav .show > .nav-link .nav-text, .nav .nav-link:hover:not(.disabled) .nav-text, .nav .nav-link.active .nav-text, .nav .show > .nav-link .nav-icon i, .nav .nav-link:hover:not(.disabled) .nav-icon i, .nav .nav-link.active .nav-icon i {
+            color: #ED7D31;
+        }
+
+        td:last-child {
+            text-align: right;
+        }
+
+
+           
+    </style>
+
+
+    <script>
+        function copyLink()
+        {
+            var link = document.getElementById("surveylink").value;
+            navigator.clipboard.writeText(link);
+            alert("Copied the text: " + link);
+
+        }
+        function openLink() {
+            var link = document.getElementById("surveylink").value;
+            window.open(link, '_blank').focus();
+        }
+        function goBack()
+        {
+            window.history.back();
+
+        }
+
+     
+    </script>

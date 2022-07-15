@@ -45,16 +45,16 @@ namespace Survey.Web
             .AddSessionStateTempDataProvider();
             services.AddSession();
             //services.AddScoped<IPermissionRole, PermissonRoleRepository>();
-            //services.AddScoped<ISurveyResults, SurveyResultsRepository>();
-            //services.AddScoped<ISurveySubmission, SubmissionRepository>();
+            services.AddScoped<ISurveyResults, SurveyResultsRepository>();
+            services.AddScoped<ISurveySubmission, SubmissionRepository>();
             //services.AddScoped<IImageProfile, ImageProfileRepository>();
             services.AddScoped<IProjectCategory, ProjectCategoryRepository>();
             services.AddScoped<IProjects, ProjectsRepository>();
-            //services.AddScoped<IForms, FormsRepository>();
-            //services.AddScoped<IQuestions, QuestionsRepository>();
-            //services.AddScoped<IQuestionOptions, QuestionOptionsRepository>();
-            //services.AddScoped<IAnswers, AnswersRepository>();
-            //services.AddScoped<ISkipLogic, SkipLogicRepository>();
+            services.AddScoped<IForms, FormsRepository>();
+            services.AddScoped<IQuestions, QuestionsRepository>();
+            services.AddScoped<IQuestionOptions, QuestionOptionsRepository>();
+            services.AddScoped<IAnswers, AnswersRepository>();
+            services.AddScoped<ISkipLogic, SkipLogicRepository>();
             //services.AddScoped<IDataset, DatasetRepository>();
             //services.AddScoped<IEnrollDataset, EnrollDatasetRepository>();
             //services.AddScoped<ICases, CasesRepository>();
@@ -62,7 +62,7 @@ namespace Survey.Web
             //services.AddScoped<ICasesExcelData, CasesExcelDataRepository>();
             //services.AddScoped<ICaseAssignedUsers, CaseAssignedUsersRepository>();
             //services.AddScoped<ICaseAssignedForms, CaseAssignedFormsRepository>();
-            //services.AddScoped<ISurveyResultDownload, SurveyResultDownload>();
+            services.AddScoped<ISurveyResultDownload, SurveyResultDownload>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

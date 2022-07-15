@@ -1,0 +1,359 @@
+﻿@inject Survey.Infrastructure.Data.ApplicationDbContext db
+@using Survey.Infrastructure.Utility
+@model Survey.Core.ViewModels.FormViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Survey.Core.Constants
+@using X.PagedList
+@{
+    ViewData["Title"] = "ManageForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string GetProjectName(int? id)
+    {
+        int ids = (int)id;
+        return db.Projects.Where(x => x.Id == ids).Select(x => x.Title).First();
+    }
+    string GetClient(int? projectId)
+    {
+        int ids = (int)projectId;
+        var getClient = db.Projects.Where(x => x.Id == ids).Select(x => x.ProjectCategoryId).First();
+        return db.ProjectCategories.Where(x => x.Id == getClient).Select(x => x.Name).First();
+    }
+
+}
+<link rel="stylesheet" href="~/css/ManageForm.css" type="text/css" />
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <!--begin::Page Heading-->
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <!--begin::Page Title-->
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Survey</h5>
+                        <!--end::Page Title-->
+                        <!--begin::Breadcrumb-->
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+
+                            <li class="breadcrumb-item text-muted">
+                                <a class="text-muted">Manage survey</a>
+                            </li>
+                        </ul>
+                        <!--end::Breadcrumb-->
+                    </div>
+                    <!--end::Page Heading-->
+                </div>
+                <!--end::Info-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container">
+                <div class="card card-custom gutter-b" style="background-color: #404040;">
+                    <div class="card-body d-flex align-items-center py-5 py-lg-15">
+
+                    </div>
+                </div>
+                <!--begin::Dashboard-->
+                <!--begin::Tables Widget 5-->
+                <div class="card card-custom">
+                    <div style="box-shadow: 0 0 30px 0 #523f690d;" class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title">
+                            <h3 class="">
+                                Surveys
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            
+                                <!--begin::Button-->
+                                <a asp-action="AddForm" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                    <i class="fa fa-plus"></i> New Survey
+                                </a>
+                                <a asp-action="ImportSurvey" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                    <i class="fa fa-file-import"></i>Import New Survey
+                                </a>
+                            
+                            <!--end::Button-->
+                        </div>
+                    </div>
+                    <!--begin::Body-->
+                    <div class="card-body ">
+                        <div class="mb-7">
+                            <div class="row align-items-center">
+                                <div class="col-lg-12 col-xl-12">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
+                                            <div class="input-icon">
+                                                <input type="text" class="form-control" form="form1" placeholder="Search..." asp-for="Filter.SearchingWord" />
+                                                <span>
+                                                    <i class="flaticon2-search-1 text-muted"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-3 mb-0 d-none d-md-block">Program or client:</label>
+                                                <select class="form-control" form="form1" asp-for="Filter.FilterClientId">
+                                                    <option value="">All</option>
+                                                    @foreach (var client in Model.GetClients)
+                                                    {
+                                                        <option value="@client.Id">@client.Name</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-3 mb-0 d-none d-md-block">Project or  activity:</label>
+                                                <select class="form-control" form="form1" asp-for="Filter.FilterProjectId">
+                                                    <option value="">All</option>
+                                                    @foreach (var project in Model.GetProjects)
+                                                    {
+                                                        <option value="@project.Id">@project.Title</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 ">
+                                            <button form="form1" type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 mt-5 mt-lg-0">
+                                </div>
+                            </div>
+                        </div>
+
+                       
+                        <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                            <thead>
+                                <tr>
+                                    <th>Survey Name</th>
+                                    <th>Project</th>
+                                    <th>Program or client</th>
+                                    <th>Survey Status</th>
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var form in Model.Forms)
+                                {
+                                    <tr>
+                                        <td>
+                                            @form.FormTitle
+                                        </td>
+                                        <td>
+                                            @GetProjectName(form.Project_Id)
+                                        </td>
+                                        <td>
+                                            @GetClient(form.Project_Id)
+                                        </td>
+                                        <td>
+                                            @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Created)
+                                            {
+
+                                                <p class="label font-weight-bold label-lg label-light-info label-inline">@form.Form_Status</p>
+
+                                            }
+                                            else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                            {
+
+                                                <p class="label font-weight-bold label-lg label-light-warning label-inline">@form.Form_Status</p>
+
+                                            }
+                                            else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Deactive)
+                                            {
+
+                                                <p class="label font-weight-bold label-lg label-light-danger label-inline">@form.Form_Status</p>
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <div >
+                                                
+
+                                                <div>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="UpdateForm" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon-edit"></i>
+                                                        </p>
+                                                        <p class="nav-text">Update</p>
+                                                    </a>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="Survey" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon-eye"></i>
+                                                        </p>
+                                                        <p class="nav-text">Test</p>
+                                                    </a>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="fas fa-chart-bar"></i>
+                                                        </p>
+                                                        <p class="nav-text">Results</p>
+                                                    </a>
+
+                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                    {
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-check-mark"></i>
+                                                            </p>
+                                                            <p class="nav-text">Collect</p>
+                                                        </a>
+                                                    }
+
+
+                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                    {
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-cross"></i>
+                                                            </p>
+                                                            <p class="nav-text">Deactivate</p>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-check-mark"></i>
+                                                            </p>
+                                                            <p class="nav-text">Publish</p>
+                                                        </a>
+                                                    }
+
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="fas fa-file-export"></i>
+                                                        </p>
+                                                        <p class="nav-text">Export</p>
+                                                    </a>
+
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon2-trash"></i>
+                                                        </p>
+                                                        <p class="nav-text">Delete Survey</p>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
+                                                <i class="flaticon-edit"></i> Desinger
+                                            </a>
+                                            
+
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                        <form asp-action="ManageForm" id="form1">
+                            <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/survey/ManageForm");' data-="" />
+                        </form>
+                        <!--end::Search Form-->
+                        <!--end: Search Form-->
+                        <!--begin: Datatable-->
+
+                    </div>
+                    <!--end::Entry-->
+                </div>
+                <!--end::Content-->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/DataTableManageFrom.js"></script>
+    <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
+    <style>
+        .label.label-light-warning {
+            color: #35b653;
+            background-color: #35b65345;
+        }
+
+        #kt_content > div.d-flex.flex-column-fluid > div > div:nth-child(2) > div.card-body > div.datatable.datatable-default.datatable-primary.datatable-loaded > div {
+            display: none;
+        }
+
+        th span {
+            color: #b5b5c3 !important;
+            font-size: .9rem;
+            text-transform: uppercase;
+            font-weight: 600 !important;
+            letter-spacing: .1rem;
+        }
+
+        .card.card-custom {
+            box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
+            border: 0;
+        }
+
+        tbody tr:hover {
+            background-color: #F3F6F9;
+        }
+
+        .datatable-row {
+            border-bottom: 1px solid #EBEDF3;
+        }
+
+            .datatable-row > .datatable-cell:first-child {
+                padding-left: 10px !important;
+            }
+
+
+        .nav-link p {
+            margin-bottom: 0px;
+        }
+
+        .dropdown-item.active, .dropdown-item:active {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #ffffff;
+        }
+
+        .nav .show > .nav-link, .nav .nav-link:hover:not(.disabled), .nav .nav-link.active, .nav .show > .nav-link .nav-text, .nav .nav-link:hover:not(.disabled) .nav-text, .nav .nav-link.active .nav-text, .nav .show > .nav-link .nav-icon i, .nav .nav-link:hover:not(.disabled) .nav-icon i, .nav .nav-link.active .nav-icon i {
+            color: #ED7D31;
+        }
+
+        td:last-child {
+            text-align: left;
+        }
+
+        td {
+            width: 100px;
+            overflow: hidden;
+        }
+
+            td:last-child span {
+                width: auto !important;
+            }
+
+
+        @@media only screen and (max-width: 700px) {
+            table {
+                width: 100%;
+                overflow-x: auto !important;
+            }
+        }
+
+        .datatable-toggle-detail {
+            display: none !important;
+        }
+    </style>
+

@@ -1,0 +1,28 @@
+﻿@model Survey.Core.ViewModels.FormViewModel
+
+<div class="form-group">
+    <select @*asp-for="Form.Id" asp-items="@Model.FormTypesList"*@ class="form-control" id="exampleSelect1" name="selectedOperator">
+        <option disabled selected>Select operator</option>
+        @foreach (var _operator in Model.OperatorsList)
+        {
+            <option value="@_operator.Id">@(_operator.OperatorText +" ("+_operator.OperatorSymbol+") ")</option>
+        }
+    </select>
+</div>
+@if (Model.InputId == 14 || Model.InputId == 3)
+{
+    <div class="form-group">
+        <select asp-for="Option.Id" asp-items="@Model.ConditionOption" class="form-control" id="exampleSelect1" name="selectedCondition">
+            <option disabled selected>Select condition</option>
+        </select>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <div class="col-6">
+            <input asp-for="SkipLogic.Comparable_Value" type="number" class="form-control" placeholder="Comparable Value" />
+            <span asp-validation-for="SkipLogic.Comparable_Value" class="form-text text-muted"></span>
+        </div>
+    </div> 
+}

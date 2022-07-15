@@ -17,32 +17,11 @@ namespace Survey.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public List<ProjectCategory> GetClients(List<int> clientId, List<int> projectId)
+        public List<ProjectCategory> GetClients()
         {
             List<ProjectCategory> results = new List<ProjectCategory>();
 
-            foreach (var id in clientId)
-            {
-                var clients = _dbContext.ProjectCategories.Where(x => x.Id == id).ToList();
-                foreach (var client in clients)
-                {
-                    results.Add(client);
-                }
-            }
-            foreach (var id in projectId)
-            {
-                var projects = _dbContext.Projects.Where(x => x.Id == id).ToList();
-                foreach (var project in projects)
-                {
-                    var client = _dbContext.ProjectCategories.Where(x => x.Id == project.ProjectCategoryId).FirstOrDefault();
-
-                    bool alreadyExists = results.Contains(client);
-                    if (!alreadyExists)
-                    { 
-                         results.Add(client);
-                    }
-                }
-            }
+            
             return results;
         }
 

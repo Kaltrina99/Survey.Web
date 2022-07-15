@@ -1,0 +1,228 @@
+﻿@model Survey.Core.ViewModels.FormViewModel
+@{
+    ViewData["Title"] = "EditQuestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <!--begin::Page Heading-->
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <!--begin::Page Title-->
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Survey</h5>
+                        <!--end::Page Title-->
+                        <!--begin::Breadcrumb-->
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item text-muted">
+                                <a href="" class="text-muted">Design & Config</a>
+                            </li>
+                            <li class="breadcrumb-item text-muted">
+                                <a class="text-muted">Design the form</a>
+                            </li>
+                        </ul>
+                        <!--end::Breadcrumb-->
+                    </div>
+                    <!--end::Page Heading-->
+                </div>
+                <!--end::Info-->
+            </div>
+        </div>
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+
+
+            <!--begin::Container-->
+            <div class="container">
+                <div class="card card-custom gutter-b">
+                    <div class="card card-custom wave wave-animate-slow mb-8 mb-lg-0">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center p-5">
+                                <div class="mr-6">
+                                    <span class="svg-icon svg-icon-warning svg-icon-4x">
+                                        <svg>
+                                            ...
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">
+                                        Get Started
+                                    </a>
+                                    <div class="text-dark-75">
+                                        Create your questions below. Choose a type and a label and get started!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class=" center-block">
+                        <!--begin::Card-->
+                        <div class="card card-custom gutter-b example example-compact">
+
+                            <!--begin::Form-->
+                            <form asp-action="updateQuestion" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" value="@Model.Question.Id" asp-for="Question.Id" />
+                                <div class="card-body">
+                                    <input type="hidden" asp-for="Question.Form_Id" value="@Model.Question.Form_Id" />
+
+                                    <div class="row pt-10 pb-10">
+                                        <div class="col-1 m-auto">
+                                            <span class="label-orange pulse mr-10">
+                                                <span class="position-relative">1</span>
+                                                <span class="pulse -ring"></span>
+                                            </span>
+                                        </div>
+                                        <div class="col-11 ">
+                                            <label class=" col-form-label">What label should appear on this field?</label>
+                                            <div class="form-group row">
+                                                <div class="col-6">
+                                                    <textarea asp-for="Question.QuestionText" value="@Model.Question.QuestionText" class="form-control checkarabic" placeholder="Question Label"></textarea><br />
+                                                    <textarea asp-for="Question.QuestionDescription" value="@Model.Question.QuestionDescription" class="form-control checkarabic" placeholder="Question Description"></textarea>
+
+                                                    <span class="form-text text-muted dangerquestiontext" id="questiontextwarning"></span>
+                                                    <style>
+                                                        .dangerquestiontext {
+                                                            color: red !important;
+                                                        }
+                                                    </style>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row pt-10 pb-10">
+                                        <div class="col-1 m-auto">
+                                            <span class="label-orange pulse mr-10">
+                                                <span class="position-relative">2</span>
+                                                <span class="pulse-ring"></span>
+                                            </span>
+                                        </div>
+                                        <div class="col-11">
+                                            <div class="row form-group">
+                                                <label class="col-2 col-form-label">Is Required</label>
+                                                <div class="col-3">
+                                                    <span class="switch switch-outline switch-icon switch-warning">
+                                                        <label>
+                                                            @if (Model.Question.IsRequired)
+                                                            {
+                                                                <input type="checkbox" asp-for="Question.IsRequired" checked value="true" />
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="checkbox" asp-for="Question.IsRequired" value="true" />
+
+                                                            }
+                                                            <span></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    @if (Model.Question.Field_Type == Survey.Core.HelperClasses.QType.Select_One || Model.Question.Field_Type == Survey.Core.HelperClasses.QType.Select_Multiple)
+                                    {
+                                        <div class="row pt-10 pb-10">
+                                            <div class="col-1 m-auto">
+                                                <span class="label-orange pulse mr-10">
+                                                    <span class="position-relative">3</span>
+                                                    <span class="pulse-ring"></span>
+                                                </span>
+                                            </div>
+                                            <div class="col-11">
+                                                <div class="input_fields_wrap">
+                                                    <label>Update Options below</label>
+                                                    @for (int i = 0; i < Model.Question.Options.Count; i++)
+                                                    {
+
+
+                                                        @if (!Model.wasPublished)
+                                                        {
+                                                            <div class="form-group row existingopt">
+                                                                <div class="col-6">
+                                                                    <input type="hidden" value="@Model.Question.Options[i].Id" asp-for="Question.Options[i].Id" />
+                                                                    <textarea asp-for="Question.Options[i].OptionText" value="@Model.Question.Options[i].OptionText" class="checkarabic form-control" placeholder="Option"> </textarea>
+
+                                                                    <br>
+                                                                </div>
+                                                                <button class="remove_field btn btn-sm font-weight-bolder btn-light-danger" style="margin-left:40px;"><i class="la la-remove"></i>Remove</button>
+
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group row existingopt">
+                                                                <div class="col-6">
+                                                                    <input type="hidden" value="@Model.Question.Options[i].Id" asp-for="Question.Options[i].Id" />
+                                                                    <textarea asp-for="Question.Options[i].OptionText" value="@Model.Question.Options[i].OptionText" class="checkarabic form-control" placeholder="Option"> </textarea>
+
+                                                                    <br>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                                <button class="add_field_button btn btn-sm font-weight-bolder btn-light-orange"><i class="la la-plus"></i>Add </button>
+                                            </div>
+
+                                        </div>
+                                    }
+                                    <p style="display:block;text-align:center;color:red;" id="generalerror"></p>
+                                    <div class="card-footer row mt-10">
+                                        <div class="col-3"></div>
+                                        <div class="col-6 text-center">
+                                            <input type="submit" value="Save" class="btn btn-orange mr-2 " />
+                                            <a id="backtolistbutton" class="btn btn-secondary">Back to List</a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+                            <!--end::Form-->
+                        </div>
+                        <!--end::Card-->
+                    </div>
+
+                </div>
+            </div>
+            <!--end::Container-->
+
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<style>
+    .alert.alert-custom {
+        padding: 0rem 1rem;
+    }
+
+    .card.card-custom {
+        box-shadow: 0px 0px 5px 0px rgb(82 63 105 / 18%);
+        border: 0;
+    }
+</style>
+
+<script src="~/js/EditQuestion.js"></script>

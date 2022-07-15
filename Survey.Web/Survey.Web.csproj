@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Survey.Infrastructure\Survey.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\DownloadHistory\" />
+    <Folder Include="wwwroot\UploadExcel\" />
+  </ItemGroup>
+
 </Project>

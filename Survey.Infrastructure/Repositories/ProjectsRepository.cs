@@ -26,19 +26,12 @@ namespace Survey.Infrastructure.Repositories
         }
 
         
-        public List<Projects> GetProjects(List<int> clientId, List<int> projectId, int? filterclientid, string searchingword)
+        public List<Projects> GetProjects(int? filterclientid, string searchingword)
         {
             List<Projects> results = new List<Projects>();
-            var qury = _dbContext.Projects.Where(x => clientId.Contains(x.ProjectCategoryId) || projectId.Contains(x.Id));
-            if (filterclientid != null) 
-            {
-                qury = qury.Where(x => x.ProjectCategoryId == filterclientid);
-            }
-            if (searchingword!=null) 
-            {
-                qury = qury.Where(x => x.Title.Contains(searchingword));
-            }
-             var projectlist = qury.ToList();
+            var qury = _dbContext.Projects.ToList();
+            
+             var projectlist = qury;
             return projectlist;
 
         }

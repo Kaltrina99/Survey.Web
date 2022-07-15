@@ -10,6 +10,6 @@ namespace Survey.Core.Interfaces
     public interface IProjectCategory : IRepository<ProjectCategory>
     {
         void Update(ProjectCategory objProjectCategory);
-        List<ProjectCategory> GetClients(List<int> clientId, List<int> projectId);
+        List<ProjectCategory> GetClients();
     }
 }

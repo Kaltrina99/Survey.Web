@@ -1,0 +1,241 @@
+﻿@using Survey.Core.Models
+@model Survey.Core.ViewModels.FormViewModel
+
+@{
+    ViewData["Title"] = "SkipLogic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+
+<!--begin::Wrapper-->
+<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+    <!--begin::Content-->
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <!--begin::Page Heading-->
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <!--begin::Page Title-->
+                        <h3 style="color: #ED7D31;font-weight:800;" class=" my-1 mr-5">Skip Logic</h3>
+                        <!--end::Page Title-->
+                    </div>
+                    <!--end::Page Heading-->
+                </div>
+                <!--end::Info-->
+
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <div class="container">
+            <div class="card card-custom gutter-b" style="background-color:#404040;">
+                <div class="card-body d-flex align-items-center py-5 py-lg-15">
+                    <!--begin::Icon-->
+                    <div class="d-flex flex-center position-relative ml-5 mr-15 ml-lg-9">
+                        <span class="svg-icon svg-icon-5x svg-icon-orange position-absolute opacity-15">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-polygon.svg-->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="70px" height="70px" viewBox="0 0 70 70" fill="none">
+                                <g stroke="none" stroke-width="1" fill-rule="evenodd">
+                                    <path d="M28 4.04145C32.3316 1.54059 37.6684 1.54059 42 4.04145L58.3109 13.4585C62.6425 15.9594 65.3109 20.5812 65.3109 25.5829V44.4171C65.3109 49.4188 62.6425 54.0406 58.3109 56.5415L42 65.9585C37.6684 68.4594 32.3316 68.4594 28 65.9585L11.6891 56.5415C7.3575 54.0406 4.68911 49.4188 4.68911 44.4171V25.5829C4.68911 20.5812 7.3575 15.9594 11.6891 13.4585L28 4.04145Z" fill="#000000" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="svg-icon svg-icon-orange svg-icon-2x">
+                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo1/dist/../src/media/svg/icons/Code/Info-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                                    <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
+                                    <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
+                                </g>
+                            </svg><!--end::Svg Icon-->
+                        </span>
+                    </div>
+                    <!--end::Icon-->
+                    <!--begin::Description-->
+                    <div class="m-0 font-size-md">
+                        <p class="mb-0" style="color:#F7F7F7;"> Skip logic is also sometimes referred to as ‘branching’ or ‘relevant conditions’. By default, all questions are always visible. Skip logic controls which question should be displayed only if a certain condition (or conditions) is fulfilled. To create a sub question to any pre-existing question, you must first create a new field/question. You must save the question, and then, after it appears on your form builder, you can go to the skip logic button and make it sub question to another question that you would have previously entered – the previous question is referred to as “parent question” whereas the sub-question is referred to as “child question”.  </p>
+                    </div>
+                    <!--end::Description-->
+                </div>
+            </div>
+        </div>
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 center-block">
+                        <!--begin::Card-->
+                        <!--begin::Form-->
+                        <form asp-action="SkipLogic" method="post" id="formSkip" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="card card-custom  p-10">
+                                <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Dependent on</th>
+                                            <th>Condition</th>
+                                            <th>Value</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (SkipLogic skip in Model.SkipLogicList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @skip.ParentQuestion.QuestionText
+                                                </td>
+
+                                                <td>
+                                                    @skip.operator_string
+                                                </td>
+                                                @if (skip.Comparable_Value is null)
+                                                {
+                                                    <td>
+                                                        @skip.Option.OptionText
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @skip.Comparable_Value
+                                                    </td>
+                                                }
+                                                <td>
+                                                    <a asp-controller="Survey" asp-action="DeleteSkipLogic" asp-route-id="@skip.Id" class="btn btn-icon btn-light-orange btn-sm mr-2">
+                                                        <i class="flaticon2-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="card card-custom  p-10 mt-20">
+                                <div class="form-group pt-10 ">
+                                    <label><b>The question for which skip logic is being implemented will only be displayed if the following conditions apply:</b></label>
+                                </div>
+                                <div class="form-group">
+                                    <select asp-for="Question.SkipLogicType" value="@Model.Question.SkipLogicType" class="form-control">
+                                        <option value="0">Question should match any of these criteria</option>
+                                        <option value="1">Question should match all of these criteria</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+                                    <select asp-for="Question.Id" asp-items="@Model.ParentQuestionsList" class="form-control" id="selectQuestionId">
+                                        <option disabled selected>Select parent question from list</option>
+                                    </select>
+                                    @*<input type="hidden" asp-for="Question.Field_Type">*@
+                                </div>
+                                <input name="id" value="@Model.Question.Id" type="hidden" />
+                                <div id="insertSelection">
+
+                                </div>
+                                <p id="errorMessage" style="color:red"></p>
+                                <div class="card-footer text-center">
+                                    <input type="submit" value="Submit" class="btn btn-orange mr-2" />
+                                    <a class="btn btn-grey" asp-action="Designer" asp-route-id="@Model.formid">Back to List</a>
+                                </div>
+                            </div>
+                        </form>
+                        <!--end::Form-->
+                        <!--end::Card-->
+                    </div>
+
+                </div>
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+    <!--end::Content-->
+
+</div>
+<!--end::Wrapper-->
+
+
+
+
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
+    <script src="./js/SkipLogicAdd.js"></script>
+<script>
+    var selectedQuestion = document.getElementById("selectQuestionId");
+
+    selectedQuestion.addEventListener("change", () => {
+        var question = selectedQuestion.value;
+        $.ajax({
+            url: `/Survey/RefreshOptions/${question}`,
+            method: "GET",
+            success: function (data) {
+                var container = document.getElementById("insertSelection");
+                container.innerHTML = data;
+            },
+            error: function (err) {
+            }
+        });
+    });
+    var form = document.getElementById("formSkip");
+    var errorMessage = document.getElementById("errorMessage");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        var formdata = new FormData(form);
+        var da = Object.fromEntries(formdata);
+       $.ajax({
+            url: `/Survey/SkipLogic`,
+            method: "POST",
+            data:da,
+            success: function () { 
+                window.location.reload();
+            },
+            error: function (err) {
+                console.log(err);
+                  errorMessage.innerHTML = "";
+                errorMessage.innerHTML = err.responseText;
+            }
+        });
+      
+    })
+
+</script>
+
+<style>
+    th span {
+        color: #b5b5c3 !important;
+        font-size: .9rem;
+        text-transform: uppercase;
+        font-weight: 600 !important;
+        letter-spacing: .1rem;
+    }
+
+    .datatable.datatable-default > .datatable-table {
+        background-color: transparent;
+    }
+
+    thead {
+        border-bottom: 1px solid #dedede;
+    }
+
+    .card.card-custom {
+        box-shadow: 0px 0px 10px 0px rgb(82 63 105 / 18%);
+        border: 0;
+    }
+
+</style>

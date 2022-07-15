@@ -2,13 +2,8 @@
 using Survey.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using X.PagedList;
-using Survey.Core.HelperClasses;
 using Survey.Core.Filter;
 using Microsoft.AspNetCore.Identity;
 
@@ -16,10 +11,6 @@ namespace Survey.Core.ViewModels
 {
     public class FormViewModel
     {
-        /*       public FormViewModel()
-               {
-                   _Options = new List<QuestionOptions>();
-               }*/
         public FormFilter Filter { get; set; }
         public List<IFormFile> File { get; set; } = new List<IFormFile>();
         public string[] otherOptions { get; set; }
@@ -37,7 +28,6 @@ namespace Survey.Core.ViewModels
         public IEnumerable<Questions> OldQuestion { get; set; }
         public IPagedList<Forms> Forms { get; set; }
         public List<Projects> ProjectList { get; set; } = new List<Projects>();
-        public IEnumerable<SelectListItem> FormTypesList { get; set; }
         public IEnumerable<MultiValueSelectItem> QuestionsList { get; set; }
         public IEnumerable<SelectListItem> LanguagesList { get; set; }
         public IEnumerable<SelectListItem> ParentQuestionsList { get; set; }
