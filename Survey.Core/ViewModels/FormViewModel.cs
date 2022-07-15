@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using X.PagedList;
 using Survey.Core.HelperClasses;
 using Survey.Core.Filter;
+using Microsoft.AspNetCore.Identity;
 
 namespace Survey.Core.ViewModels
 {
@@ -60,7 +61,7 @@ namespace Survey.Core.ViewModels
         public bool isParent { get; set; }
         public bool wasPublished { get; set; }
 
-        public List<ApplicationUser> Users { get; set; }
+        public List<IdentityUser> Users { get; set; }
         public IFormFile Excel { get; set; }
 
     }

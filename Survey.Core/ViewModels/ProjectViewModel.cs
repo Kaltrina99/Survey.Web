@@ -17,12 +17,6 @@ namespace Survey.Core.ViewModels
         public IEnumerable<ProjectCategory> ProjectCategories { get; set; }
         public IEnumerable<SelectListItem> ProjectCategorySelectList { get; set; }
         public IEnumerable<SelectListItem> ProjectSelectList { get; set; }
-        public IEnumerable<SelectListItem> UserSelectList { get; set; }
-        public IEnumerable<SelectListItem> RoleSelectList { get; set; }
         public IEnumerable<SelectListItem> ProjectAssignmentList { get; set; }
-
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public bool IsSelected { get; set; }
     }
 }

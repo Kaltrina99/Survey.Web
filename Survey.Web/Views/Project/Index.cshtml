@@ -1,0 +1,202 @@
+﻿@inject Survey.Infrastructure.Data.ApplicationDbContext db
+@using Survey.Infrastructure.Utility
+@using Survey.Core.Constants
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+}
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">Projects</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                        <li class="breadcrumb-item text-muted">
+                            <a href="" class="text-muted">Manage</a>
+                        </li>
+                        <li class="breadcrumb-item text-muted">
+                            <a class ="text-muted">Projects or Activities</a>
+                        </li>
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+ 
+            <!--begin::Card-->
+            <div class="card card-custom">
+                <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                    <div class="card-title">
+                        <h3 class="card-label">
+                            Projects or Activities
+                            <span class="d-block text-muted pt-2 font-size-sm">Find all the projects or activities below:</span>
+                        </h3>
+                    </div>
+                    <div class="card-toolbar">
+
+                            <a asp-controller="Project" asp-action="CreateProject" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" >
+                                <i class="fa fa-plus"></i>New Project or Activity
+                            </a>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin: Search Form-->
+                    <!--begin::Search Form-->
+                    <div class="mb-7">
+                        <div class="row align-items-center">
+                            <form asp-action="Index">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="row align-items-center">
+                                    <div class=" col-lg-4 col-md-4 col-sm-6 my-2 my-md-0">
+                                        <div class="input-icon">
+                                            <input type="text" class="form-control" placeholder="Search..." name="searchingword" />
+                                            <span>
+                                                <i class="flaticon2-search-1 text-muted"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-4 col-sm-6 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                         @*   <label class="mr-3 mb-0 d-none d-md-block">Program or Client:</label>
+                                            <select class="form-control" name="projectId">
+                                                <option value="">All</option>
+                                                @foreach (var client in Model.GetClients)
+                                                { 
+                                                    <option value="@client.Id">@client.Name</option>
+                                                }
+                                            </select>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                         <button type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                          </form>
+                        </div>
+                    </div>
+                    <!--end::Search Form-->
+                    <!--end: Search Form-->
+                    <!--begin: Datatable-->
+                    <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                        <thead>
+                            <tr>
+                                <th class="p-0 min-w-200px">Title</th>
+                                <th class="p-0 min-w-100px">Code</th>
+                                <th class="p-0 min-w-125px">Category</th>
+                                <th title="Field #8">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                                @foreach (var project in Model.Projects)
+                                {
+                                    <tr>
+                                        <td>@project.Title</td>
+                                        <td>@project.Code</td>
+                                        <td>@project.ProjectCategory.Name</td>
+                                        <td style="text-align:right;" class="text-right">
+                                            <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-primary">
+                                                <i class="flaticon-edit"></i>Edit
+                                            </a>
+
+                                            <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
+                                                <i class="flaticon2-trash"></i>Delete
+                                            </a>
+
+                                        </td>                                        
+
+                                    </tr>
+                                }
+
+                        </tbody>
+                    </table>
+                    <!--end: Datatable-->
+                </div>
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
+<style>
+    th span {
+        color: #b5b5c3!important;
+        font-size: .9rem;
+        text-transform: uppercase;
+        font-weight: 600!important;
+        letter-spacing: .1rem;
+    }
+    th:last-child span {
+        text-align: right;
+        
+    }
+ 
+    [data-field="ID"] span, [data-field="ID"] th {
+        width: 34px !important;
+    }
+
+    .card.card-custom {
+        box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
+        border: 0;
+    }
+    tbody tr:hover {
+        background-color: #F3F6F9;
+    }
+
+    .datatable-row {
+        border-bottom: 1px solid #EBEDF3;
+    }
+
+    @@media only screen and (min-width: 1024px) {
+        [data-field="Actions"] span {
+            float: right;
+            padding-right: 32px;
+        }
+    }
+
+
+        th:last-child span {
+            float: right;
+            padding-right: 40px;
+        }
+
+        .datatable-row > .datatable-cell:first-child {
+            padding-left: 10px !important;
+        }
+
+        .form-control:focus {
+            border-color: #ED7D31 !important;
+        }
+
+        @@media only screen and (max-width: 500px) {
+            table {
+                width: 100%;
+                overflow-x: auto !important;
+            }
+        }
+</style>
