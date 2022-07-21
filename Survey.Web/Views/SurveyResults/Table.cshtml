@@ -1,0 +1,183 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SurveyResultsViewModel
+
+@{
+     Layout = "_ResultLayOut.cshtml";
+}
+@using Survey.Core.ViewModels
+@using X.PagedList
+
+<link href="~/Admin/theme/demo4/dist/assets/css/datatable.css" rel="stylesheet" type="text/css" />
+
+<div class="col-lg-6 col-xl-10">
+    <div class="card card-custom" style="box-shadow: 0 0 30px 0 #523f6926;">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon2-favourite "></i>
+                </span>
+                <h3 class="card-label">Data collected</h3>
+            </div>
+           
+        </div>
+        <div class="card-body">
+
+            <table class="display" id="example3" style="width:100%; overflow: auto; ">
+                <thead>
+                    <tr>
+                        <th class="resize-handle">#</th>
+                        <th class="resize-handle">Start Time</th>
+                        <th class="resize-handle">End Time</th>
+                        <th class="resize-handle">User</th>
+                        @foreach (var question in Model.Questions)
+                        {
+                            <th class="truncate resize-handle" title=" @question.QuestionText">
+
+                                @question.QuestionText
+
+                            </th>
+                        }
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 0;
+                    }
+                    @foreach (var subm in Model.Submissions)
+                    {
+
+                        <tr>
+                            <td title="@(Model.Submissions.FirstItemOnPage+i)">@(Model.Submissions.FirstItemOnPage+i)</td>
+                            <td title="@subm.StartTime ">@subm.StartTime </td>
+                            <td title="@subm.EndTime">@subm.EndTime</td>
+                            <td title="@subm.AgentUsername">@subm.AgentUsername</td>
+                            @foreach (var question in Model.Questions)
+                            {
+                                var answer = subm.Answers.Where(x => x.Question_Id == question.Id).ToList();
+                                if (answer.Count > 0)
+                                {
+                                    if ((int)question.Field_Type == 3)
+                                    {
+                                        <td >
+                                            @foreach (var an in answer)
+                                            {
+                                                @an.Option.OptionText 
+                                            }
+                                        </td>
+                                    }
+                                    else if ((int)question.Field_Type == 14)
+                                    {
+                                        <td title=" @answer[0].Option.OptionText">
+                                            @answer[0].Option.OptionText
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td title="@answer[0].Answer">
+                                            @answer[0].Answer
+                                        </td>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                        </tr>
+                        i++;
+                    }
+
+
+                </tbody>
+            </table>
+            <br />
+
+            <form asp-action="Table" asp-route-id="@Model.FormId" id="form1">
+                <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Submissions as IPagedList,$"/SurveyResults/Table/{Model.FormId}");' data-="" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/JavaScripttableresizeable.js"></script>
+
+<script>
+
+
+   
+
+    $(document).ready(function () {
+
+
+        $('#example3').DataTable({
+
+            'createdRow': function (row, data, rowIndex) {
+                // Per-cell function to do whatever needed with cells
+                $.each($('td', row), function (colIndex) {
+                    // For example, adding data-* attributes to the cell
+                    $(this).attr('title', data[colIndex]);
+                });
+            },
+            columnDefs: [{
+                targets: 10,
+                render: function (data, type, row) {
+                    return type === 'display' && data.length > 10 ?
+                        data.substr(0, 15) + '…' :
+                        data;
+                }
+            }, {
+                targets: 11,
+                render: function (data, type, row) {
+                    return type === 'display' && data.length > 10 ?
+                        data.substr(0, 15) + '…' :
+                        data;
+                }
+            },
+            {
+                targets: 12,
+                render: function (data, type, row) {
+                    return type === 'display' && data.length > 10 ?
+                        data.substr(0, 15) + '…' :
+                        data;
+                }
+            }]
+
+        });
+    });
+
+</script>
+
+<style>
+
+
+
+    div.dataTables_wrapper div.dataTables_paginate, div.dataTables_wrapper div.dataTables_info {
+    
+        display: none;
+    }
+        .dataTables_wrapper {
+        overflow-x: scroll;
+    }
+
+    table, th ,td{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+     th, td {
+        cursor: pointer;
+        max-width: 110px;
+    }
+
+</style>
+
+
+
+
+
+

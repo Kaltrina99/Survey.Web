@@ -1,0 +1,300 @@
+﻿@using Survey.Core.ViewModels
+@model SurveyResultsViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+   Layout = "_ResultLayOut.cshtml";
+}
+<link href="~/css/ResultsReport.css" rel="stylesheet" type="text/css" />
+<link href="//www.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet" type="text/css" />
+<link href="~/Admin/theme/demo4/dist/assets/css/datatable.css" rel="stylesheet" type="text/css" />
+
+
+<div class="col-lg-6 col-xl-10">
+    @*<div class="QuestionReport">
+            <div class="ReportHeader"></div>
+            <div class="ReportBody">
+                <div class="questionchart"></div>
+                <div class="questiontable"></div>
+            </div>
+        </div>*@
+
+
+
+
+
+    @foreach (var question in Model.Report.QuestionReports)
+    {
+        <div class="card card-custom questionreport" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <div class="card-title">
+                    <!--<span class="card-icon">
+                        <i>
+                            <span class="svg-icon svg-icon-primary svg-icon-2x">-->
+                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo4/dist/../src/media/svg/icons/Code/Question-circle.svg-->
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <rect x="0" y="0" width="24" height="24" />
+                            <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                            <path d="M12,16 C12.5522847,16 13,16.4477153 13,17 C13,17.5522847 12.5522847,18 12,18 C11.4477153,18 11,17.5522847 11,17 C11,16.4477153 11.4477153,16 12,16 Z M10.591,14.868 L10.591,13.209 L11.851,13.209 C13.447,13.209 14.602,11.991 14.602,10.395 C14.602,8.799 13.447,7.581 11.851,7.581 C10.234,7.581 9.121,8.799 9.121,10.395 L7.336,10.395 C7.336,7.875 9.31,5.922 11.851,5.922 C14.392,5.922 16.387,7.875 16.387,10.395 C16.387,12.915 14.392,14.868 11.851,14.868 L10.591,14.868 Z" fill="#000000" />
+                        </g>
+                    </svg>-->
+                    <!--end::Svg Icon-->
+                    <!--</span>
+                        </i>
+                    </span>-->
+                    <h3 class="card-label">
+                        @question.QuestionText
+                        <small></small>
+                    </h3>
+                </div>
+            </div>
+            <div class="card-body allsmalldetails">
+                <div class="smalldetails">
+                    <p>Answerd: @question.TotalSubmissions</p>
+
+                </div>
+                <div class="smalldetails">
+                    <p>Skiped: @question.TotalSkiped </p>
+                </div>
+            </div>
+
+            @if (question.Field_Type == Survey.Core.HelperClasses.QType.Select_One || question.Field_Type == Survey.Core.HelperClasses.QType.Select_Multiple)
+            {
+                <div class="questionchart pr-10" style="margin-bottom: 60px; ">
+                    <div class="chartHeader">
+                        <div class="form-group">
+                            <label for="exampleSelectd">Chart type</label>
+                            <select class="form-control selectchart">
+                                <option value="1">Vertical Column</option>
+                                <option value="2">Horizontal Column</option>
+                                <option value="3">Pie</option>
+                                <option value="4">Donut</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart pb-10" id="@(question.Id)_question"></div>
+                    <div class="chartdata">
+                        @foreach (var opt in question.Options)
+                        {
+                            <input type="hidden" name="@opt.OptionText" value="@opt.TotalSelected" />
+                        }
+                    </div>
+                </div>
+            }
+            <div class=" questiontable">
+                <div class="card-body ">
+                    <div class="">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 col-xl-6">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 my-2 my-md-0">
+                                        @* <div class="input-icon">
+                                                <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query">
+                                                <span>
+                                                    <i class="flaticon2-search-1 text-muted"></i>
+                                                </span>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6 mt-5 mt-lg-0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+
+                        @if (question.Field_Type == Survey.Core.HelperClasses.QType.Select_One || question.Field_Type == Survey.Core.HelperClasses.QType.Select_Multiple)
+                        {
+                            <table class="display" id="example">
+                                <thead class="datatable-head">
+                                    <tr class="datatable-row" style="left: 0px;">
+                                        <th data-field="Answer Choices" class="datatable-cell datatable-cell-sort"><span style="width: 172px;">Answer Choices</span></th>
+                                        <th data-field="Responses" class="datatable-cell datatable-cell-sort datatable-cell-sorted" data-sort="asc"><span style="width: 172px;">Responses</span></th>
+                                        <th data-field="Submissions" class="datatable-cell datatable-cell-sort"><span style="width: 172px;">Submissions</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody style="" class="datatable-body">
+                                    @foreach (var option in question.Options)
+                                    {
+                                        <tr data-row="0" class="datatable-row datatable-row-even" style="left: 0px;">
+                                            <td data-field="Answer Choices" aria-label="8" class="datatable-cell"><span style="width: 172px;">@option.OptionText</span></td>
+                                            <td class="datatable-cell-sorted datatable-cell" data-field="Responses" aria-label="<span style=&quot;width: 347px;&quot;>Responses</span>"><span style="width: 172px;">@option.Percetage %</span></td>
+                                            <td data-field="Submissions" aria-label="<span style=&quot;width: 347px;&quot;>Submissions</span>" class="datatable-cell"><span style="width: 172px;">@option.TotalSelected</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <table class="display" id="example1">
+                                <thead class="datatable-head">
+                                    <tr class="datatable-row" style="left: 0px;">
+                                        <th data-field="Answer Choices" class="datatable-cell datatable-cell-sort"><span style="width: 172px;">Answers</span></th>
+                                        <th data-field="Responses" class="datatable-cell datatable-cell-sort datatable-cell-sorted" data-sort="asc"><span style="width: 172px;">Response Date</span></th>
+                                        @*                                    <th data-field="Submissions" class="datatable-cell datatable-cell-sort"><span style="width: 172px;">From</span></th>
+                                        *@
+                                    </tr>
+                                </thead>
+                                <tbody style="" class="datatable-body">
+                                    @foreach (var ans in question.Answers)
+                                    {
+                                        <tr data-row="0" class="datatable-row datatable-row-even" style="left: 0px;">
+                                            <td data-field="Answer Choices" aria-label="8" class="datatable-cell"><span style="width: 172px;">@ans.Answer</span></td>
+                                            <td class="datatable-cell-sorted datatable-cell" data-field="Responses" aria-label="<span style=&quot;width: 347px;&quot;>Responses</span>"><span style="width: 172px;">@ans.Submission.EndTime </span></td>
+                                            @*                                        <td data-field="Submissions" aria-label="<span style=&quot;width: 347px;&quot;>Submissions</span>" class="datatable-cell"><span style="width: 172px;">See Full Form</span></td>
+                                            *@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+                        @*<div class="datatable-pager datatable-paging-loaded">
+                                <ul class="datatable-pager-nav my-2 mb-sm-0">
+                                    <li><a title="First" class="datatable-pager-link datatable-pager-link-first datatable-pager-link-disabled" data-page="1" disabled="disabled"><i class="flaticon2-fast-back"></i></a></li>
+                                    <li><a title="Previous" class="datatable-pager-link datatable-pager-link-prev datatable-pager-link-disabled" data-page="1" disabled="disabled"><i class="flaticon2-back"></i></a></li>
+                                    <li style="display: none;"><input type="text" class="datatable-pager-input form-control" title="Page number"></li>
+                                    <li><a class="datatable-pager-link datatable-pager-link-number datatable-pager-link-active" data-page="1" title="1">1</a></li>
+                                    <li><a title="Next" class="datatable-pager-link datatable-pager-link-next datatable-pager-link-disabled" data-page="1" disabled="disabled"><i class="flaticon2-next"></i></a></li>
+                                    <li><a title="Last" class="datatable-pager-link datatable-pager-link-last datatable-pager-link-disabled" data-page="1" disabled="disabled"><i class="flaticon2-fast-next"></i></a></li>
+                                </ul>
+                                <div class="datatable-pager-info my-2 mb-sm-0">
+                                    <div class="dropdown bootstrap-select datatable-pager-size" style="width: 60px;">
+                                        <select class="selectpicker datatable-pager-size" title="Select page size" data-width="60px" data-container="body" data-selected="50">
+                                            <option class="bs-title-option" value=""></option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        <button type="button" tabindex="-1" class="btn dropdown-toggle btn-light" data-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" title="Select page size">
+                                            <div class="filter-option">
+                                                <div class="filter-option-inner">
+                                                    <div class="filter-option-inner-inner">50</div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <div class="dropdown-menu ">
+                                            <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                                <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="datatable-pager-detail">Showing 1 - 8 of 8</span>
+                                </div>
+                            </div>*@
+                    </div>
+                    <!--end::Search Form-->
+                    <!--end: Search Form-->
+                    <!--begin: Datatable-->
+                </div>
+            </div>
+        </div>
+    }
+
+
+<div class="text-center">
+    <div id="loadMore" class="btn btn-orange">Load more</div>
+    <div id="showLess" class="btn btn-grey">Show less</div>
+</div>
+   
+</div>
+<style>
+    .questionchart {
+        width: 100%;
+        height: 500px;
+    }
+
+    .questionreport {
+        display: none;
+    }
+
+    #loadMore {
+    
+        cursor: pointer;
+    }
+
+        #loadMore:hover {
+            color: black;
+        }
+
+    #showLess {
+    
+        cursor: pointer;
+    }
+
+     
+</style>
+<script src="~/Admin/theme/demo5/dist/assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Admin/theme/demo5/dist/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Admin/theme/demo5/dist/assets/js/scripts.bundle.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="~/js/SurveyResults/Reports.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+
+<script>
+    $('.questiontable').css('opacity', 0);
+    $(window).load(function () {
+        $('.questiontable').css('opacity', 1);
+    });
+
+
+
+    // Load the first 3 list items from another HTML file
+    //$('#myList').load('externalList.html li:lt(3)');
+    $('.questionreport').slice(0, 2).show();
+
+    $('.questionreport:lt(2)').show();
+    $('#showLess').hide();
+    var items = 25;
+    var shown = 2;
+    $('#loadMore').click(function () {
+        $('#showLess').show();
+        shown = $('.questionreport:visible').length + 5;
+        if (shown < items) { $('.questionreport:lt(' + shown + ')').show(); }
+        else {
+            $('.questionreport:lt(' + items + ')').show();
+            $('#loadMore').hide();
+        }
+    });
+    $('#showLess').click(function () {
+        $('.questionreport').not(':lt(2)').hide();
+    });
+
+
+
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+
+    $(document).ready(function () {
+        $('#example1').DataTable();
+    });
+
+    $(document).ready(function () {
+        $('table.display').DataTable();
+    });
+
+    $('#example').dataTable({
+
+        "paginate": {
+            "previous": "Previous page"
+        }
+
+    });
+
+
+
+  
+</script>

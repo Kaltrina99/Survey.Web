@@ -1,0 +1,75 @@
+﻿@using Survey.Core.ViewModels
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SurveyResultsViewModel
+
+@{
+    Layout = "_ResultLayOut.cshtml";
+}
+<link href="//www.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet" type="text/css" />
+
+
+<div class="col-lg-6 col-xl-10">
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon2-line-chart text-orange"></i>
+                </span>
+                <h3 class="card-label">
+                     Submissions
+                    <small></small>
+                </h3>
+            </div>
+        </div>
+        <div class="card-body smcardrecent">
+            <div class="smcarddetails">
+                <p>Total Submissions</p>
+                <p>@Model.TotalSubmissions</p>
+            </div>
+            <div class="smcarddetails">
+                <p>Last Month</p>
+                <p>@Model.ThisMonthSubs</p>
+            </div>
+            <div class="smcarddetails">
+                <p>This Week</p>
+                <p>@Model.ThisWeekSubs</p>
+            </div>
+        </div>
+    </div>
+    <div class="card card-custom gutter-b">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">Simple Column Chart</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="kt_amcharts_1" style="height: 500px;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="//www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="//www.amcharts.com/lib/3/serial.js"></script>
+<script src="//www.amcharts.com/lib/3/radar.js"></script>
+<script src="//www.amcharts.com/lib/3/pie.js"></script>
+<script src="//www.amcharts.com/lib/3/plugins/tools/polarScatter/polarScatter.min.js"></script>
+<script src="//www.amcharts.com/lib/3/plugins/animate/animate.min.js"></script>
+<script src="//www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<script src="//www.amcharts.com/lib/3/themes/light.js"></script>
+
+<script>var results = [];</script>
+@foreach (var result in Model.RecentSubmits)
+{
+
+    int i = 0;
+    <script>
+        results.push({"Date":"@result.Item1","Submissions":@result.Item2});
+    </script>
+    i++;
+}
+<script></script>
+
+
+<script src="~/js/ChartForResults.js"></script>

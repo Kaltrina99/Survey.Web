@@ -9,14 +9,14 @@ if (selectquestiontype != null) {
     selectquestiontype.forEach(element => {
         element.addEventListener("change", () => {
             if (element.classList.contains("selectquestionradio")) {
-                
+
                 optioninsertdiv.style = "display:flex";
             }
             else {
                 optioninsertdiv.style = "display:none";
             }
         })
-})
+    })
 }
 
 
@@ -30,13 +30,13 @@ $(document).ready(function () {
     $(add_button).click(function (e) { //on add input button click
         e.preventDefault();
 
-            //text box increment
-            $(wrapper).append(`<div class="row form-group otheroption"><div class="col-6"><textarea name="otherOptions[${x - 1}]" class="form-control" placeholder="Option"> </textarea></div><button class="remove_field btn btn-sm font-weight-bolder btn-light-danger" style="margin-left:40px;"><i class="la la-remove"></i>Remove</button></div>`); //add input box
-            x++;
-       
+        //text box increment
+        $(wrapper).append(`<div class="row form-group otheroption"><div class="col-6"><textarea name="otherOptions[${x - 1}]" class="form-control" placeholder="Option"> </textarea></div><button class="remove_field btn btn-sm font-weight-bolder btn-light-danger" style="margin-left:40px;"><i class="la la-remove"></i>Remove</button></div>`); //add input box
+        x++;
+
     });
 
-    $(wrapper).on("click", ".remove_field", function (e) { 
+    $(wrapper).on("click", ".remove_field", function (e) {
 
         e.preventDefault();
         $(this).parent('div').remove();
@@ -47,8 +47,7 @@ $(document).ready(function () {
 
 function resetOptionIndexes() {
     var options = document.querySelectorAll(".otheroption");
-    for (var i = 0; i < options.length; i++)
-    {
+    for (var i = 0; i < options.length; i++) {
         var opinput = options[i].querySelector("input[type=text]");
         opinput.setAttribute("name", `otherOptions[${i}]`);
     }
@@ -78,21 +77,19 @@ form.addEventListener("submit", e => {
 
             },
             error: function (err) {
-               
+
                 document.getElementById("generalerror").innerHTML = err.responseText;
             }
         });
     }
-   
+
 });
 
-function deleteQuestion(question,id) 
-{
+function deleteQuestion(question, id) {
 
-    
-    if (confirm("Are you sure you wanna delete this question?"))
-    {
-        
+
+    if (confirm("Are you sure you wanna delete this question?")) {
+
         $.ajax({
             url: `/Survey/DeleteQuestion/${id}`,
             method: "Get",
@@ -104,25 +101,22 @@ function deleteQuestion(question,id)
                 generalerror.innerHTML = e.messsage;
             }
         });
-    } 
-    
-       
+    }
+
+
 }
-function resetOrderInput()
-{
+function resetOrderInput() {
     var questionorders = document.getElementsByClassName("questionorder");
     for (var indesh = 0; questionorders.length > indesh; indesh++) {
         questionorders[indesh].querySelector(".questionid").setAttribute("name", `OriginalQuestion[${indesh}].Id`);
         questionorders[indesh].querySelector(".questionorderid").setAttribute("name", `OriginalQuestion[${indesh}].QuestionOrder`);
     }
 }
-function resetQuestionOrder()
-{
+function resetQuestionOrder() {
     var questionorders = document.getElementsByClassName("questionorder");
-    
+
     document.getElementById("saveorderbutton").style = "display:block";
-    for (var indesh = 0; questionorders.length > indesh; indesh++)
-    {
+    for (var indesh = 0; questionorders.length > indesh; indesh++) {
         questionorders[indesh].querySelector(".questionorderid").value = indesh;
     }
 }
@@ -143,7 +137,7 @@ document.getElementById("orderform").addEventListener("submit", x => {
         },
         error: function (err) {
 
-            
+
         }
     });
 })

@@ -41,19 +41,24 @@ namespace Survey.Infrastructure.Utility
             IRow headerRow = settingsSheet.CreateRow(0);
             headerRow.CreateCell(0).SetCellValue("form-name");
             headerRow.CreateCell(1).SetCellValue("form-desc");
-            
+            IRow data = settingsSheet.CreateRow(1);
+            data.CreateCell(0).SetCellValue(_form.FormTitle);
+            data.CreateCell(1).SetCellValue(_form.Description);
+
         }
         private void MapOptionsHeader( )
         {
             IRow header = optionsSheet.CreateRow(0);
             header.CreateCell(0).SetCellValue("category");
             header.CreateCell(1).SetCellValue("name");
+            header.CreateCell(2).SetCellValue("label");
         }
         private void MapQuestionsHeader( ) 
         {
             IRow header = questionsSheet.CreateRow(0);
             List<string> headerStrings = new List<string> { "type", "options", "name", "required", "sk_match", "skip" };
-          
+            headerStrings.Add("label");
+            headerStrings.Add("desc");
             for (int i = 0; i < headerStrings.Count; i++)
             {
                 header.CreateCell(i).SetCellValue(headerStrings[i]);

@@ -376,7 +376,7 @@ namespace Survey.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Designer(FormViewModel formViewModel, QType FieldType, string _isRequired, int language)
+        public async Task<IActionResult> Designer(FormViewModel formViewModel, QType FieldType, string _isRequired)
         {
             bool isRequired = false;
             //if (ModelState.IsValid)
@@ -700,11 +700,12 @@ namespace Survey.Web.Controllers
 
         public IActionResult Collect(int id)
         {
-            var uId = _dbContext.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-           FormViewModel viewModel = new FormViewModel()
+            var uId = _dbContext.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).Id;
+            //var u = DateTime.Now.Ticks;
+            FormViewModel viewModel = new FormViewModel()
             {
-                SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id
-            };
+                SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id +"?SAgTRid=" + uId
+           };
             return View(viewModel);
         }
 

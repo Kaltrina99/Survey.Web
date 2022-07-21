@@ -25,8 +25,8 @@ namespace Survey.Core.Interfaces
         public Questions GetOldQuestion(int id);
         public Task<TakeSurveyViewModel> StartSurvey(int id);
 
-        public SkipLogicViewModel ShowSkippedQuestions(int id, int language);
-        public SkipLogicViewModel GetSkippedQuestionNumber(int id, int language);
+        public SkipLogicViewModel ShowSkippedQuestions(int id);
+        public SkipLogicViewModel GetSkippedQuestionNumber(int id);
         ServiceResponse<SkipLogicViewModel> DeleteQuestion(int id);
         ServiceResponse<FormViewModel> getQuestion(int id);
         ServiceResponse<bool> UpdateQuestion(Questions question,string[] newoptions);

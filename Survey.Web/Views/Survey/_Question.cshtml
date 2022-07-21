@@ -1,0 +1,114 @@
+﻿@model Survey.Core.ViewModels.TakeSurveyViewModel;
+<style>
+    .activet {
+    }
+
+    .disabled {
+        display: none;
+    }
+   .rtl .container9 .translation {
+        padding-right: 35px;
+    }
+
+    .container9 .translation {
+        padding-left: 35px;
+    }
+    
+</style>
+@for (int i = 0; i < Model.Questions.Count; i++)
+{
+    var isparent = Model.Questions[i].skipParent.Any();
+    <fieldset @(Model.Questions[i].Skip_Logic ? "style=display:none; disabled data-val-ctype="+(int)Model.Questions[i].SkipLogicType : "class=activeform")  data-val-question="question_@Model.Questions[i].Id">
+        <div class="questioncontainer">
+
+
+            <div class="card-body isquestion">
+                <input type="hidden" class="questionInput" value="@Model.Questions[i].Id" asp-for="@Model.Questions[i].Id" />
+                <input type="hidden" class="questionInput" value="@Model.Questions[i].QuestionText" asp-for="@Model.Questions[i].QuestionText" />
+                <input type="hidden" class="questionInput" value="@Model.Questions[i].Field_Type" asp-for="@Model.Questions[i].Field_Type" />
+
+               <label>@Model.Questions[i].QuestionText</label>
+
+
+                @if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Text)
+                {
+                    <div class="form-group">
+                        <textarea @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") name="Questions[@i].Answer" class="form-control questionInput " style="height:100px"></textarea>
+                    </div>
+
+                    <br />
+                }
+
+                else if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Numbers 
+                ||  Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Decimal)
+                {
+                    <div class="form-group">
+                        <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") type="number" name="Questions[@i].Answer" class="questionInput form-control @(isparent?"skpn":"")" data-val-q="@Model.Questions[i].Id" style=" height: 40px;">
+                    </div>
+                    <br />
+
+                }
+                else if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Date_Time)
+                {
+                    <div class="form-group row">
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+
+                            <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") type="datetime-local" class=" questionInput form-control" placeholder="Select date & time" name="Questions[@i].Answer" />
+
+                        </div>
+                    </div>
+                }
+                else if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Select_One)
+                {
+                    <div class=" col-form-label" style=" padding-top: 0px;">
+                        <div class="radio-list">
+                            @for (int j = 0; j < Model.Questions[i].Options.Count; j++)
+                            {
+                                <label class="radio">
+                                    <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") id="single_select_option_Id" class="custom-radio questionInput @(isparent?"skp":"")" data-val-q="@Model.Questions[i].Id" type="radio"  name="Questions[@i].selected_option" value="@Model.Questions[i].Options[j].Id" />
+                                    <span></span>
+                                   @Model.Questions[i].Options[j].OptionText
+                                </label>
+
+
+
+                            }
+
+                        </div>
+                    </div>
+                }
+
+
+
+
+                else if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Select_Multiple)
+
+                {
+                    @for (int j = 0; j < Model.Questions[i].Options.Count; j++)
+                    {
+                        <input class="questionInput" type="hidden" asp-for="@Model.Questions[i].Options[j].Id" value="@Model.Questions[i].Options[j].Id" />
+                        <input class="questionInput" type="hidden" asp-for="@Model.Questions[i].Options[j].Question_Id" value="@Model.Questions[i].Options[j].Question_Id" />
+
+                        <label class="container9 option-text">
+                            <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") type="checkbox" name="Questions[@i].Options[@j].isSelected" data-val-option="@Model.Questions[i].Options[j].Id" data-val-q="@Model.Questions[i].Id" value="true" class=" questionInput form-check-input  @(isparent?"skpm":"")" id="multiple_select_option_Id" />
+                            
+                            <span class="checkmark"></span>
+                            @Model.Questions[i].Options[j].OptionText
+                            
+                        </label>
+                        <br />
+
+                    }
+                }
+               
+                <span style="display:none" class="questionreqmessage">This question is required</span>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<p>
+    
+</p>
+

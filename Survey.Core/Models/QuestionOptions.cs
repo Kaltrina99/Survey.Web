@@ -31,8 +31,6 @@ namespace Survey.Core.Models
         [NotMapped]
         public bool Skip_Logic { get; set; }
         public int OrderNumber { get; set; }
-        public string? Team_Id { get; set; }
-        public string? Tenant_Id { get; set; }
         public virtual List<Answers> OptionAnswer { get; set; }
         #region report
         [NotMapped]

@@ -2,11 +2,72 @@
 
 @{
     ViewData["Title"] = "Designer";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 
     string temporary_formId = "";
    
 }
+<!DOCTYPE html>
+<!--
+Template Name: Keen - The Ultimate Bootstrap 4 HTML Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://themes.getbootstrap.com/product/keen-the-ultimate-bootstrap-admin-theme/
+Support: https://keenthemes.com/theme-support
+License: You must have a valid license purchased only from themes.getbootstrap.com(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+<!--begin::Head-->
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>Client | Dashboard</title>
+    <meta name="description" content="Updates and statistics" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Page Vendors Styles(used by this page)-->
+<link href="~/Admin/theme/demo4/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Page Vendors Styles-->
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="~/Admin/theme/demo4/dist/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/css/new.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/plugins/custom/uppy/uppy.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/plugins/custom/uppy/uppy.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Admin/theme/demo4/dist/assets/css/datatable.css" rel="stylesheet" type="text/css" />
+      <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Survey">
+    <meta name="apple-mobile-web-app-title" content="Survey">
+    <meta name="theme-color" content="#FBF7EF">
+    <meta name="msapplication-navbutton-color" content="#FBF7EF">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="128x128" href="./images/pwalogos/128x128.png">
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_body">
+
+    <style>
+        .rtl {
+            direction: rtl !important;
+            text-align: right;
+        }
+    </style>
+
 
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
@@ -116,9 +177,7 @@
                                                     <a asp-action="SkipLogic" asp-route-id="@Model.OriginalQuestion[i].Id" class="btn btn-icon btn-sm btn-hover-light-orange">
                                                         <i class="fas fa-play"></i>
                                                     </a>
-                                                    <a asp-action="TranslateQuestions" asp-route-id="@Model.OriginalQuestion[i].Id" class="btn btn-icon btn-sm btn-hover-light-orange ">
-                                                        <i class="fas fa-language"></i>
-                                                    </a>
+                                                   
                                                     <a onclick="deleteQuestion(this,@Model.OriginalQuestion[i].Id)" class="btn btn-icon btn-sm btn-hover-light-orange ">
                                                         <i class="flaticon-delete"></i>
                                                     </a>
@@ -160,54 +219,7 @@
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="card-body">
                                     <input type="hidden" name="formid" value="@Model.formid" />
-                                    @*  <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
-                                <thead>
-
-                                    <tr>
-                                        <th>Question</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        @foreach (var question in Model.QuestionsList)
-                                        {
-                                            temporary_formId = question.Value2;
-                                            <tr>
-                                                <td>
-                                                    @question.Text
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-orange dropdown-toggle  btn-light-orange mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="flaticon2-gear text-orange"></i>Skip Logic
-                                                        </button>
-                                                        <div class="dropdown-menu nav" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item nav-link" asp-controller="Survey" asp-action="SkipLogic" asp-route-id="@question.Value4">
-                                                                <p class="nav-icon">
-                                                                    <i class="flaticon-eye"></i>
-                                                                </p>
-                                                                <p class="nav-text">Add</p>
-                                                            </a>
-
-
-                                                        </div>
-                                                    </div>
-                                                    <a asp-controller="Survey" asp-action="TranslateQuestions" asp-route-id="@question.Value4" class="btn btn-icon btn-light-orange btn-sm mr-2" style="width:auto">Translate</a>
-                                                    <a onclick="deleteQuestion(this,@question.Value4)" class="btn btn-icon btn-light-orange btn-sm mr-2">
-                                                        <i class="flaticon2-trash"></i>
-                                                    </a>
-                                                    <a asp-controller="Survey" asp-action="editQuestion" asp-route-id="@question.Value4" class="btn btn-icon btn-light-orange btn-sm mr-2">
-                                                        <i class="flaticon-edit"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        }
-
-
-                                </tbody>
-                            </table>*@
-
-
+                              
                                     <div class="row pt-10 pb-10">
                                         <div class="col-1">
                                             <span class="label-grey pulse mr-10">
@@ -248,14 +260,7 @@
                                                 <label>What type of field should this be?</label>
                                                 <div class="col-9 col-form-label">
                                                     <div class="radio-inline questiontype">
-                                                        @*@foreach (var type in Model.FieldTypesList)
-                                                {
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="@type.Value" name="FieldType" />
-                                                        <span></span>
-                                                        @type.Text
-                                                    </label>
-                                                }*@
+                                                      
                                                         @foreach (int i in Enum.GetValues(typeof(Survey.Core.HelperClasses.QType)))
                                                         {
                                                             <label class="radio radio-danger">
@@ -429,3 +434,6 @@
         text-align:center;
     }
 </style>
+</body>
+
+</html>

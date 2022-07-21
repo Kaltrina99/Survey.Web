@@ -58,7 +58,6 @@
             <div class="container">
                 <div class="card card-custom gutter-b" style="background-color: #404040;">
                     <div class="card-body d-flex align-items-center py-5 py-lg-15">
-
                     </div>
                 </div>
                 <!--begin::Dashboard-->
@@ -71,15 +70,15 @@
                             </h3>
                         </div>
                         <div class="card-toolbar">
-                            
-                                <!--begin::Button-->
-                                <a asp-action="AddForm" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
-                                    <i class="fa fa-plus"></i> New Survey
-                                </a>
-                                <a asp-action="ImportSurvey" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
-                                    <i class="fa fa-file-import"></i>Import New Survey
-                                </a>
-                            
+
+                            <!--begin::Button-->
+                            <a asp-action="AddForm" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                <i class="fa fa-plus"></i> New Survey
+                            </a>
+                            <a asp-action="ImportSurvey" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                <i class="fa fa-file-import"></i>Import New Survey
+                            </a>
+
                             <!--end::Button-->
                         </div>
                     </div>
@@ -133,8 +132,8 @@
                             </div>
                         </div>
 
-                       
-                        <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+
+                        <table class="table" id="kt_datatable">
                             <thead>
                                 <tr>
                                     <th>Survey Name</th>
@@ -179,181 +178,191 @@
                                         </td>
                                         <td>
 
-                                            <div >
-                                                
-
+                                            <div>
                                                 <div>
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="UpdateForm" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon-edit"></i>
-                                                        </p>
-                                                        <p class="nav-text">Update</p>
-                                                    </a>
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="Survey" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon-eye"></i>
-                                                        </p>
-                                                        <p class="nav-text">Test</p>
-                                                    </a>
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="fas fa-chart-bar"></i>
-                                                        </p>
-                                                        <p class="nav-text">Results</p>
-                                                    </a>
+                                        <td>
 
-                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                    {
-                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
-                                                            <p class="nav-icon">
-                                                                <i class="flaticon2-check-mark"></i>
-                                                            </p>
-                                                            <p class="nav-text">Collect</p>
-                                                        </a>
-                                                    }
-
-
-                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                    {
-                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
-                                                            <p class="nav-icon">
-                                                                <i class="flaticon2-cross"></i>
-                                                            </p>
-                                                            <p class="nav-text">Deactivate</p>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
-                                                            <p class="nav-icon">
-                                                                <i class="flaticon2-check-mark"></i>
-                                                            </p>
-                                                            <p class="nav-text">Publish</p>
-                                                        </a>
-                                                    }
-
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="fas fa-file-export"></i>
-                                                        </p>
-                                                        <p class="nav-text">Export</p>
-                                                    </a>
-
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon2-trash"></i>
-                                                        </p>
-                                                        <p class="nav-text">Delete Survey</p>
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                            <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
-                                                <i class="flaticon-edit"></i> Desinger
+                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="UpdateForm" asp-route-id="@form.Id">
+                                                <p class="nav-icon">
+                                                    <i class="flaticon-edit"></i>
+                                                </p>
+                                                <p class="nav-text">Update</p>
                                             </a>
-                                            
+                                        </td>
+                                        <td>
+                                                        @* <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="Survey" asp-route-id="@form.Id">
+                                        <p class="nav-icon">
+                                        <i class="flaticon-eye"></i>
+                                        </p>
+                                        <p class="nav-text">Test</p>
+                                        </a>*@
+                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+                                                <p class="nav-icon">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </p>
+                                                <p class="nav-text">Results</p>
+                                            </a>
+                                        </td>
 
+                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                    {
+                                            <td>
+                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
+                                                    <p class="nav-icon">
+                                                        <i class="flaticon2-check-mark"></i>
+                                                    </p>
+                                                    <p class="nav-text">Collect</p>
+                                                </a>
+                                            </td>
+                                                    }
+                                        <td>
+
+                                                        @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                        {
+
+                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
+                                                    <p class="nav-icon">
+                                                        <i class="flaticon2-cross"></i>
+                                                    </p>
+                                                    <p class="nav-text">Deactivate</p>
+                                                </a>
+                                                        }
+                                                        else
+                                                        {
+                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
+                                                    <p class="nav-icon">
+                                                        <i class="flaticon2-check-mark"></i>
+                                                    </p>
+                                                    <p class="nav-text">Publish</p>
+                                                </a>
+                                                        }
+                                        </td>
+                                        <td>
+
+                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
+                                                <p class="nav-icon">
+                                                    <i class="fas fa-file-export"></i>
+                                                </p>
+                                                <p class="nav-text">Export</p>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
+                                                <p class="nav-icon">
+                                                    <i class="flaticon2-trash"></i>
+                                                </p>
+                                                <p class="nav-text">Delete</p>
+                                            </a>
 
                                         </td>
-                                    </tr>
+                                        <td>
+                                            <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
+                                                <p class="nav-icon"> <i class="flaticon-edit"></i></p><p class="nav-text"> Desinger</p>
+                                            </a>
+                                        </td>
+                        </div>
+                    </div>
+
+                    </td>
+                    </tr>
                                 }
 
-                            </tbody>
-                        </table>
+                </tbody>
+                </table>
 
-                        <form asp-action="ManageForm" id="form1">
-                            <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/survey/ManageForm");' data-="" />
-                        </form>
-                        <!--end::Search Form-->
-                        <!--end: Search Form-->
-                        <!--begin: Datatable-->
-
-                    </div>
-                    <!--end::Entry-->
-                </div>
-                <!--end::Content-->
-
-
+                <form asp-action="ManageForm" id="form1">
+                    <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/survey/ManageForm");' data-="" />
+                </form>
+                <!--end::Search Form-->
+                <!--end: Search Form-->
+                <!--begin: Datatable-->
 
             </div>
+            <!--end::Entry-->
         </div>
+        <!--end::Content-->
+
+
+
+    </div>
+</div>
     </div>
 
-    <script src="~/js/DataTableManageFrom.js"></script>
-    <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
-    <style>
-        .label.label-light-warning {
-            color: #35b653;
-            background-color: #35b65345;
+<script src="~/js/DataTableManageFrom.js"></script>
+<script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
+<style>
+    .label.label-light-warning {
+        color: #35b653;
+        background-color: #35b65345;
+    }
+
+    #kt_content > div.d-flex.flex-column-fluid > div > div:nth-child(2) > div.card-body > div.datatable.datatable-default.datatable-primary.datatable-loaded > div {
+        display: none;
+    }
+
+    th span {
+        color: #b5b5c3 !important;
+        font-size: .9rem;
+        text-transform: uppercase;
+        font-weight: 600 !important;
+        letter-spacing: .1rem;
+    }
+
+    .card.card-custom {
+        box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
+        border: 0;
+    }
+
+    tbody tr:hover {
+        background-color: #F3F6F9;
+    }
+
+    .datatable-row {
+        border-bottom: 1px solid #EBEDF3;
+    }
+
+        .datatable-row > .datatable-cell:first-child {
+            padding-left: 10px !important;
         }
 
-        #kt_content > div.d-flex.flex-column-fluid > div > div:nth-child(2) > div.card-body > div.datatable.datatable-default.datatable-primary.datatable-loaded > div {
-            display: none;
+
+    .nav-link p {
+        margin-bottom: 0px;
+    }
+
+    .dropdown-item.active, .dropdown-item:active {
+        color: #ffffff;
+        text-decoration: none;
+        background-color: #ffffff;
+    }
+
+    .nav .show > .nav-link, .nav .nav-link:hover:not(.disabled), .nav .nav-link.active, .nav .show > .nav-link .nav-text, .nav .nav-link:hover:not(.disabled) .nav-text, .nav .nav-link.active .nav-text, .nav .show > .nav-link .nav-icon i, .nav .nav-link:hover:not(.disabled) .nav-icon i, .nav .nav-link.active .nav-icon i {
+        color: #ED7D31;
+    }
+
+    td:last-child {
+        text-align: left;
+    }
+
+    td {
+        width: 100px;
+        overflow: hidden;
+    }
+
+        td:last-child span {
+            width: auto !important;
         }
 
-        th span {
-            color: #b5b5c3 !important;
-            font-size: .9rem;
-            text-transform: uppercase;
-            font-weight: 600 !important;
-            letter-spacing: .1rem;
+
+    @@media only screen and (max-width: 700px) {
+        table {
+            width: 100%;
+            overflow-x: auto !important;
         }
+    }
 
-        .card.card-custom {
-            box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
-            border: 0;
-        }
-
-        tbody tr:hover {
-            background-color: #F3F6F9;
-        }
-
-        .datatable-row {
-            border-bottom: 1px solid #EBEDF3;
-        }
-
-            .datatable-row > .datatable-cell:first-child {
-                padding-left: 10px !important;
-            }
-
-
-        .nav-link p {
-            margin-bottom: 0px;
-        }
-
-        .dropdown-item.active, .dropdown-item:active {
-            color: #ffffff;
-            text-decoration: none;
-            background-color: #ffffff;
-        }
-
-        .nav .show > .nav-link, .nav .nav-link:hover:not(.disabled), .nav .nav-link.active, .nav .show > .nav-link .nav-text, .nav .nav-link:hover:not(.disabled) .nav-text, .nav .nav-link.active .nav-text, .nav .show > .nav-link .nav-icon i, .nav .nav-link:hover:not(.disabled) .nav-icon i, .nav .nav-link.active .nav-icon i {
-            color: #ED7D31;
-        }
-
-        td:last-child {
-            text-align: left;
-        }
-
-        td {
-            width: 100px;
-            overflow: hidden;
-        }
-
-            td:last-child span {
-                width: auto !important;
-            }
-
-
-        @@media only screen and (max-width: 700px) {
-            table {
-                width: 100%;
-                overflow-x: auto !important;
-            }
-        }
-
-        .datatable-toggle-detail {
-            display: none !important;
-        }
-    </style>
+    .datatable-toggle-detail {
+        display: none !important;
+    }
+</style>
 

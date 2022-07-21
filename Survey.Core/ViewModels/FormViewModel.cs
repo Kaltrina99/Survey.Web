@@ -29,7 +29,6 @@ namespace Survey.Core.ViewModels
         public IPagedList<Forms> Forms { get; set; }
         public List<Projects> ProjectList { get; set; } = new List<Projects>();
         public IEnumerable<MultiValueSelectItem> QuestionsList { get; set; }
-        public IEnumerable<SelectListItem> LanguagesList { get; set; }
         public IEnumerable<SelectListItem> ParentQuestionsList { get; set; }
         public IEnumerable<SelectListItem> ConditionOption { get; set; }
         public List<Questions> OriginalQuestion { get; set; }

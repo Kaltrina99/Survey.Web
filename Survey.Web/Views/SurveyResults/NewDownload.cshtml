@@ -1,0 +1,14 @@
+﻿@model Survey.Core.Models.SurveyDownload
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<tr data-row="0" class="datatable-row" style="left: 0px;">
+    <td data-field="Form Id" aria-label="sd" class="datatable-cell ordernumber"><span style="width: 347px;">1</span></td>
+    <td data-field="Date" aria-label="sd" class="datatable-cell"><span style="width: 347px;">@Model.Date</span></td>
+    <td data-field="User" aria-label="sd" class="datatable-cell"><span style="width: 347px;">@Model.User.UserName</span></td>
+    <td data-field="DownloadType" aria-label="sd" class="datatable-cell"><span style="width: 347px;">@Model.DownloadType</span></td>
+    <td data-field="Download" aria-label="sd" class="datatable-cell"><span style="width: 347px;"><a class="btn btn-light-orange" asp-action="DownloadFile" asp-route-id="@Model.Id" ><i class="fas fa-download"></i>Download</a></span></td>
+
+    @*<td data-field="Type" aria-label="sd" class="datatable-cell"><span style="width: 347px;">@Model.Downloads[i].DownloadType</span></td>
+    *@
+</tr>

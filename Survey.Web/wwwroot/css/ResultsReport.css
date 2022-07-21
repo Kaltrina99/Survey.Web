@@ -1,0 +1,26 @@
+﻿.allsmalldetails {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center
+}
+.smalldetails {
+margin-left:10px;
+}
+.questionchart
+{
+    height:400px;
+    width:100%;
+}
+.chart {
+    height: 100%;
+    width: 100%;
+}
+.chartHeader 
+{
+   display:flex;
+   justify-content:flex-end;
+   align-items:center;
+}
+.questiontable {
+    
+}

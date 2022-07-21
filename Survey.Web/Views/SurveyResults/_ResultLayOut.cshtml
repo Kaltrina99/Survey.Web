@@ -1,0 +1,143 @@
+﻿@using Survey.Core.ViewModels
+@model SurveyResultsViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{ Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/Sample.css" rel="stylesheet" type="text/css" />
+<link href="/Admin/theme/demo4/dist/assets/css/datatable.css" rel="stylesheet" type="text/css">
+
+
+<div class="d-flex flex-column-fluid">
+
+    <div class="container">
+        <!--begin::Notice-->
+
+        <div class="card card-custom gutter-b pt-30">
+            <div class="card card-custom gutter-b" style="background-color:#404040;">
+                <div class="card-body d-flex align-items-center py-5 py-lg-15">
+                    <!--begin::Icon-->
+                    <div class="d-flex flex-center position-relative ml-5 mr-15 ml-lg-9 pulse-danger pulse">
+                        <span class="svg-icon svg-icon-5x svg-icon-orange position-absolute opacity-15">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-polygon.svg-->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="70px" height="70px" viewBox="0 0 70 70" fill="none">
+                                <g stroke="none" stroke-width="1" fill-rule="evenodd">
+                                    <path d="M28 4.04145C32.3316 1.54059 37.6684 1.54059 42 4.04145L58.3109 13.4585C62.6425 15.9594 65.3109 20.5812 65.3109 25.5829V44.4171C65.3109 49.4188 62.6425 54.0406 58.3109 56.5415L42 65.9585C37.6684 68.4594 32.3316 68.4594 28 65.9585L11.6891 56.5415C7.3575 54.0406 4.68911 49.4188 4.68911 44.4171V25.5829C4.68911 20.5812 7.3575 15.9594 11.6891 13.4585L28 4.04145Z" fill="#000000" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="svg-icon svg-icon-orange svg-icon-2x">
+                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo1/dist/../src/media/svg/icons/Code/Info-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
+                                    <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
+                                    <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
+                                </g>
+                            </svg><!--end::Svg Icon-->
+                        </span>
+                        <span class="pulse-ring"></span>
+                    </div>
+                    <!--end::Icon-->
+                    <!--begin::Description-->
+                    <div class="m-0  font-size-md">
+                        <p class="mb-0" style="color:#F7F7F7;">
+                            The dashboard below allows you to view your collected data for each survey. View maps for results with locations, edit the data collected and download data in XLS forms.
+
+                        </p>
+                    </div>
+                    <!--end::Description-->
+                </div>
+            </div>
+        </div>
+        <!--end::Notice-->
+        <div class="row" data-sticky-container="">
+            <div class="col-lg-3 col-xl-2">
+                <div class="card card-custom sticky" data-sticky="true" data-margin-top="140px" data-sticky-for="1023" data-sticky-class="sticky">
+                    <div class="card-body p-0">
+                        <ul class="navi navi-bold navi-hover my-5" role="tablist">
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Index" asp-route-id="@Model.FormId" title="" data-placement="right">
+                                    <span class="navi-icon">
+                                        <i class="flaticon-squares-3"></i>
+                                    </span>
+                                    <span class="navi-text">Summary</span>
+                                </a>
+                            </li>
+                            <li class="navi__separator"></li>
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Table" asp-route-id="@Model.FormId" title="" data-placement="right">
+                                    <span class="navi-icon">
+                                        <i class="flaticon-file-2"></i>
+                                    </span>
+                                    <span class="navi-text">Table</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Reports" asp-route-id="@Model.FormId" title="" data-placement="right">
+                                    <span class="navi-icon">
+                                        <i class="flaticon-line-graph"></i>
+                                    </span>
+                                    <span class="navi-text">Reports</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Downloads" asp-route-id="@Model.FormId" title="" data-placement="right" data-original-title="This feature is coming soon!">
+                                    <span class="navi-icon">
+                                        <i class="flaticon-download"></i>
+                                    </span>
+                                    <span class="navi-text">Downloads</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Media" asp-route-id="@Model.FormId" data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
+                                    <span class="navi-icon">
+                                        <i class="flaticon2-photograph"></i>
+                                    </span>
+                                    <span class="navi-text">Gallery</span>
+                                </a>
+                            </li>
+                            <li class="navi-item">
+                                <a class="navi-link" asp-action="Map" asp-route-id="@Model.FormId" data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
+                                    <span class="navi-icon">
+                                        <i class="flaticon-map-location"></i>
+                                    </span>
+                                    <span class="navi-text">Location</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+
+    </div>
+
+</div>
+<script>var HOST_URL = "https://preview.keenthemes.com/keen/theme/tools/preview";</script>
+<!--begin::Global Config(global config for global JS scripts)-->
+<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#1BC5BD", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#6993FF", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#1BC5BD", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#E1E9FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };</script>
+
+@await RenderSectionAsync("Scripts", required: false)
+<!--end::Page Vendors-->
+<!--begin::Page Scripts(used by this page)-->
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#example3').DataTable();
+    });
+
+
+    $(document).ready(function () {
+        $('#example4').DataTable();
+    });
+
+</script>

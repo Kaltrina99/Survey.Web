@@ -8,8 +8,9 @@ namespace Survey.Core.Constants
 {
     public enum Roles
     {
-        Admin,
-        Reporter,
+        SuperAdmin,
+        Head,
+        Quality,
         Professor,
         Student,
     }

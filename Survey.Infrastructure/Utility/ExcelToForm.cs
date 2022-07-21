@@ -13,7 +13,6 @@ namespace Survey.Infrastructure.Utility
     public class ExcelToForm
     {
         private Dictionary<(string name,string category),QuestionOptions> Formoptions = new();
-        private Regex LangRegex { get; set; } = new Regex(@"(?<=\:\()(.+)(?=\))",RegexOptions.Compiled|RegexOptions.Singleline);
         private XSSFWorkbook excelfile;
         private  IFormFile _file;
         public Forms MainForm { get; set; } = new();
@@ -50,8 +49,9 @@ namespace Survey.Infrastructure.Utility
             }
             GetQuestions(questions);
 
+
         }
-        private  void GetQuestions(ISheet sheet)
+     private  void GetQuestions(ISheet sheet)
         {
             int rowindex = 1;
             IRow header = sheet.GetRow(0);
@@ -64,6 +64,7 @@ namespace Survey.Infrastructure.Utility
                 questionorder++;
                 question.Options=new();
                 string optioncategory="";
+                //question.translations = new();
                 string name = "";
                 var row = sheet.GetRow(rowindex);
                 int rowcol = row.LastCellNum;
@@ -137,6 +138,11 @@ namespace Survey.Infrastructure.Utility
                     else
                     {
                         var label = header.GetCell(i);
+                        if (label != null)
+                        {
+                            GetQuestionTranslation(question, label.StringCellValue, colvalue);
+
+                        }
                     }
                     
                 }
@@ -145,6 +151,15 @@ namespace Survey.Infrastructure.Utility
                 rowindex++;
             }
           
+        }
+        private void GetQuestionTranslation(Questions question, string label, string colvalue)
+        {
+            //Language language = GetLanguage(label);
+           
+           
+                question.QuestionDescription = colvalue;
+           
+
         }
         private List<QuestionOptions> CreateNewOptions(List<QuestionOptions> options) 
         {
@@ -230,8 +245,7 @@ namespace Survey.Infrastructure.Utility
                     var cell = row.GetCell(i);
                     if (cell == null && i == 0) { throw new ExcelToFormException("Each option must have a category"); }
                     else if (cell == null && i == 1) { throw new ExcelToFormException("Each option must have a uniqe name"); }
-                    else if (cell == null && i == 2) { throw new ExcelToFormException("Each option must have at least one translation"); }
-                    else if (cell == null) { continue; }
+                   else if (cell == null) { continue; }
 
                     string colvalue = cell.StringCellValue;
                     if (i == 0)
@@ -266,7 +280,7 @@ namespace Survey.Infrastructure.Utility
         {
             int rowindex = 1;
             IRow header = sheet.GetRow(0);
-            CheckHeader(header, "form-name", "form-desc", "languages","Settings");
+            CheckHeader(header, "form-name", "form-desc","Settings");
             while (sheet.GetRow(rowindex) != null)
             {
                 var row = sheet.GetRow(rowindex);
@@ -275,7 +289,6 @@ namespace Survey.Infrastructure.Utility
                 {
                     var cell = row.GetCell(i);
                     if (cell == null && i == 0 && MainForm.FormTitle == null) { throw new ExcelToFormException("Form must have a title"); }
-                    else if (cell == null && i == 2) { throw new ExcelToFormException("Form must have at least one language"); }
                     else if (cell == null) { continue; }
                     string colvalue = cell.StringCellValue; if (i == 0&& !string.IsNullOrWhiteSpace(colvalue))
                     {
@@ -286,15 +299,7 @@ namespace Survey.Infrastructure.Utility
                         MainForm.Description = colvalue;
                         
                     }
-                    else if (i == 2&&!string.IsNullOrWhiteSpace(colvalue))
-                    {
-                        string[] langcomp = colvalue.Split(":");
-                        if (langcomp.Length != 2) 
-                        {
-                            throw new ExcelToFormException("Language is not in the right format. Please check your settings.");
-                        }
-                    }
-
+                    
                 }
                 rowindex++;
 
@@ -320,7 +325,19 @@ namespace Survey.Infrastructure.Utility
                 throw new ExcelToFormException("You have entered an invalid question type");
             }
         }
-        
+        private void CheckHeader(IRow row, string first, string second, string sheetname)
+        {
+            if (!row.GetCell(0).StringCellValue.Equals(first))
+            {
+                throw new ExcelToFormException($"Your header does not contain {first} in your {sheetname} sheet");
+            }
+            else if (!row.GetCell(1).StringCellValue.Equals(second))
+            {
+                throw new ExcelToFormException($"Your header does not contain {second} in your {sheetname} sheet");
+            }
+            
+
+        }
         private void CheckHeader(IRow row,string first,string second,string third,string sheetname) 
         {
             if (!row.GetCell(0).StringCellValue.Equals(first))

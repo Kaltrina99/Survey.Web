@@ -170,35 +170,12 @@ namespace Survey.Infrastructure.Repositories
             return _dbContext.Questions.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public SkipLogicViewModel ShowSkippedQuestions(int id, int language)
+        public SkipLogicViewModel ShowSkippedQuestions(int id)
         {
             SkipLogicViewModel model = new SkipLogicViewModel();
             List<Questions> questions = new List<Questions>();
-            if (language == 0)
-            {
-                 questions = _dbContext.Questions
-                   .Where(x => x.skipChild.Any(y => y.Condition_Option == id))
-                   .Include(x => x.Options)
-                   .Select(x => new Questions
-                   {
-                       Skip_Logic = x.skipParent.Any(),
-                       Id = x.Id,
-                       Field_Type = x.Field_Type,
-                       IsRequired = x.IsRequired,
-                       QuestionDescription=x.QuestionDescription,
-                       QuestionText = x.QuestionText,
-                       Options = x.Options.Select(y => new QuestionOptions
-                       {
-                           Skip_Logic = y.ChildOption.Any(),
-                           OptionText = y.OptionText,
-                           Question_Id = x.Id,
-                           Id = y.Id
-                       }).ToList()
+            
 
-                   })
-                   .ToList();
-            }
-            else {
 
                  questions = _dbContext.Questions
                        .Where(x => x.skipChild.Any(y => y.Condition_Option == id))
@@ -218,8 +195,7 @@ namespace Survey.Infrastructure.Repositories
 
                        })
                        .ToList();
-            }
-
+           
             List<Questions> numberquestion = questions.Where(x => x.Field_Type == QType.Numbers).ToList();
             if (numberquestion.Count > 0)
             {
@@ -259,36 +235,11 @@ namespace Survey.Infrastructure.Repositories
             return model;
         }
 
-        public SkipLogicViewModel GetSkippedQuestionNumber(int id,int language)
+        public SkipLogicViewModel GetSkippedQuestionNumber(int id)
         {
             SkipLogicViewModel model = new SkipLogicViewModel();
             List<Questions> questions = new List<Questions>();
-            if (language == 0)
-            {
-                questions = _dbContext.Questions
-                  .Where(x => x.skipChild.Any(y => y.Id == id))
-                  .Include(x => x.Options)
-                  .Select(x => new Questions
-                  {
-                      Skip_Logic = x.skipParent.Any(),
-                      Id = x.Id,
-                      QuestionDescription=x.QuestionDescription,
-                      Field_Type = x.Field_Type,
-                      IsRequired = x.IsRequired,
-                      QuestionText = x.QuestionText,
-                      Options = x.Options.Select(y => new QuestionOptions
-                      {
-                          Skip_Logic = y.ChildOption.Any(),
-                          OptionText = y.OptionText,
-                          Question_Id = x.Id,
-                          Id = y.Id
-                      }).ToList()
-
-                  })
-                  .ToList();
-            }
-            else
-            {
+            
                 questions = _dbContext.Questions
                .Where(x => x.skipChild.Any(y => y.Id == id))
                
@@ -308,7 +259,6 @@ namespace Survey.Infrastructure.Repositories
 
                })
                .ToList();
-            }
 
             List<Questions> numberquestion = questions.Where(x => x.Field_Type == QType.Numbers).ToList();
             if (numberquestion.Count > 0)
@@ -436,7 +386,7 @@ namespace Survey.Infrastructure.Repositories
                    
                     foreach (var newop in newoptions) 
                     {
-                        QuestionOptions newoption = new QuestionOptions { OptionText = newop, Tenant_Id = oldquestion.Tenant_Id, Team_Id = oldquestion.Team_Id };
+                        QuestionOptions newoption = new QuestionOptions { OptionText = newop };
                         oldquestion.Options.Add(newoption);
                     }
 

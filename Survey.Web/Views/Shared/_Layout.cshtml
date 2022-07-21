@@ -22,7 +22,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Survey" asp-action="ManageForm">Survey</a>
                         </li>
                          <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
@@ -42,14 +42,30 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - Survey.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/General.js"></script>
+    <script src="~/js/ChartForResults.js"></script>
+    <script src="~/js/DataTableManageFrom.js"></script>
+    <script src="~/js/DesignerJs.js"></script>
+    <script src="~/js/EditQuestion.js"></script>
+    <script src="~/js/draggable.bundle.js"></script>
+    <script src="~/js/ImportFormExcel.js"></script>
+    <script src="~/js~/js/JavaScriptAfterFactoring.js"></script>
+    <script src="~/js/JavaScripttableresizeable.js"></script>
+    <script src="~/js/jquery.simpleLoadMore.min.js"></script>
+    <script src="~/js/PaginationJs.js"></script>
+    <script src="~/js/SkipLogic.js"></script>
+    <script src="~/js/SkipLogicAdd.js"></script>
+    <script src="~/js/TakeSurvey.js"></script>
+
+   
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
