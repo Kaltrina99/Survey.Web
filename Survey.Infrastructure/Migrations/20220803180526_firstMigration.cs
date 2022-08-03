@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Survey.Infrastructure.Migrations
 {
-    public partial class user : Migration
+    public partial class firstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,8 +157,8 @@ namespace Survey.Infrastructure.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -202,8 +202,8 @@ namespace Survey.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -446,9 +446,7 @@ namespace Survey.Infrastructure.Migrations
                     Question_Id = table.Column<int>(type: "int", nullable: false),
                     OptionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isSelected = table.Column<bool>(type: "bit", nullable: false),
-                    OrderNumber = table.Column<int>(type: "int", nullable: false),
-                    Team_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tenant_Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    OrderNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -544,43 +542,82 @@ namespace Survey.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", "d73a5e7c-34c7-42c5-ac17-d07822ac925b", "Admin", "ADMIN" });
+                values: new object[,]
+                {
+                    { "1", "102df05b-0506-4824-ae64-275bdc0f9de7", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "ca1efc7a-7ac3-4f7f-9add-67047404e670", "Dean", "DEAN" },
+                    { "5", "0b4c2f8d-d081-4e19-b3e6-3ea4597c581b", "Student", "STUDENT" },
+                    { "3", "af816b27-8ea5-4291-b83b-d5e7992d0be9", "Professor", "PROFESSOR" },
+                    { "4", "45429c5d-be63-4ec0-8991-e12ead72ce52", "QA", "QA" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "b1a0fc6f-300b-43ff-bd16-941120f61e4d", "IdentityUser", "admin@Survey.com", true, false, null, "ADMIN@SURVEY.COM", null, "AQAAAAEAACcQAAAAEALpv5bn26u0bgd3jYLfzwl/IwgiguM1bu4ehBYfqhLoseV7bjvh5Y2/7/igPTHIJQ==", null, false, "eac736bb-9d97-4b58-801d-06cff1052bc5", false, "SuperAdmin" });
+                values: new object[,]
+                {
+                    { "1", 0, "659c693e-9be1-4683-bd84-b6a82f868b2b", "IdentityUser", "admin@Survey.com", true, false, null, "ADMIN@SURVEY.COM", null, "AQAAAAEAACcQAAAAEG/aiFAIV2pnJKYTtGrAy+B3ks4GFTl14m5lJqR3TuVC9KqTWrR30gClHSWeGux1ow==", null, false, "fbac9b38-86df-44ce-be3f-afa3089c0048", false, "SuperAdmin" },
+                    { "2", 0, "c4863980-b3a1-4916-9f84-9d69699578cc", "IdentityUser", "user@gmail.com", true, false, null, "USER@GMAIL.COM", null, "AQAAAAEAACcQAAAAEKbSXGo82W3KBDBGUKad+WsMdesdvo4EuaW9S1rhwgdc6qoZEFnI5GyOVYq7NYIL8g==", null, false, "742814eb-c7f5-4455-b937-243b9524099c", false, "user" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, "Permission", "Permissions.Survey.View", "1" },
-                    { 18, "Permission", "Permissions.DataSet.ViewCases", "1" },
-                    { 17, "Permission", "Permissions.DataSet.DeleteCases", "1" },
-                    { 16, "Permission", "Permissions.DataSet.AssignCases", "1" },
-                    { 15, "Permission", "Permissions.DataSet.AddCases", "1" },
-                    { 14, "Permission", "Permissions.Project.View", "1" },
-                    { 13, "Permission", "Permissions.Project.Update", "1" },
-                    { 12, "Permission", "Permissions.Project.Delete", "1" },
-                    { 11, "Permission", "Permissions.Project.Add", "1" },
-                    { 10, "Permission", "Permissions.Project.AssignUsers", "1" },
-                    { 9, "Permission", "Permissions.User.AddUser", "1" },
-                    { 8, "Permission", "Permissions.User.DeleteUser", "1" },
-                    { 7, "Permission", "Permissions.User.UpdateUser", "1" },
-                    { 6, "Permission", "Permissions.User.ViewUsers", "1" },
-                    { 5, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
-                    { 4, "Permission", "Permissions.Survey.Delete", "1" },
-                    { 3, "Permission", "Permissions.Survey.Update", "1" },
-                    { 2, "Permission", "Permissions.Survey.Create", "1" },
-                    { 19, "Permission", "Permissions.DataSet.UpdateCases", "1" }
+                    { 3, "Permission", "Permissions.Survey.View", "1" },
+                    { 27, "Permission", "Permissions.Survey.Collect", "2" },
+                    { 28, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
+                    { 29, "Permission", "Permissions.User.ViewUsers", "2" },
+                    { 30, "Permission", "Permissions.User.UpdateUser", "2" },
+                    { 31, "Permission", "Permissions.User.DeleteUser", "2" },
+                    { 32, "Permission", "Permissions.User.AddUser", "2" },
+                    { 33, "Permission", "Permissions.Project.AssignUsers", "2" },
+                    { 34, "Permission", "Permissions.Project.Add", "2" },
+                    { 26, "Permission", "Permissions.Survey.Delete", "2" },
+                    { 35, "Permission", "Permissions.Project.Delete", "2" },
+                    { 37, "Permission", "Permissions.Project.View", "2" },
+                    { 38, "Permission", "Permissions.DataSet.AddCases", "2" },
+                    { 39, "Permission", "Permissions.DataSet.AssignCases", "2" },
+                    { 40, "Permission", "Permissions.DataSet.DeleteCases", "2" },
+                    { 41, "Permission", "Permissions.DataSet.ViewCases", "2" },
+                    { 42, "Permission", "Permissions.DataSet.UpdateCases", "2" },
+                    { 1, "Permission", "Permissions.Survey.View", "5" },
+                    { 2, "Permission", "Permissions.Survey.Collect", "5" },
+                    { 36, "Permission", "Permissions.Project.Update", "2" },
+                    { 25, "Permission", "Permissions.Survey.Update", "2" },
+                    { 24, "Permission", "Permissions.Survey.Create", "2" },
+                    { 23, "Permission", "Permissions.Survey.View", "2" },
+                    { 4, "Permission", "Permissions.Survey.Create", "1" },
+                    { 5, "Permission", "Permissions.Survey.Update", "1" },
+                    { 6, "Permission", "Permissions.Survey.Delete", "1" },
+                    { 7, "Permission", "Permissions.Survey.Collect", "1" },
+                    { 8, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
+                    { 9, "Permission", "Permissions.User.ViewUsers", "1" },
+                    { 10, "Permission", "Permissions.User.UpdateUser", "1" },
+                    { 11, "Permission", "Permissions.User.DeleteUser", "1" },
+                    { 12, "Permission", "Permissions.User.AddUser", "1" },
+                    { 13, "Permission", "Permissions.Project.AssignUsers", "1" },
+                    { 14, "Permission", "Permissions.Project.Add", "1" },
+                    { 15, "Permission", "Permissions.Project.Delete", "1" },
+                    { 16, "Permission", "Permissions.Project.Update", "1" },
+                    { 17, "Permission", "Permissions.Project.View", "1" },
+                    { 18, "Permission", "Permissions.DataSet.AddCases", "1" },
+                    { 19, "Permission", "Permissions.DataSet.AssignCases", "1" },
+                    { 20, "Permission", "Permissions.DataSet.DeleteCases", "1" },
+                    { 21, "Permission", "Permissions.DataSet.ViewCases", "1" },
+                    { 22, "Permission", "Permissions.DataSet.UpdateCases", "1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "1", "1" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "2", "2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_Form_Id",

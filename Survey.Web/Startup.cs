@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Survey.Core.Interfaces;
 using Survey.Infrastructure.Data;
 using Survey.Infrastructure.Repositories;
+using Survey.Web.Permission;
+
 
 namespace Survey.Web
 {
@@ -23,15 +26,22 @@ namespace Survey.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Transient);
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Transient);
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
+            
             services.AddControllersWithViews();
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()  
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                  .AddEntityFrameworkStores<ApplicationDbContext>()
+                  .AddDefaultUI().AddDefaultTokenProviders(); 
+            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+
             services.AddLogging();
+            
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+            //services.AddSingleton(typeof(IAuthorizationPolicyProvider), typeof(PermissionPolicyProvider));
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
             services.AddAuthentication()
                .AddGoogle(options =>
                {
@@ -39,15 +49,17 @@ namespace Survey.Web
 
                    options.ClientId = googleAuthSection["ClientId"];
                    options.ClientSecret = googleAuthSection["ClientSecret"];
+                   options.SaveTokens = true;
+                   options.SignInScheme = IdentityConstants.ExternalScheme;
                });
+          
+            services.AddRazorPages().AddSessionStateTempDataProvider();
 
-            services.AddRazorPages()
-            .AddSessionStateTempDataProvider();
             services.AddSession();
-            //services.AddScoped<IPermissionRole, PermissonRoleRepository>();
+
+            services.AddScoped<IPermissionRole, PermissonRoleRepository>();
             services.AddScoped<ISurveyResults, SurveyResultsRepository>();
             services.AddScoped<ISurveySubmission, SubmissionRepository>();
-            //services.AddScoped<IImageProfile, ImageProfileRepository>();
             services.AddScoped<IProjectCategory, ProjectCategoryRepository>();
             services.AddScoped<IProjects, ProjectsRepository>();
             services.AddScoped<IForms, FormsRepository>();
@@ -55,15 +67,9 @@ namespace Survey.Web
             services.AddScoped<IQuestionOptions, QuestionOptionsRepository>();
             services.AddScoped<IAnswers, AnswersRepository>();
             services.AddScoped<ISkipLogic, SkipLogicRepository>();
-            //services.AddScoped<IDataset, DatasetRepository>();
-            //services.AddScoped<IEnrollDataset, EnrollDatasetRepository>();
-            //services.AddScoped<ICases, CasesRepository>();
-            //services.AddScoped<ICasesExcelHeaders, CasesExcelHeadersRepository>();
-            //services.AddScoped<ICasesExcelData, CasesExcelDataRepository>();
-            //services.AddScoped<ICaseAssignedUsers, CaseAssignedUsersRepository>();
-            //services.AddScoped<ICaseAssignedForms, CaseAssignedFormsRepository>();
             services.AddScoped<ISurveyResultDownload, SurveyResultDownload>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

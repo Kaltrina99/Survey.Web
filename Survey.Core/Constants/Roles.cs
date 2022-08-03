@@ -9,9 +9,9 @@ namespace Survey.Core.Constants
     public enum Roles
     {
         SuperAdmin,
-        Head,
-        Quality,
+        Dean,//Dekan
+        QA,//Quality Assurence
         Professor,
-        Student,
+        Student
     }
 }

@@ -73,6 +73,7 @@ namespace Survey.Web.Areas.Identity.Pages.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+           
             return new ChallengeResult(provider, properties);
         }
 
@@ -138,6 +139,13 @@ namespace Survey.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
+                    var rol = _db.Roles.FirstOrDefault(x => x.Name.Contains("Student"));
+                    IdentityUserRole<string> GoogleRole = new IdentityUserRole<string>()
+                    {
+                        UserId = user.Id,
+                        RoleId = rol.Id
+                    };
+                    _db.UserRoles.Add(GoogleRole);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);

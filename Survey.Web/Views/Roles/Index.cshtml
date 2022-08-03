@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+
+
+    <h1>Roles</h1>
+    <br />
+    <form method="post" asp-action="addrole" asp-controller="roles">
+        <div class="input-group row pb-8">
+            <div class="col-lg-3">
+                <input name="roleName" class="form-control w-10">
+            </div>
+
+            <span class="input-group-btn col-lg-3">
+                <button  type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" ><i class="fa fa-plus"></i>Add New Role</button>
+            </span>
+        </div>
+    </form>
+    <table class="table table-striped" id="roleTable">
+        <thead>
+            <tr>
+                <th>
+                    Role
+                </th>
+                <th>
+                    Id
+                </th>
+
+                <th style="width:10%">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                    <tr>
+                        <td>
+                            @role.Name
+                        </td>
+                        <td>
+                            @role.Id
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-light-orange dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-action="Update" asp-route-Id="@role.Id">Edit</a>
+                                    <a class="dropdown-item" asp-action="Delete" asp-route-Id="@role.Id" method="post">Delete</a>
+                                    
+                                        <a class="dropdown-item" asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id">Manage Permissions</a>
+                                   
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    
+                }
+            </tbody>
+    </table>
+</div>
+<style>
+    .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+       
+    }
+</style>

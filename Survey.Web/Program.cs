@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,8 @@ namespace Survey.Web
                 var loger = loggerFactory.CreateLogger("app");
                 try
                 {
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     loger.LogInformation("Finish Seeding DefaultData");
                     loger.LogInformation("Application starting");
                 }

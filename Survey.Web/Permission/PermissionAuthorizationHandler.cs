@@ -16,8 +16,9 @@ namespace Survey.Web.Permission
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            if (context.User == null)
+            if (context.User == null || !context.User.Identity.IsAuthenticated)
             {
+                context.Fail();
                 return;
             }
             var permissionss = context.User.Claims.Where(x => x.Type == "Permission" &&

@@ -24,6 +24,7 @@ namespace Survey.Core.Constants
             public const string Survey_Create = "Permissions.Survey.Create";
             public const string Survey_Update = "Permissions.Survey.Update";
             public const string Survey_Delete = "Permissions.Survey.Delete";
+            public const string Survey_Collect = "Permissions.Survey.Collect";
             public const string Survey_SeeResults = "Permissions.Survey.SeeSurveyResults";
             #endregion
 
@@ -59,6 +60,7 @@ namespace Survey.Core.Constants
                     Survey_Create,
                     Survey_Update,
                     Survey_Delete,
+                    Survey_Collect,
                     Survey_SeeResults,
                     User_ViewUsers,
                     User_UpdateUser,
@@ -80,10 +82,23 @@ namespace Survey.Core.Constants
                 return list;
             }
         }
-       
-         public static List<string> GetAllPermissionsList()
+
+        public static class SuperPremissionList
+        {
+            public static List<string> GetAllSuperPermissionList()
+            {
+                List<string> list = new List<string>()
+                {
+                   
+                };
+
+                return list;
+            }
+        }
+        public static List<string> GetAllPermissionsList()
         {
             List<string> permissons = PremissionList.GetAllUserPermissionList();
+            permissons.AddRange(SuperPremissionList.GetAllSuperPermissionList());
             return permissons;
         }
     }

@@ -10,8 +10,8 @@ using Survey.Infrastructure.Data;
 namespace Survey.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220714160824_user")]
-    partial class user
+    [Migration("20220803180526_firstMigration")]
+    partial class firstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,9 +51,37 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "d73a5e7c-34c7-42c5-ac17-d07822ac925b",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            ConcurrencyStamp = "102df05b-0506-4824-ae64-275bdc0f9de7",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "ca1efc7a-7ac3-4f7f-9add-67047404e670",
+                            Name = "Dean",
+                            NormalizedName = "DEAN"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            ConcurrencyStamp = "0b4c2f8d-d081-4e19-b3e6-3ea4597c581b",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "af816b27-8ea5-4291-b83b-d5e7992d0be9",
+                            Name = "Professor",
+                            NormalizedName = "PROFESSOR"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            ConcurrencyStamp = "45429c5d-be63-4ec0-8991-e12ead72ce52",
+                            Name = "QA",
+                            NormalizedName = "QA"
                         });
                 });
 
@@ -86,133 +114,294 @@ namespace Survey.Infrastructure.Migrations
                             Id = 1,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.View",
-                            RoleId = "1"
+                            RoleId = "5"
                         },
                         new
                         {
                             Id = 2,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Create",
-                            RoleId = "1"
+                            ClaimValue = "Permissions.Survey.Collect",
+                            RoleId = "5"
                         },
                         new
                         {
                             Id = 3,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Update",
+                            ClaimValue = "Permissions.Survey.View",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 4,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Delete",
+                            ClaimValue = "Permissions.Survey.Create",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 5,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.SeeSurveyResults",
+                            ClaimValue = "Permissions.Survey.Update",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 6,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.ViewUsers",
+                            ClaimValue = "Permissions.Survey.Delete",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 7,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.UpdateUser",
+                            ClaimValue = "Permissions.Survey.Collect",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 8,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.DeleteUser",
+                            ClaimValue = "Permissions.Survey.SeeSurveyResults",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 9,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.AddUser",
+                            ClaimValue = "Permissions.User.ViewUsers",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 10,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.AssignUsers",
+                            ClaimValue = "Permissions.User.UpdateUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 11,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Add",
+                            ClaimValue = "Permissions.User.DeleteUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 12,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Delete",
+                            ClaimValue = "Permissions.User.AddUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 13,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Update",
+                            ClaimValue = "Permissions.Project.AssignUsers",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 14,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.View",
+                            ClaimValue = "Permissions.Project.Add",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 15,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AddCases",
+                            ClaimValue = "Permissions.Project.Delete",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 16,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            ClaimValue = "Permissions.Project.Update",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 17,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            ClaimValue = "Permissions.Project.View",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 18,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            ClaimValue = "Permissions.DataSet.AddCases",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 19,
                             ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ClaimType = "Permission",
                             ClaimValue = "Permissions.DataSet.UpdateCases",
                             RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.View",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.Create",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.Update",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.Delete",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.Collect",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Survey.SeeSurveyResults",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.User.ViewUsers",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.User.UpdateUser",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.User.DeleteUser",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.User.AddUser",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.AssignUsers",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Add",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Delete",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Update",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.View",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.AddCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.UpdateCases",
+                            RoleId = "2"
                         });
                 });
 
@@ -291,16 +480,31 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b1a0fc6f-300b-43ff-bd16-941120f61e4d",
+                            ConcurrencyStamp = "659c693e-9be1-4683-bd84-b6a82f868b2b",
                             Email = "admin@Survey.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SURVEY.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEALpv5bn26u0bgd3jYLfzwl/IwgiguM1bu4ehBYfqhLoseV7bjvh5Y2/7/igPTHIJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG/aiFAIV2pnJKYTtGrAy+B3ks4GFTl14m5lJqR3TuVC9KqTWrR30gClHSWeGux1ow==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "eac736bb-9d97-4b58-801d-06cff1052bc5",
+                            SecurityStamp = "fbac9b38-86df-44ce-be3f-afa3089c0048",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c4863980-b3a1-4916-9f84-9d69699578cc",
+                            Email = "user@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKbSXGo82W3KBDBGUKad+WsMdesdvo4EuaW9S1rhwgdc6qoZEFnI5GyOVYq7NYIL8g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "742814eb-c7f5-4455-b937-243b9524099c",
+                            TwoFactorEnabled = false,
+                            UserName = "user"
                         });
                 });
 
@@ -331,12 +535,10 @@ namespace Survey.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -371,6 +573,11 @@ namespace Survey.Infrastructure.Migrations
                         {
                             UserId = "1",
                             RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "2",
+                            RoleId = "2"
                         });
                 });
 
@@ -380,12 +587,10 @@ namespace Survey.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -701,12 +906,6 @@ namespace Survey.Infrastructure.Migrations
 
                     b.Property<int>("Question_Id")
                         .HasColumnType("int");
-
-                    b.Property<string>("Team_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tenant_Id")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isSelected")
                         .HasColumnType("bit");

@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Survey.Core.Models
+@model IdentityUser
+@{
+    ViewData["Title"] = "Update User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 center-block">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b example example-compact">
+
+                <!--begin::Form-->
+                <form asp-action="UpdateUser" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (Model != null && !String.IsNullOrEmpty(Model.Id))
+                    {
+                        <input asp-for="@Model.Id" hidden />
+                    }
+                    <div class="card-body">
+             
+                        <div class="form-group">
+                            <label>User Id</label>
+                            <input asp-for="Id" type="text" class="form-control" placeholder="Role Id" readonly />
+                            @*<span asp-validation-for="Blog.Title" class="form-text text-muted"></span>*@
+                        </div>
+                       
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input asp-for="Email" type="email" class="form-control" placeholder="Email Address" autocomplete="off" readonly />
+                            <input asp-for="Email" hidden />
+                            <span asp-validation-for="Email" class="form-text text-muted"></span>
+                        </div>
+                     
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" value="Update" class="btn btn-primary mr-2" />
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Card-->
+        </div>
+
+    </div>
+</div>
+<!--end::Container-->
+
+

@@ -1,0 +1,110 @@
+﻿@model Survey.Core.ViewModels.PermissionViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <!--begin::Subheader-->
+    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class=" d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">Roles</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                        <li class="breadcrumb-item text-muted">
+                            <a href="" class="text-muted" >
+                                Manage permissions
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+
+    <h4 style="color: #ED7D31;font-weight:800;">Permissions</h4>
+    <br />
+    <div class="card">
+        <div id="viewAll" class="card-body table-responsive">
+            <form asp-controller="permission" method="post" asp-action="Update" class="d-inline">
+                <input asp-for="@Model.RoleId" type="hidden" />
+                <table class="table table-striped" id="permissionTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Permission
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < Model.RoleClaims.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input asp-for="@Model.RoleClaims[i].Type" type="hidden" />
+                                    @Model.RoleClaims[i].Type
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.RoleClaims[i].Value" type="hidden" />
+                                    @Model.RoleClaims[i].Value
+                                </td>
+                                <td>
+                                    <div class="checkbox-inline form-check mt-1 mb-1">
+                                        <label class="checkbox checkbox-outline checkbox-outline-2x">
+                                            <input asp-for="@Model.RoleClaims[i].Selected" class="form-check-input" />
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="col-sm-12" style="padding: 20px 20px 0px 0px">
+                    <button type="submit" id="save" class="btn btn-orange">
+                        <i class="fa fa-check"></i>
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .card.card-custom {
+        box-shadow: 0px 0px 10px 0px rgb(82 63 105 / 18%);
+        border: 0;
+    }
+
+    .checkbox.checkbox-outline > input:checked ~ span {
+        background-color: transparent;
+        border-color: #595959;
+    }
+
+        .checkbox.checkbox-outline > input:checked ~ span:after {
+            border-color: #595959;
+        }
+
+</style>

@@ -249,7 +249,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Manage Form
-
+        [Authorize(Permissions.PremissionList.Survey_View)]
         public IActionResult ManageForm(FormViewModel model, int pageSize = 10, int pageNumber = 1)
         {
             if (pageNumber < 1) { pageNumber = 1; }
