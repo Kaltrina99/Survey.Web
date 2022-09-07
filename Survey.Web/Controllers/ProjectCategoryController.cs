@@ -158,6 +158,104 @@ namespace Survey.Web.Controllers
             return View(model);
         }
         #endregion
+        public IActionResult Enroll(int id)
+        {
+            ViewBag.u = id;
+
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            var t = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id);
+          
+            var model = new List<CategoryPartUserViewModel>();
+            var us = _dbContext.Users.ToList();
+
+            foreach (var user in us)
+            {
+                var tamPartUserViewModel = new CategoryPartUserViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
+                var d = _dbContext.UserProjectCategories.FirstOrDefault(x => x.UserId == user.Id && x.CategoryId == t.Id);
+                if (d != null)
+                {
+                    tamPartUserViewModel.IsSelected = true;
+                }
+                else
+                {
+                    tamPartUserViewModel.IsSelected = false;
+                }
+
+                model.Add(tamPartUserViewModel);
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Enroll(List<CategoryPartUserViewModel> model, int id)
+        {
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            var t = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id );
+            if (t == null)
+            {
+                ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            for (int i = 0; i < model.Count; i++)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == model[i].UserId);
+
+                var d = _dbContext.UserProjectCategories.AsNoTracking().FirstOrDefault(x => x.UserId == user.Id && x.CategoryId == t.Id);
+                if (model[i].IsSelected && !(d != null))
+                {
+                    UserProjectCategory model1 = new UserProjectCategory()
+                    {
+                        UserId = user.Id,
+                        CategoryId = t.Id
+                    };
+                    var result = _dbContext.UserProjectCategories.Add(model1);
+                    _dbContext.SaveChanges();
+                }
+                else if (!model[i].IsSelected && d != null)
+                {
+                    UserProjectCategory model1 = new UserProjectCategory()
+                    {
+                        UserId = user.Id,
+                        CategoryId = t.Id
+                    };
+                    var result = _dbContext.UserProjectCategories.Remove(model1);
+                    _dbContext.SaveChanges();
+                }
+
+            }
+
+            return RedirectToAction("Index");
+        }
+        //public async Task<IActionResult> RemoveUser(string id, string team)
+        //{
+        //    if (id == null && team != null)
+        //    {
+        //        return RedirectToAction("Index");
+
+        //    }
+        //    var response = await _projectCategory.RemoveUserFromTeamAsync(team, id);
+        //    return RedirectToAction("Index");
+        //}
+        //[Authorize(Permissions.PremissionList.Team_View)]
+        //public IActionResult GetUserInTeam(int id)
+        //{
+
+        //    var usersIds = _dbContext.UserProjectCategories.Where(x => x.CategoryId == id).Select(x => x.UserId);
+        //    var users = _dbContext.Users.Where(x => usersIds.Any(y => y == x.Id)).ToList();
+        //    var te = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id);
+        //    ViewBag.name = te.Name;
+        //    ViewBag.u = id;
+        //    //var model = new ProjectCategory()
+        //    //{
+        //    //    UserList = users
+        //    //};
+        //    return View(model);
+        //}
+
 
     }
 }

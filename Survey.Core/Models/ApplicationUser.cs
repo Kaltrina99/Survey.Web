@@ -18,7 +18,11 @@ namespace Survey.Core.Models
         public string Role { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem> RoleList { get; set; }
+        [NotMapped]
+        public virtual List<UserProjectCategory> CategoryList { get; set; }
+        [NotMapped]
         public virtual List<SurveyDownload> SurveyDownloads { get; set; }
+        [NotMapped]
         public ICollection<SurveySubmission> SurveySubmissions { get; set; }
     }
 }

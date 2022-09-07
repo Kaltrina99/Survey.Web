@@ -14,6 +14,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+
 <!DOCTYPE html>
 <!--
 Template Name: Keen - The Ultimate Bootstrap 4 HTML Admin Dashboard Theme
@@ -57,8 +58,8 @@ License: You must have a valid license purchased only from themes.getbootstrap.c
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Survey">
-    <meta name="apple-mobile-web-app-title" content="Survey">
+    <meta name="application-name" content="KAPsurvey">
+    <meta name="apple-mobile-web-app-title" content="KAPsurvey">
     <meta name="theme-color" content="#FBF7EF">
     <meta name="msapplication-navbutton-color" content="#FBF7EF">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -84,37 +85,24 @@ License: You must have a valid license purchased only from themes.getbootstrap.c
         <div class="d-flex flex-row flex-column-fluid page">
             <!--begin::Wrapper-->
             <div class="d-flex flex-column flex-row-fluid wrapper container" id="kt_wrapper">
+                <!--begin::Header-->
+                <!--<div id="kt_header" class="header header-fixed">
+                <!--begin::Container-->
+                <!--<div class="container">-->
+                <!--begin::Header Menu Wrapper-->
+                <!--@*<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+
+                </div>*@-->
+                <!--end::Header Menu Wrapper-->
+                <!--</div>-->
+                <!--end::Container-->
+                <!--</div>-->
+                <!--end::Header-->
                 <div>
                     <input type="hidden" id="currentsurveyversion" />
                     <input type="hidden" id="surveyName" value="@Model.Form.FormTitle" />
                     <input type="hidden" name='@Html.Raw(Model.SkipLogicJson)' id="data-json-skip" />
-                     <div class="d-flex align-items-center flex-wrap mr-1">
 
-                                        <!--begin::Page Heading-->
-                                        <div class="d-flex align-items-baseline flex-wrap mr-5">
-                                            <div class="row">
-                                                <div class="col-lg-2 logoimage">
-                                                </div>
-                                                <div class="col-lg-5">
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="form-group row">
-                                                        <div class="col-lg-4"></div>
-                                                        <div class="col-lg-6" style=" margin-bottom: 10px;">
-                                                            <button type="button" data-toggle="modal" data-target="#loadDraftsModal" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
-                                                                Load Saved Drafts
-                                                            </button>
-                                                        </div>
-                                                        <div class="col-lg-2"></div>
-
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" value="@Model.formid" asp-for="formid" id="form_id" />
-                                                <!--end::Page Heading-->
-                                            </div>
-
-                                        </div>
-                                    </div>
                     <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper" style="background-color: #F2F2F2; ">
                         <!--begin::Content-->
                         <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -122,172 +110,219 @@ License: You must have a valid license purchased only from themes.getbootstrap.c
                             <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
                                 <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                                     <!--begin::Info-->
-                                   
+                                    <div class="d-flex align-items-center flex-wrap mr-1">
 
-                                    <!--end::Subheader-->
-                                    <!--begin::Entry-->
-                                    <div class="d-flex flex-column-fluid">
-                                        <!--begin::Container-->
-                                        <div class="container">
-                                            <!--begin::Dashboard-->
-                                            <!--begin::Tables Widget 5-->
-                                            <div class="card card-custom">
-                                                <!--end::Header-->
-                                                <!--begin::Body-->
-                                                <input type="hidden" value="@agent" id="agentid" />
-                                                <input type="hidden" value="@_case" id="caseid" />
-                                                <input type="hidden" value="@Model.formid" id="formidd" />
-
-                                                <form asp-action="Survey" asp-route-id="@Model.formid" asp-route-SAgTRid="@agent" method="post" id="SurveyForm" enctype="multipart/form-data">
-                                                    <input type="hidden" value="@Model.StartDate" asp-for="StartDate" />
-                                                    <input type="hidden" value="@Model.formid" asp-for="formid" />
-                                                    <input type="hidden" value="@agent" asp-for="SAgTRid" />
-                                                    <input type="hidden" value="@_case" asp-for="caseId" />
-
-                                                    <div asp-validation-summary="All" class="text-danger"></div>
-
-                                                    <div class="d1">
-                                                        <div class="card-body">
-                                                            <p style="color: #D0144E;font-size: 30px; font-weight: 100;font-family: system-ui;margin-bottom: 0px;">Questionnaire</p>
-                                                            <p class="surveytitle" style="">
-                                                                @Model.Form.FormTitle
-                                                            </p>
-                                                            <p class="surveydescription" style="">
-                                                                @Model.Form.Description
-                                                            </p>
+                                        <!--begin::Page Heading-->
+                                        <div class="d-flex align-items-baseline flex-wrap mr-5">
+                                            <div class="row">
+                                                <div class="col-lg-2 logoimage">
+                                                  
+                                                </div>
+                                                <div class="col-lg-5">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-4"></div>
+                                                        <div class="col-lg-6" style=" margin-bottom: 10px;">
+                                                            <button type="button" data-toggle="modal" data-target="#loadDraftsModal" class="btn btn-orange mr-2" style="width: 100%;    background-color: #AEAEAE;
+    border: #AEAEAE;">
+                                                                Saved Drafts
+                                                            </button>
                                                         </div>
+                                                        <div class="col-lg-2"></div>
                                                     </div>
-                                                    <partial name="~/Views/Survey/_Question.cshtml" model="Model" />
-                                                    @if (!Model.isTest)
-                                                    {
-                                                        <div class="card-body">
-                                                            <div class="" style="padding:18px 35px;/* margin: auto; */display: flex;justify-content: center;" padding:18px 35px">
-                                                                <button type="submit" id="submitbutton" class="btn btn-bg-redish mr-2">Submit</button>
-                                                                <button type="button" data-toggle="modal" data-target="#saveDraftModals" class="btn btn-bg-warning mr-2">Save As Draft</button>
-
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                </form>
-
+                                                 
+                                                </div>
                                             </div>
-                                           
-                                            <!--end::Body-->
                                         </div>
-                                        <!--end::Tables Widget 5-->
-                                        <!--end::Dashboard-->
+                                        <input type="hidden" value="@Model.formid" asp-for="formid" id="form_id" />
+                                        <!--end::Page Heading-->
                                     </div>
-                                    <!--end::Container-->
+                                
                                 </div>
-                                <!--end::Entry-->
                             </div>
-                            <!--end::Content-->
-                        </div>
+                            <!--end::Subheader-->
+                            <!--begin::Entry-->
+                            <div class="d-flex flex-column-fluid">
+                                <!--begin::Container-->
+                                <div class="container">
+                                    <!--begin::Dashboard-->
+                                    <!--begin::Tables Widget 5-->
+                                    <div class="card card-custom">
+                                        <!--end::Header-->
+                                        <!--begin::Body-->
+                                        <input type="hidden" value="@agent" id="agentid" />
+                                        <input type="hidden" value="@_case" id="caseid" />
+                                        <input type="hidden" value="@Model.formid" id="formidd" />
 
+                                        <form asp-action="Survey" asp-route-id="@Model.formid" asp-route-SAgTRid="@agent" method="post" id="SurveyForm" enctype="multipart/form-data">
+                                            <input type="hidden" value="@Model.StartDate" asp-for="StartDate" />
+                                            <input type="hidden" value="@Model.formid" asp-for="formid" />
+                                            <input type="hidden" value="@agent" asp-for="SAgTRid" />
+                                            <input type="hidden" value="@_case" asp-for="caseId" />
 
-                        <script>
-                            function getLocation() {
-                                var x = document.getElementById("demo");
+                                            <div asp-validation-summary="All" class="text-danger"></div>
+                                            @*
+                                            <select class="form-control" id="selectLanguageId">
+                                            @foreach (var language in Model.languages)
+                                            {
+                                            <option value="@language.Id">@language.Name</option>
+                                            }
+                                            </select>
+                                            *@
+                                            <div class="d1">
+                                                <div class="card-body">
+                                                    <p style="        color: #D0144E;
+                           font-size: 30px;
+                           font-weight: 100;
+                           font-family: system-ui;
+                           margin-bottom: 0px;">Questionnaire</p>
+                                                    <p class="surveytitle" style="">
+                                                        @Model.Form.FormTitle
+                                                    </p>
+                                                    <p class="surveydescription" style="">
+                                                        @Model.Form.Description
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <partial name="~/Views/Survey/_Question.cshtml" model="Model" />
+                                            @if (!Model.isTest)
+                                            {
+                                                <div class="card-body">
+                                                    <div class="" style="padding:18px 35px;/* margin: auto; */display: flex;justify-content: center;" padding:18px 35px">
+                                                        <button type="submit" id="submitbutton" class="btn btn-bg-redish mr-2">Submit</button>
+                                                        <button type="button" data-toggle="modal" data-target="#saveDraftModals" class="btn btn-bg-warning mr-2">Save As Draft</button>
+                                                        @*                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                                                    *@
+                                                    </div>
+                                                </div>
+                                            }
+                                        </form>
 
-                                function showPosition(position) {
-                                    x.innerHTML = position.coords.latitude + " " + position.coords.longitude;
-                                }
-                                if (navigator.geolocation) {
-                                    navigator.geolocation.getCurrentPosition(showPosition);
-                                } else {
-                                    x.innerHTML = "Geolocation is not supported by this browser.";
-                                }
-
-                            }
-
-                        </script>
-                        <style>
-                            .btn.btn-bg-redish {
-                                background-color: #D0144E;
-                                border-color: #D0144E;
-                                color: white;
-                            }
-
-                            .flex-root {
-                                background-color: #595959;
-                            }
-                        </style>
-                    </div>
-                    <!--begin::Footer-->
-                    <!--end::Footer-->
-                </div>
-                <!--end::Wrapper-->
-            </div>
-            <!--end::Page-->
-            <!-- Modal-->
-            <!--Save draft-->
-
-            <div class="modal fade" id="saveDraftModals" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Save A Draft</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i aria-hidden="true" class="ki ki-close"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="height: 300px;">
-                            <label>Please Name This Draft</label>
-                            <div class="form-group">
-                                <input type="text" id="draftnameinput" class="form-control " />
+                                    </div>
+                                    @*
+                                    <div>
+                                    <p>Click the button to get your coordinates.</p>
+                                    <button ID="Button1" class="btn btn-bg-success mr-2"> onclick="getLocation();return false;" runat="server">Get Location</button>
+                                    <p id="demo"></p>
+                                    </div>
+                                    *@
+                                    <!--end::Body-->
+                                </div>
+                                <!--end::Tables Widget 5-->
+                                <!--end::Dashboard-->
                             </div>
+                            <!--end::Container-->
                         </div>
-                        <span id="savedrafterror" style="color:red; text-align:center;display:none">Instance With This Name Exists</span>
-                        <style>
-                            #savedrafterror {
-                                color: red;
-                                text-align: center;
-                            }
-                        </style>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary font-weight-bold" id="saveasdraft">Save changes</button>
-                        </div>
+                        <!--end::Entry-->
                     </div>
+                    <!--end::Content-->
                 </div>
 
-                <!--Load drafts-->
-                <!-- Modal-->@**@
 
+                <script>
+                    function getLocation() {
+                        var x = document.getElementById("demo");
+
+                        function showPosition(position) {
+                            x.innerHTML = position.coords.latitude + " " + position.coords.longitude;
+                        }
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(showPosition);
+                        } else {
+                            x.innerHTML = "Geolocation is not supported by this browser.";
+                        }
+
+                    }
+
+                </script>
+                <style>
+                    .btn.btn-bg-redish {
+                        background-color: #D0144E;
+                        border-color: #D0144E;
+                        color: white;
+                    }
+
+                    .flex-root {
+                        background-color: #595959;
+                    }
+                </style>
             </div>
-            <div class="modal fade" id="loadDraftsModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Save A Draft</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i aria-hidden="true" class="ki ki-close"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="height: 300px;">
-                            <ul class="draftul" id="draftlist">
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
-                        </div>
+            <!--begin::Footer-->
+            <!--end::Footer-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+    <!-- Modal-->
+    <!--Save draft-->
+
+    <div class="modal fade" id="saveDraftModals" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Save A Draft</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 300px;">
+                    <label>Please Name This Draft</label>
+                    <div class="form-group">
+                        <input type="text" id="draftnameinput" class="form-control " />
                     </div>
                 </div>
+                <span id="savedrafterror" style="color:red; text-align:center;display:none">Instance With This Name Exists</span>
+                <style>
+                    #savedrafterror {
+                        color: red;
+                        text-align: center;
+                    }
+                </style>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary font-weight-bold" id="saveasdraft">Save changes</button>
+                </div>
             </div>
+        </div>
+
+        <!--Load drafts-->
+        <!-- Modal-->@**@
+
+    </div>
+    <div class="modal fade" id="loadDraftsModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Save A Draft</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 300px;">
+                    <ul class="draftul" id="draftlist">
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-            <!--end::Page Scripts-->
-            <script src="https://unpkg.com/localbase/dist/localbase.dev.js"></script>
+    <!--end::Page Scripts-->
+    <script src="https://unpkg.com/localbase/dist/localbase.dev.js"></script>
 
-            <script src="~/Admin/theme/demo4/dist/assets/plugins/global/plugins.bundle.js"></script>
-            <script src="~/Admin/theme/demo4/dist/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
-            <script src="~/Admin/theme/demo4/dist/assets/js/scripts.bundle.js"></script>
-            <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
-            <script src="~/js/JavaScriptAfterFactoring.js"></script>
+    <script src="~/Admin/theme/demo4/dist/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/Admin/theme/demo4/dist/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="~/Admin/theme/demo4/dist/assets/js/scripts.bundle.js"></script>
+    <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
+    <script src="~/js/JavaScriptAfterFactoring.js"></script>
 
 
 </body>
 
 <!--end::Body-->
-</html>
+</html></html>

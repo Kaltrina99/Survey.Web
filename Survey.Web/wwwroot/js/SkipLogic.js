@@ -1,6 +1,22 @@
 ﻿
+var languageSelect = document.getElementById("selectLanguageId");
 var formid = document.getElementById("formid").value;
+languageSelect.addEventListener("change", (e) => {
+    var languageid = e.target.value;
+    $.ajax({
+        url: `/Survey/GetTranslations/${formid}?language=${languageid}`,
+        method: "Get",
+        dataType: "json",
+        success: function (data) {
 
+            //translateQuestions(data);
+
+        },
+        error: function (err) {
+            console.log("error")
+        }
+    })
+});
 
 
 function addcondition(e) {
@@ -15,6 +31,7 @@ function addcondition(e) {
 function checkNumber(id, e) {
     var container = e.parentNode.parentNode;
     var evalue = e.value;
+    var language = languageSelect.value;
     if (id !== null) {
         conditions.forEach(con => {
 
@@ -27,10 +44,11 @@ function checkNumber(id, e) {
 
                     container.appendChild(emptycon);
                     $.ajax({
-                        url: `/Survey/DisplaySkippedQuestions/${con.id}?index=${index}&number=true`,
+                        url: `/Survey/DisplaySkippedQuestions/${con.id}?index=${index}&number=true&language=${language}`,
                         method: "Get",
                         success: function (data) {
                             emptycon.innerHTML = data;
+                            checklanguage();
                             resetQuestionIndexes();
                         },
                         error: function (err) {
@@ -51,10 +69,15 @@ function checkCondition(id, e) {
     var container = e.parentNode.parentNode.parentNode.parentNode.parentNode;
     var index = document.getElementsByClassName("isquestion").length;
     var insert = container.getElementsByClassName("childQuestion")[0];
-  
+
+   // var language = languageSelect.value;
+    if (id == null && insert != null) {
+        insert.innerHTML = "";
+        resetQuestionIndexes();
+    }
     else {
         $.ajax({
-            url: `/Survey/DisplaySkippedQuestions/${id}?index=${index}`,
+            url: `/Survey/DisplaySkippedQuestions/${id}?index=${index}&language=${language}`,
             method: "Get",
             success: function (data) {
                 insert.innerHTML = data;
@@ -71,8 +94,8 @@ function checkconditionmulti(id, e) {
     var name = e.getAttribute("name");
     var insert = document.getElementById(name);
     var index = document.getElementsByClassName("questiontext").length;
-   
-   
+
+    var language = 1;
 
     if (e.checked && id != null) {
         $.ajax({
@@ -108,7 +131,7 @@ function resetQuestionIndexes() {
 
             if (inputlist[j].type == "checkbox") {
                 var insert = document.getElementById(oldname);
-                if ( insert !== null ) {
+                if (insert !== null) {
                     insert.setAttribute("id", nameAttr);
 
                 }
@@ -121,7 +144,7 @@ function resetQuestionIndexes() {
 
 function translateQuestions(questions) {
     var arabic = /[\u0600-\u06FF]/;
-   
+
     for (var i = 0; i < questions.questionTranslations.length; i++) {
         //perkthe pytjen
         var question = document.querySelectorAll(`[data-val-question='${questions.questionTranslations[i].id}']`)[0];
@@ -130,9 +153,8 @@ function translateQuestions(questions) {
             var con = question.parentNode;
             con.querySelector(".questiondescription").innerHTML = questions.questionTranslations[i].description;
 
-            if(arabic.test(questions.questionTranslations[i].translation))
-            {
-                
+            if (arabic.test(questions.questionTranslations[i].translation)) {
+
 
                 question.parentNode.classList.add("rtl");
             }
@@ -151,3 +173,20 @@ function translateQuestions(questions) {
     }
 
 };
+function checklanguage() {
+    var arabic = /[\u0600-\u06FF]/;
+
+    var questions = document.querySelectorAll(".isquestion");
+    for (var i = 0; i < questions.length; i++) {
+        var questiontext = questions[i].querySelector(".questiontext").innerHTML;
+        var isarabic = arabic.test(questiontext);
+        if (isarabic) {
+            questions[i].classList.add("rtl")
+        }
+        else {
+            questions[i].classList.remove("rtl");
+
+        }
+    }
+
+}

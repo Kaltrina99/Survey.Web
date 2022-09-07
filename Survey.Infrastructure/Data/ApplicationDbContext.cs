@@ -31,7 +31,7 @@ namespace Survey.Infrastructure.Data
         public DbSet<CaseAssignedForms> CaseAssignedForms { get; set; }
         public DbSet<SurveySubmission> SurveySubmissions { get; set; }
         public DbSet<SurveyDownload> SurveyDownloads { get; set; }
-
+        public DbSet<UserProjectCategory> UserProjectCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,19 @@ namespace Survey.Infrastructure.Data
                     .IsRequired(false)
                     .OnDelete(DeleteBehavior.ClientCascade);
 
+
+            modelBuilder.Entity<UserProjectCategory>()
+                .HasKey(t => new { t.UserId, t.CategoryId });
+
+            modelBuilder.Entity<UserProjectCategory>()
+                .HasOne(pt => pt.Category)
+                .WithMany(p => p.UserList)
+                .HasForeignKey(pt => pt.CategoryId);
+
+            modelBuilder.Entity<UserProjectCategory>()
+                .HasOne(pt => pt.User)
+                .WithMany(t => t.CategoryList)
+                .HasForeignKey(pt => pt.UserId);
 
         }
     }
