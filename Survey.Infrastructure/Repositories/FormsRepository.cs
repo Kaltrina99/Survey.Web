@@ -54,7 +54,7 @@ namespace Survey.Infrastructure.Repositories
         {
             try
             {
-             var oldform=   _dbContext.Forms.FirstOrDefault(x => x.Id == form.Id);
+             var oldform= _dbContext.Forms.FirstOrDefault(x => x.Id == form.Id);
                 if (oldform is not null) 
                 {
                     oldform.FormTitle = form.FormTitle;

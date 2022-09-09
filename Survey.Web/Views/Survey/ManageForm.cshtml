@@ -161,7 +161,14 @@
                                             </td>
                                         <td>
                                         <div>
-                                            
+                                             <td>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon2-trash"></i>
+                                                        </p>
+                                                        <p class="nav-text">Update</p>
+                                                    </a>
+                                                </td>
                                                  
                                                 <td>
                                                     <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">

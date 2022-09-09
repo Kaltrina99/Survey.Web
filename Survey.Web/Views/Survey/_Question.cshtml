@@ -71,35 +71,30 @@
                                    @Model.Questions[i].Options[j].OptionText
                                 </label>
 
-
-
                             }
 
                         </div>
                     </div>
                 }
-
-
-
-
+         
                 else if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Select_Multiple)
-
                 {
+                    
                     @for (int j = 0; j < Model.Questions[i].Options.Count; j++)
                     {
-                        <input class="questionInput" type="hidden" asp-for="@Model.Questions[i].Options[j].Id" value="@Model.Questions[i].Options[j].Id" />
+                        <div class="form-check form-check" style=" padding-top: 0px;">
+                       <input class="questionInput" type="hidden" asp-for="@Model.Questions[i].Options[j].Id" value="@Model.Questions[i].Options[j].Id" />
                         <input class="questionInput" type="hidden" asp-for="@Model.Questions[i].Options[j].Question_Id" value="@Model.Questions[i].Options[j].Question_Id" />
 
-                        <label class="container9 option-text">
-                            <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") type="checkbox" name="Questions[@i].Options[@j].isSelected" data-val-option="@Model.Questions[i].Options[j].Id" data-val-q="@Model.Questions[i].Id" value="true" class=" questionInput form-check-input  @(isparent?"skpm":"")" id="multiple_select_option_Id" />
-                            
-                            <span class="checkmark"></span>
-                            @Model.Questions[i].Options[j].OptionText
-                            
+                        <label class="option-text">
+                                <input @(Model.Questions[i].IsRequired ? "data-val-req=true" : "") type="checkbox" name="Questions[@i].Options[@j].isSelected" data-val-option="@Model.Questions[i].Options[j].Id" data-val-q="@Model.Questions[i].Id" value="true" class=" questionInput form-check-input  @(isparent?"skpm":"")" id="multiple_select_option_Id" class="form-check-input" />
+                                <span class="form-check-label"> </span>
+                                @Model.Questions[i].Options[j].OptionText
+                     
                         </label>
-                        <br />
-
+                        </div>
                     }
+                   
                 }
                
                 <span style="display:none" class="questionreqmessage">This question is required</span>

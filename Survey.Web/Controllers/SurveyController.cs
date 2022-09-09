@@ -100,16 +100,20 @@ namespace Survey.Web.Controllers
             var p = _dbContext.Projects.ToList();
             FormViewModel addViewModel = new FormViewModel()
             {
-                Form = new Forms(),
+                Form = _form.Find(id),
                 ProjectList = p
 
             };
             return View(addViewModel);
         }
-       
-        public IActionResult UpdateForm(FormViewModel formViewModel)
+
+        [HttpPost, ActionName("UpdateForm")]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult UpdateExistingForm(FormViewModel formViewModel)
         {
             var u = _userManager.GetUserAsync(HttpContext.User);
+            
             if (ModelState.IsValid)
             {
                 _form.UpdateForm(formViewModel.Form);

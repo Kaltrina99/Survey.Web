@@ -9,12 +9,13 @@
     }
 }
 
+
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
-        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+        <div class="subheader py-6 py-lg-15 subheader-transparent" id="kt_subheader">
             <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
                 <div class="d-flex align-items-center flex-wrap mr-1">
@@ -25,12 +26,10 @@
                         <!--end::Page Title-->
                         <!--begin::Breadcrumb-->
                         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                        
+
+
                             <li class="breadcrumb-item text-muted">
-                                <a class="text-muted" href="/Survey/ManageForm">Manage survey</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a class="text-muted">Update survey</a>
+                                <a class="text-muted">Add new survey</a>
                             </li>
                         </ul>
                         <!--end::Breadcrumb-->
@@ -45,7 +44,7 @@
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
-             
+
                 <div class="row">
                     <div class="col-lg-2"></div>
                     <div class="col-md-10 col-lg-8 center-block">
@@ -55,65 +54,73 @@
                             <!--begin::Form-->
                             <form asp-action="UpdateForm" method="post" enctype="multipart/form-data">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <input type="hidden" asp-for="Form.Id" value="@Model.Form.Id" />
                                 <div class="card-body">
                                     <div class="form-group mb-8">
                                         <div class="card-header">
-                                            <h4 class="card-label text-center" style="color: #ED7D31;font-weight:800;">
-                                                Update survey
-                                            </h4>
+                                            <h3 class="card-label text-center" style="color: #ED7D31;font-weight:800;">
+                                               Update Form 
+                                            </h3>
+                                             <input asp-for="Form.Id" type="hidden" value="@Model.Form.Id"/>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Survey Title</label>
                                         <div class="col-lg-9">
-                                            <input asp-for="Form.FormTitle" value="@Model.Form.FormTitle" type="text" class="form-control checkarabic" placeholder="Title" />
+                                            <input asp-for="Form.FormTitle" type="text" value="@Model.Form.FormTitle" class="form-control checkarabic" placeholder="Title" />
                                             <span asp-validation-for="Form.FormTitle" class="form-text text-muted"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Survey Description</label>
-                                        <div class="col-lg-9">
-                                            <input asp-for="Form.Description" value="@Model.Form.Description" type="text" class="form-control checkarabic" placeholder="Description" />
+                                        <div class="col-lg-8" style=" padding-right: 10px; ">
+                                            <input asp-for="Form.Description" type="text" value="@Model.Form.Description" class="form-control checkarabic" placeholder="Description" />
+                                        </div>
+                                        <div class="col-lg-1 text-right" style="padding-left:0px;">
+
+                                            <button style=" padding: 0.65rem 0.45rem 0.65rem 0.8rem;" type="button" class="btn btn-light" data-toggle="tooltip" data-html="true" title="The description you enter below, will appear in the survey and will be located under the survey title. The purpose of this text is to explain what the assessment is about, and who is conducting it. You can make the description as long as you prefer, however, we recommend that the description is no longer than 150 words.  ">
+
+                                                <i class="fa flaticon2-information"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label" for="exampleSelect1">Select Project or Activity</label>
-                                        <div class="col-lg-9">
-                                           @* <select asp-for="Form.Id" asp-items="@Model.ProjectList" value="@Model.Form.Project_Id" class="form-control selectpicker" id="exampleSelect1" data-live-search="true">
-                                                <option disabled selected>--Select Project Category--</option>
-                                            </select>*@
-                                            <select asp-for="Form.Project_Id" value="@Model.Form.Project_Id" class="form-control selectpicker" id="exampleSelect1" data-live-search="true">
+                                        <div class="col-lg-8" style=" padding-right: 10px; ">
+                                            <select class="form-control selectpicker" id="exampleSelect1" asp-for="Form.Project_Id" value="@Model.Form.Project_Id" data-live-search="true" required>
                                                 <option disabled selected>--Select Project or Activity--</option>
-
                                                 @foreach (var project in Model.ProjectList)
                                                 {
                                                     <option value="@project.Id">@project.Title - @Cat(project.ProjectCategoryId)</option>
+
                                                 }
                                             </select>
+                                            <span asp-validation-for="Form.Project_Id" class="form-text text-muted" style="color:red!important;"></span>
+
+                                        </div>
+                                        <div class="col-lg-1 text-right" style="padding-left:0px;">
+
+                                            <button style=" padding: 0.65rem 0.45rem 0.65rem 0.8rem;" type="button" class="btn btn-light" data-toggle="tooltip" data-html="true" title="Please note that in the drop down box on the left you will only be able to see projects you have registered under the 'project' page.  ">
+
+                                                <i class="fa flaticon2-information"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                    
-                                        
 
-                                        
-
-                                        <div class="card-footer">
-                                            <div class="row">
-                                                <div class="col-lg-3"></div>
-                                                <div class="col-lg-6 text-center">
-                                                    <input type="submit" value="Update" class="btn btn-orange mr-2" />
-                                                    <a class="btn btn-secondary" asp-action="ManageForm">Back to List</a>
-                                                </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6 text-center">
+                                                <input type="submit" value="Update" class="btn btn-orange mr-2" />
+                                                <a class="btn btn-secondary" onclick="GoBack()">Back to List</a>
                                             </div>
                                         </div>
-</form>
+                                    </div>
+                            </form>
                             <!--end::Form-->
                         </div>
                         <!--end::Card-->
                     </div>
-                    <div class="col-lg-2"></div>
-
+                    <div class=" col-lg-2"></div>
                 </div>
             </div>
             <!--end::Container-->
