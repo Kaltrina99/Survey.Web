@@ -509,11 +509,11 @@ namespace Survey.Web.Controllers
                 {
                     return BadRequest("Please Select An Option For The Skip Logic");
                 }
-                else if (formViewModel.SkipLogic.Comparable_Value == null)
-                {
-                    return BadRequest("Please Select A Number To Compare For The Skip Logic");
+                //else if (formViewModel.SkipLogic.Comparable_Value == null)
+                //{
+                //    return BadRequest("Please Select A Number To Compare For The Skip Logic");
 
-                }
+                //}
                 if (questionType != 0)
                 {
                     skipLogicViewModel.SkipLogic.Parent_Question_Id = formViewModel.Question.Id;
