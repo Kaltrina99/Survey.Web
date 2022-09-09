@@ -137,31 +137,35 @@ namespace Survey.Web.Controllers
             }
 
             Projects project = _project.FirstOrDefault(b => b.Id == id, includeProperties: "ProjectCategory");
+
             if (project == null)
             {
                 return NotFound();
             }
-
-            return View(project);
-        }
-
-        [HttpPost, ActionName("DeleteProject")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteExistingProject(int? id)
-        {
-            var objProject = _project.Find(id.GetValueOrDefault());
-
-            if (objProject == null)
-            {
-                return NotFound();
-            }
-
-            _project.Remove(objProject);
+            _project.Remove(project);
             _project.Save();
-            TempData[WebConstants.Success] = "Action Completed Successfully !";
 
             return RedirectToAction("Index");
+           // return View(project);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult DeleteProject(int? projectId)
+        //{
+        //    var objProject = _project.Find(projectId.GetValueOrDefault());
+
+        //    if (objProject == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _project.Remove(objProject);
+        //    _project.Save();
+        //    TempData[WebConstants.Success] = "Action Completed Successfully !";
+
+        //    return RedirectToAction("Index");
+        //}
         #endregion
 
     }

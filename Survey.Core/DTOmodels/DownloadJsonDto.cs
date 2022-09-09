@@ -49,7 +49,7 @@ namespace Survey.Core.DTOmodels
                     for (int i=0;i<question.Options.Count();i++)
                     {
                         var index = i + 1;
-                        DtoOption opt = new DtoOption();
+                        DtoOption opt = new DtoOption(); 
                         opt.Option = question.Options[i].OptionText;
                         opt.OptionId = index;
                         ques.Options.Add(opt);

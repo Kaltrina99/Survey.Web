@@ -20,11 +20,8 @@ namespace Survey.Infrastructure.Repositories
         public List<ProjectCategory> GetClients()
         {
             List<ProjectCategory> results = new List<ProjectCategory>();
-
-            
             return results;
         }
-
         public void Update(ProjectCategory objProjectCategory)
         {
             var objFromDb = _dbContext.ProjectCategories.FirstOrDefault(pc => pc.Id == objProjectCategory.Id);

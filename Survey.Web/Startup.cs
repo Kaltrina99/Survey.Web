@@ -26,20 +26,17 @@ namespace Survey.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Transient);
-            
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+
             services.AddDatabaseDeveloperPageExceptionFilter();
-            
-            services.AddControllersWithViews();
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                   .AddEntityFrameworkStores<ApplicationDbContext>()
-                  .AddDefaultUI().AddDefaultTokenProviders(); 
-            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
+                  .AddDefaultUI().AddDefaultTokenProviders();
 
             services.AddLogging();
-            
+
             services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
-            //services.AddSingleton(typeof(IAuthorizationPolicyProvider), typeof(PermissionPolicyProvider));
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
             services.AddAuthentication()
@@ -52,8 +49,10 @@ namespace Survey.Web
                    options.SaveTokens = true;
                    options.SignInScheme = IdentityConstants.ExternalScheme;
                });
-          
-            services.AddRazorPages().AddSessionStateTempDataProvider();
+
+            services.AddControllersWithViews();
+            services.AddRazorPages(o => { o.Conventions.AllowAnonymousToPage("/Home/Index"); })
+            .AddSessionStateTempDataProvider();
 
             services.AddSession();
 
@@ -68,7 +67,7 @@ namespace Survey.Web
             services.AddScoped<IAnswers, AnswersRepository>();
             services.AddScoped<ISkipLogic, SkipLogicRepository>();
             services.AddScoped<ISurveyResultDownload, SurveyResultDownload>();
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 

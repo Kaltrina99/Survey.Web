@@ -9,7 +9,6 @@ namespace Survey.Core.Constants
     public enum DownloadTypes
     {
         Excel,
-        JSON,
-        Media
+        JSON
     }
 }

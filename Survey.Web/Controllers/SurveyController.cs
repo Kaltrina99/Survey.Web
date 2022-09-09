@@ -77,6 +77,22 @@ namespace Survey.Web.Controllers
             };
             return View(addViewModel);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddForm(FormViewModel formViewModel)
+        {
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            if (ModelState.IsValid)
+            {
+                formViewModel.Form.Form_Status = FormStatus.Created;
+
+                _form.Add(formViewModel.Form);
+                _form.Save();
+
+                return RedirectToAction("ManageForm");
+            }
+            return View(formViewModel);
+        }
         [HttpGet]
         public IActionResult UpdateForm(int id)
         {
@@ -102,22 +118,7 @@ namespace Survey.Web.Controllers
             return View(formViewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddForm(FormViewModel formViewModel)
-        {
-            var u = _userManager.GetUserAsync(HttpContext.User);
-            if (ModelState.IsValid)
-            {
-                formViewModel.Form.Form_Status = FormStatus.Created;
-
-                _form.Add(formViewModel.Form);
-                _form.Save();
-
-                return RedirectToAction("ManageForm");
-            }
-            return View(formViewModel);
-        }
+       
         [Authorize]
         [HttpGet]
 
@@ -260,8 +261,8 @@ namespace Survey.Web.Controllers
             FormViewModel formViewModel = new FormViewModel()
             {
                 //Forms = _form.GetAll().Where(x => x.Tenant_Id == ten.Id)
-                Forms = _form.GetForms( model.Filter, pageNumber, pageSize),
-                GetProjects = _projects.GetProjects( null, ""),
+                Forms = _form.GetForms(model.Filter, pageNumber, pageSize),
+                GetProjects = _projects.GetProjects(null, ""),
                 GetClients = _projectCategory.GetClients()
             };
 
@@ -682,7 +683,7 @@ namespace Survey.Web.Controllers
 
             var response = await _submition.saveSubmission(submition);
             if (!response.Success) { return BadRequest(response.Message); }
-            return Ok("Data Saved");
+            return RedirectToAction("SuccessfullySubmitted");
         }
         #endregion
 

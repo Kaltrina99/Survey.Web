@@ -18,17 +18,17 @@ namespace Survey.Core.HelperClasses
         private static List<Operators> Number { get; } = new List<Operators> { EqualTo, LessThan, Less_Equal, GreaterThan, Greater_Equal };
         public static List<Operators> GetOperators(int id) 
         {
-            if (id == 1)
+            if (id == 1 || id == 4)
             {
                 return Number;
             }
-            else if (id == 14 || id == 3)
+            else if (id == 2 || id == 5)
             {
                 return Options;
             }
             else 
             {
-                throw new Exception(" This type of question cannot be skipped! ");
+                throw new Exception("This type of question cannot be skipped! ");
             }
         }
         public static Operators getOneOperator(int id)

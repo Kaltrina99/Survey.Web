@@ -1,5 +1,4 @@
 ﻿//Global
-var selectLanguage = document.getElementById("selectLanguageId");
 var surveyFrom = document.getElementById("SurveyForm");
 var jsonElement = document.getElementById("data-json-skip");
 var rawjson = jsonElement.getAttribute("name")
@@ -38,40 +37,7 @@ function ResetIndexesForQuestions() {
 
     }
 }
-//Translate Question
-{
-    selectLanguage.addEventListener("change", (e) => {
-        var selectedlang = e.target.value;
-        translateQuestions(selectedlang);
 
-    })
-
-    function translateQuestions(lang) {
-        var arabic = /[\u0600-\u06FF]/;
-        var questions = document.querySelectorAll(".isquestion");
-        questions.forEach(x => {
-            var translation = x.querySelectorAll(".translation");
-            translation.forEach(z => {
-                if (z.classList.contains(`${lang}-translation`)) {
-                    z.classList.remove("disabled");
-                    z.classList.add("activet");
-                } else {
-                    z.classList.remove("activet");
-                    z.classList.add("disabled");
-                }
-            })
-            var questiontext = x.querySelector(".questiontext span.activet");
-            if (questiontext != null) {
-                if (arabic.test(questiontext.innerHTML)) {
-                    x.classList.add("rtl")
-                } else {
-                    x.classList.remove("rtl")
-
-                }
-            }
-        });
-    }
-}
 //SkipLogic
 {
     function showSkip(field, childid) {
@@ -205,10 +171,12 @@ function ResetIndexesForQuestions() {
 }
 
 
-async function CheckConnection() {
+async function CheckConnection()
+{
     var response = await fetch("/Survey/EndpointCheck/", { method: "post" });
     var url = new URL(response.url);
-    if (!response.ok || url.pathname == "/offline.html") {
+    if (!response.ok || url.pathname == "/offline.html")
+    {
         return false;
     }
     return true;
@@ -227,19 +195,22 @@ function LoadFilesFromDraft(data) {
     return formData;
 }
 
-async function AutoSaveForm() {
+async function AutoSaveForm()
+{
     const formData = new FormData(SurveyForm);
     const loadedData = LoadFilesFromDraft(formData);
     const formProps = Object.fromEntries(loadedData);
     const data = await db.collection(AutoSaveDb).doc(form_Id).get();
-    if (data == null) {
+    if (data == null)
+    {
         await db.collection(AutoSaveDb).doc(form_Id).set(formProps);
         return;
     }
     await db.collection(AutoSaveDb).add(formProps, form_Id);
 }
 
-async function DeleteAutoSavedSurvey() {
+async function DeleteAutoSavedSurvey()
+{
     var data = await db.collection(AutoSaveDb).doc(form_Id).get();
     for (var key in data) {
         if (key.includes("].File") && data[key].trim() != "") {
@@ -250,12 +221,16 @@ async function DeleteAutoSavedSurvey() {
     await db.collection(AutoSaveDb).doc(form_Id).delete()
 }
 
-async function RestoreAutoSavedSurvey() {
+async function RestoreAutoSavedSurvey()
+{
     var data = await db.collection(AutoSaveDb).doc(form_Id).get();
-    for (var key in data) {
+    for (var key in data)
+    {
         var question = document.getElementsByName(key);
-        if (question != null) {
-            for (var i = 0; i < question.length; i++) {
+        if (question != null)
+        {
+            for (var i = 0; i < question.length; i++)
+            {
                 await RestoreQuestionAutoSaved(question[i], data[key]);
                 var form = question[i].closest("fieldset");
                 if (form != null) {
@@ -264,24 +239,28 @@ async function RestoreAutoSavedSurvey() {
                     form.disabled = false;
                 }
             }
-
+         
         }
     }
 }
 
-async function RestoreQuestionAutoSaved(question, data) {
-    if (question.type == "radio" && question.value == data) {
+async function RestoreQuestionAutoSaved(question,data)
+{
+    if (question.type == "radio" && question.value == data)
+    {
         question.checked = true;
     }
-    else if (question.type == "checkbox" && data == "true") {
+    else if (question.type == "checkbox" && data == "true")
+    {
         question.checked = true;
     }
-    else if (question.type == "file") {
+    else if (question.type == "file")
+    {
         var savedfile = await db.collection(FilesDb).doc(data).get();
         if (data.trim() == "" || savedfile == null) {
             return;
         }
-
+      
         var { name: fileName, size } = savedfile;
         // Convert size in bytes to kilo bytes
         var fileSize = (size / 1000).toFixed(2);
@@ -299,7 +278,8 @@ async function RestoreQuestionAutoSaved(question, data) {
     }
 }
 
-function AddEventRemoveFileButton(container, question) {
+function AddEventRemoveFileButton(container,question)
+{
     var removefilebutton = container.querySelectorAll(".remove-file-input");
     removefilebutton.forEach(button => {
         button.addEventListener("click", z => {
@@ -337,7 +317,8 @@ async function NotifyUserForAutoSave() {
 
 }
 
-async function AddEventToFileInput() {
+async function AddEventToFileInput()
+{
     var filelist = document.querySelectorAll('.question-input-file');
     filelist.forEach(file => {
         file.addEventListener('change', async (e) => {
@@ -349,12 +330,13 @@ async function AddEventToFileInput() {
             var { name: fileName, size } = file;
             // Convert size in bytes to kilo bytes
             var fileSize = (size / 1000).toFixed(2);
-            if (fileSize > 10000) {
+            if (fileSize > 10000)
+            {
                 input.value = "";
                 Swal.fire("File To Large", "Your file is larger than 10MB", "error");
                 return;
             }
-
+           
 
             if (file != null) {
                 var name = input.getAttribute("data-val-savedfiles");
@@ -370,8 +352,8 @@ async function AddEventToFileInput() {
 
                 input.setAttribute("data-val-savedfiles", key);
 
-
-
+                
+               
 
                 var fileNameAndSize = `  <div class="file-item file_${key}"><span>${fileName}</span> <span>${fileSize} KB</span><span class="remove-file-input" name="${key}">x</span></div>`;
                 container.querySelector('.file-list').innerHTML += fileNameAndSize;
@@ -381,7 +363,8 @@ async function AddEventToFileInput() {
         });
     })
 }
-async function RemoveFileFromData(data) {
+async function RemoveFileFromData(data)
+{
     for (var pair of data.entries()) {
         var filein = document.getElementsByName(`${pair[0]}`)[0];
         if (filein != null && filein.type == "file") {
@@ -392,7 +375,8 @@ async function RemoveFileFromData(data) {
         }
     }
 }
-async function LoadFilesForSubmittion(data) {
+async function LoadFilesForSubmittion(data)
+{
     const fromdata = new FormData();
     for (var pair of data.entries()) {
         var filein = document.getElementsByName(`${pair[0]}`)[0];
@@ -483,15 +467,17 @@ function CheckRequiredQuestions() {
     return isvalid;
 }
 
-async function SendDataApi(formData) {
-    const returnresponse = { Message: "", Success: false }
+async function SendDataApi(formData)
+{
+    const returnresponse = { Message: "", Success: false}
     var agentid = document.getElementById("agentid").value;
     var formid = document.getElementById("formidd").value;
     var Success = false;
     var response = await fetch(`/Survey/Survey/${formid}?SAgTRid=${agentid}`, { method: "post", body: formData });
-
-    if (response.ok) {
-        Success = true;
+  
+    if (response.ok)
+    {
+        Success= true;
     }
     returnresponse.Success = Success;
     returnresponse.Message = await response.text();
@@ -524,12 +510,12 @@ function AddEvenToForm() {
 
         var isConnected = await CheckConnection();
         if (isConnected) {
-
+            
 
             var response = await SendDataApi(data);
-
+        
             if (response.Success) {
-
+              
                 Swal.fire({ title: "Success", text: "You'r Form Was Submited", icon: "success", allowOutsideClick: false }).then(async function (result) {
                     var data = await db.collection(AutoSaveDb).doc(form_id).get();
                     await RemoveFileFromData(formData);
@@ -539,7 +525,8 @@ function AddEvenToForm() {
                     window.location.href = "/survey/SuccessfullySubmitted";
                 })
             }
-            else {
+            else
+            {
                 Swal.fire("Something Went Wrong!", `${response.Message}`, "error");
 
             }
@@ -566,29 +553,31 @@ function AddEvenToForm() {
 
 
     });
-
+    
 }
 
-async function CheckDb() {
+async function CheckDb()
+{
     var connection = await CheckConnection();
-    if (connection) {
+    if (connection)
+    {
         var data = await db.collection(OfflineSurveyDb).get();
         if (data != null && data.length > 0) {
             data.forEach(async da => {
-                var response = await SaveDataFromStorage(da);
+                var response =await SaveDataFromStorage(da);
                 if (response) {
                     await db.collection(OfflineSurveyDb).doc(da).delete()
                     Swal.fire("Success", "You'r Saved Data From Offline Mode Has Been Saved", "success");
 
-
+                   
                 }
                 else {
-                    //sead
-                    Swal.fire("Something Went Wrong!", "You'r Saved Data From Offline Mode Was Not Saved ", "warning");
-                }
-            })
+                        //sead
+                        Swal.fire("Something Went Wrong!", "You'r Saved Data From Offline Mode Was Not Saved ", "warning");
+                    }
+                })
         }
-
+           
     }
 }
 
@@ -599,12 +588,14 @@ async function SaveDataFromStorage(data) {
         formData.append(key, data[key]);
     }
     var response = await SendDataApi(formData)
-    if (response.Success) {
+    if (response.Success)
+    {
         for (var key in data) {
-            if (key.includes("].File") && data[key] != "" && data[key] != null) {
+            if (key.includes("].File") && data[key] != ""&& data[key] != null) {
                 var das = await db.collection(FilesDb).doc(data[key]).get({ keys: true });
                 console.log(das);
-                if (das != null) {
+                if (das!=null)
+                {
                     await db.collection(FilesDb).doc(das).delete();
                 }
             }
@@ -626,7 +617,8 @@ async function LoadFilesForDraft(data) {
     return formData;
 }
 
-async function RenderSavedDraftList() {
+async function RenderSavedDraftList()
+{
 
     var saveddraftdata = await db.collection(DraftDb).get({ keys: true });
     var bodymodal = document.getElementById("draftlist");
@@ -652,28 +644,30 @@ async function RenderSavedDraftList() {
     })
 }
 
-async function LoadDataFromDraft(button) {
+async function LoadDataFromDraft(button)
+{
     var draftkey = button.getAttribute("data-val-record");
     var data = await db.collection(DraftDb).doc(draftkey).get();
-    for (var key in data) {
-        var question = document.getElementsByName(key);
-        for (var i = 0; i < question.length; i++) {
-            if (question[i] != null) {
-                await RestoreQuestionAutoSaved(question[i], data[key]);
-                var form = question[i].closest("fieldset");
-                if (form != null) {
-                    form.style = "display:block";
-                    form.classList.add("activeform");
-                    form.disabled = false;
+        for (var key in data) {
+            var question = document.getElementsByName(key);
+            for (var i = 0; i < question.length; i++) {
+                if (question[i] != null) {
+                    await RestoreQuestionAutoSaved(question[i], data[key]);
+                    var form = question[i].closest("fieldset");
+                    if (form != null) {
+                        form.style = "display:block";
+                        form.classList.add("activeform");
+                        form.disabled = false;
+                    }
                 }
             }
-        }
     }
     await db.collection(DraftDb).doc(draftkey).delete();
-    button.parentNode.parentNode.remove();
+        button.parentNode.parentNode.remove();
 }
 
-async function SaveDraft() {
+async function SaveDraft()
+{
     var errormessage = document.getElementById("savedrafterror");
     var draftname = document.getElementById("draftnameinput").value;
     if (draftname.trim() == "") {
@@ -706,7 +700,7 @@ async function SaveDraft() {
     })
 }
 
-saveDraftButton.addEventListener("click", () => { SaveDraft() })
+saveDraftButton.addEventListener("click", () => { SaveDraft()})
 RenderSavedDraftList();
 AddEvenToForm();
 AddEventToFileInput();
@@ -715,5 +709,4 @@ var AutoSaveInterval;
 AutoSaveInterval = setInterval(AutoSaveForm, autoSaveSeconds);
 var CheckDbInterval;
 CheckDbInterval = setInterval(CheckDb, CheckDbSeconds);
-
 

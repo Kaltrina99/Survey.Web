@@ -1,8 +1,14 @@
 ﻿@model Survey.Core.ViewModels.FormViewModel
-
+@inject Survey.Infrastructure.Data.ApplicationDbContext _dbContext
 @{
     ViewData["Title"] = "AddForm";
-    Layout = "~/Views/Shared/_Layout.cshtml";}
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Cat(int id)
+    {
+        return _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id).Name;
+    }
+}
+
 <!--begin::Wrapper-->
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
     <!--begin::Content-->
@@ -82,7 +88,7 @@
 
                                                 @foreach (var project in Model.ProjectList)
                                                 {
-                                                    <option value="@project.Id">@project.Title</option>
+                                                    <option value="@project.Id">@project.Title - @Cat(project.ProjectCategoryId)</option>
                                                 }
                                             </select>
                                         </div>
@@ -128,5 +134,4 @@
         border: 0;
     }
 </style>
-<script src="~/js/General.js"></script>
 

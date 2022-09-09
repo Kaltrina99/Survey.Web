@@ -77,10 +77,6 @@ namespace Survey.Core.HelperClasses
             {
                  fullpath = fullpath + $@"Excel\{record.FileName}";
             }
-            else if (record.DownloadType == DownloadTypes.Media)
-            {
-                fullpath = fullpath + $@"Media\{record.FileName}";
-            }
             else if (record.DownloadType == DownloadTypes.JSON)
             {
                 fullpath = fullpath + $@"Json\{record.FileName}";

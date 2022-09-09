@@ -56,7 +56,7 @@
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
-               
+
                 <!--begin::Dashboard-->
                 <!--begin::Tables Widget 5-->
                 <div class="card card-custom">
@@ -135,157 +135,120 @@
                                 <tr>
                                     <th>Survey Name</th>
                                     <th>Project</th>
-                                    <th>Program or client</th>
                                     <th>Survey Status</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
-
                             </thead>
-                            <tbody>
-                                @foreach (var form in Model.Forms)
-                                {
-                                    <tr>
-                                        <td>
-                                            @form.FormTitle
-                                        </td>
-                                        <td>
-                                            @GetProjectName(form.Project_Id)
-                                        </td>
-                                        <td>
-                                            @GetClient(form.Project_Id)
-                                        </td>
-                                        <td>
-                                            @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Created)
-                                            {
-
-                                                <p class="label font-weight-bold label-lg label-light-info label-inline">@form.Form_Status</p>
-
-                                            }
-                                            else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                            {
-
-                                                <p class="label font-weight-bold label-lg label-light-warning label-inline">@form.Form_Status</p>
-
-                                            }
-                                            else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Deactive)
-                                            {
-
-                                                <p class="label font-weight-bold label-lg label-light-danger label-inline">@form.Form_Status</p>
-                                            }
-                                        </td>
-                                        <td>
-
-                                            <div>
-                                                <div>
-                                        <td>
-
-                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="UpdateForm" asp-route-id="@form.Id">
-                                                <p class="nav-icon">
-                                                    <i class="flaticon-edit"></i>
-                                                </p>
-                                                <p class="nav-text">Update</p>
-                                            </a>
-                                        </td>
-                                        <td>
-                                                        @* <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-action="Survey" asp-route-id="@form.Id">
-                                        <p class="nav-icon">
-                                        <i class="flaticon-eye"></i>
-                                        </p>
-                                        <p class="nav-text">Test</p>
-                                        </a>*@
-                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
-                                                <p class="nav-icon">
-                                                    <i class="fas fa-chart-bar"></i>
-                                                </p>
-                                                <p class="nav-text">Results</p>
-                                            </a>
-                                        </td>
-
-                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                    {
+                        <tbody>
+                            @foreach (var form in Model.Forms)
+                               {
+                                 <tr>
+                                      <td> @form.FormTitle </td>
+                                      <td> @GetProjectName(form.Project_Id) - @GetClient(form.Project_Id) </td>
                                             <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-check-mark"></i>
-                                                    </p>
-                                                    <p class="nav-text">Collect</p>
-                                                </a>
+                                                @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Created)
+                                                {
+                                                    <p class="label font-weight-bold label-lg label-light-info label-inline">@form.Form_Status</p>
+                                                }
+                                                else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                {
+                                                    <p class="label font-weight-bold label-lg label-light-warning label-inline">@form.Form_Status</p>
+                                                }
+                                                else if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Deactive)
+                                                {
+                                                    <p class="label font-weight-bold label-lg label-light-danger label-inline">@form.Form_Status</p>
+                                                }
                                             </td>
+                                        <td>
+                                        <div>
+                                            
+                                                 
+                                                <td>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="fas fa-chart-bar"></i>
+                                                        </p>
+                                                        <p class="nav-text">Results</p>
+                                                    </a>
+                                                </td> 
+                                                @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                {
+                                                    <td>
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-check-mark"></i>
+                                                            </p>
+                                                            <p class="nav-text">Collect</p>
+                                                        </a>
+                                                    </td>
+                                                }
+                                                <td>
+                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                                {
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-cross"></i>
+                                                            </p>
+                                                            <p class="nav-text">Deactivate</p>
+                                                        </a>
                                                     }
-                                        <td>
+                                                    else
+                                                    {
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="flaticon2-check-mark"></i>
+                                                            </p>
+                                                            <p class="nav-text">Publish</p>
+                                                        </a>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="fas fa-file-export"></i>
+                                                        </p>
+                                                        <p class="nav-text">Export</p>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon2-trash"></i>
+                                                        </p>
+                                                        <p class="nav-text">Delete</p>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
+                                                        <p class="nav-icon">
+                                                            <i class="flaticon-edit"></i>
+                                                        </p>
+                                                        <p class="nav-text"> Desinger</p>
+                                                    </a>
+                                                </td>
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
-                                                        @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                        {
-
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-cross"></i>
-                                                    </p>
-                                                    <p class="nav-text">Deactivate</p>
-                                                </a>
-                                                        }
-                                                        else
-                                                        {
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-check-mark"></i>
-                                                    </p>
-                                                    <p class="nav-text">Publish</p>
-                                                </a>
-                                                        }
-                                        </td>
-                                        <td>
-
-                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
-                                                <p class="nav-icon">
-                                                    <i class="fas fa-file-export"></i>
-                                                </p>
-                                                <p class="nav-text">Export</p>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
-                                                <p class="nav-icon">
-                                                    <i class="flaticon2-trash"></i>
-                                                </p>
-                                                <p class="nav-text">Delete</p>
-                                            </a>
-
-                                        </td>
-                                        <td>
-                                            <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
-                                                <p class="nav-icon"> <i class="flaticon-edit"></i></p><p class="nav-text"> Desinger</p>
-                                            </a>
-                                        </td>
-                        </div>
-                    </div>
-
-                    </td>
-                    </tr>
-                                }
-
-                </tbody>
-                </table>
-
-                <form asp-action="ManageForm" id="form1">
-                    <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/survey/ManageForm");' data-="" />
-                </form>
+                    <form asp-action="ManageForm" id="form1">
+                        <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/survey/ManageForm");' data-="" />
+                    </form>
                 <!--end::Search Form-->
                 <!--end: Search Form-->
                 <!--begin: Datatable-->
 
-            </div>
+                </div>
             <!--end::Entry-->
-        </div>
+            </div>
         <!--end::Content-->
-
-
-
+        </div>
     </div>
 </div>
-    </div>
 
-<script src="~/js/DataTableManageFrom.js"></script>
 <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
 <style>
     .label.label-light-warning {

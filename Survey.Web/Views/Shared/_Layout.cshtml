@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,15 +21,18 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Survey" asp-action="ManageForm">Survey</a>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Survey" asp-action="ManageForm">Survey</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategory" asp-action="Index">Project Category</a>
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
-                        </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategory" asp-action="Index">Project Category</a>
-                        </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -49,11 +55,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/ChartForResults.js"></script>
     <script src="~/js/DataTableManageFrom.js"></script>
-    <script src="~/js/DesignerJs.js"></script>
     <script src="~/js/EditQuestion.js"></script>
     <script src="~/js/draggable.bundle.js"></script>
     <script src="~/js/ImportFormExcel.js"></script>
-    <script src="~/js~/js/JavaScriptAfterFactoring.js"></script>
+    <script src="~/js/JavaScriptAfterFactoring.js"></script>
     <script src="~/js/JavaScripttableresizeable.js"></script>
     <script src="~/js/jquery.simpleLoadMore.min.js"></script>
     <script src="~/js/PaginationJs.js"></script>
@@ -61,7 +66,6 @@
     <script src="~/js/SkipLogicAdd.js"></script>
     <script src="~/js/TakeSurvey.js"></script>
     <script src="~/js/General.js"></script>
-
    
     @await RenderSectionAsync("Scripts", required: false)
 </body>

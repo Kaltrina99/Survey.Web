@@ -1,9 +1,12 @@
 ﻿@model Survey.Core.ViewModels.FormViewModel
-
+@inject Survey.Infrastructure.Data.ApplicationDbContext _dbContext
 @{
     ViewData["Title"] = "AddForm";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    string Cat(int id)
+    {
+        return _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id).Name;
+    }
 }
 
 <!--begin::Wrapper-->
@@ -40,49 +43,7 @@
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
-                <div class="row">
-                    <div class=" col-lg-2"></div>
-                    <div class="col-lg-8 center-block">
-                        <div class="card card-custom gutter-b" style="background-color:#404040;">
-                            <div class="card-body d-flex align-items-center py-5 py-lg-15">
-                                <!--begin::Icon-->
-                                <div class="d-flex flex-center position-relative ml-5 mr-15 ml-lg-9 pulse-danger pulse">
-                                    <span class="svg-icon svg-icon-5x svg-icon-orange position-absolute opacity-15">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-polygon.svg-->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="70px" height="70px" viewBox="0 0 70 70" fill="none">
-                                            <g stroke="none" stroke-width="1" fill-rule="evenodd">
-                                                <path d="M28 4.04145C32.3316 1.54059 37.6684 1.54059 42 4.04145L58.3109 13.4585C62.6425 15.9594 65.3109 20.5812 65.3109 25.5829V44.4171C65.3109 49.4188 62.6425 54.0406 58.3109 56.5415L42 65.9585C37.6684 68.4594 32.3316 68.4594 28 65.9585L11.6891 56.5415C7.3575 54.0406 4.68911 49.4188 4.68911 44.4171V25.5829C4.68911 20.5812 7.3575 15.9594 11.6891 13.4585L28 4.04145Z" fill="#000000" />
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span>
-                                    <span class="svg-icon svg-icon-orange svg-icon-2x">
-                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/keen/releases/2021-04-21-040700/theme/demo1/dist/../src/media/svg/icons/Code/Info-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24" height="24" />
-                                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10" />
-                                                <rect fill="#000000" x="11" y="10" width="2" height="7" rx="1" />
-                                                <rect fill="#000000" x="11" y="7" width="2" height="2" rx="1" />
-                                            </g>
-                                        </svg><!--end::Svg Icon-->
-                                    </span>
-                                    <span class="pulse-ring"></span>
-                                </div>
-                                <!--end::Icon-->
-                                <!--begin::Description-->
-                                <div class="m-0  font-size-md">
-                                    <p class="mb-0" style="color:#F7F7F7;">
-                                        
-                                        Start your survey by entering basic information about the form below. Please note that every form you create must be matched to a specific project or activity. You must create a project or an activity <a style="color: #ED7D31;" href="/Project">(here) </a> before you begin building your form.
-
-                                    </p>
-                                </div>
-                                <!--end::Description-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" col-lg-2"></div>
-                </div>
+           
                 <div class="row">
                     <div class="col-lg-2"></div>
                     <div class="col-md-10 col-lg-8 center-block">
@@ -127,7 +88,8 @@
                                                 <option disabled selected>--Select Project or Activity--</option>
                                                 @foreach (var project in Model.ProjectList)
                                                 {
-                                                    <option value="@project.Id">@project.Title</option>
+                                                    <option value="@project.Id">@project.Title - @Cat(project.ProjectCategoryId)</option>
+
                                                 }
                                             </select>
                                         <span asp-validation-for="Form.Project_Id" class="form-text text-muted" style="color:red!important;"></span>
@@ -141,10 +103,7 @@
                                             </button>
                                         </div>
                                     </div>
-
-                                   
-
-                                       
+                                                                           
                                         <div class="card-footer">
                                             <div class="row">
                                                 <div class="col-lg-3"></div>
@@ -154,7 +113,7 @@
                                                 </div>
                                             </div>
                                         </div>
-</form>
+                            </form>
                             <!--end::Form-->
                         </div>
                         <!--end::Card-->
@@ -180,4 +139,4 @@
         border: 0;
     }
 </style>
-<script src="~/js/General.js"></script>
+
