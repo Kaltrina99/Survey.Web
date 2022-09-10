@@ -1,0 +1,24 @@
+﻿@using Survey.Core.ViewModels
+@model UsersViewModel
+@{
+    ViewData["Title"] = "Import User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form enctype="multipart/form-data" method="post" asp-controller="Users" asp-action="ImportExcelFile">
+    <dl>
+        <dt>
+            <label>Upload Excel:</label>
+        </dt>
+        <dd>
+            <input type="file" name="FormFile" id="FormFile">
+
+        </dd>
+    </dl>
+    <input class="btn" type="submit" value="Upload" />
+</form>
+<br />
+<div class="">
+    <!--Show Message if file is uploaded or not-->
+    @ViewBag.Message
+</div>

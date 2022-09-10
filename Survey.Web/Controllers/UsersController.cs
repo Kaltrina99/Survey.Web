@@ -1,23 +1,40 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Survey.Core.ViewModels;
 using Survey.Infrastructure.Data;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.OleDb;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Survey.Web.Controllers
 {
     public class UsersController : Controller
     {
-       // private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
+
+        // private readonly IEmailSender _emailSender;
         private readonly UserManager<IdentityUser> _userManager;
         readonly ApplicationDbContext _dbContext;
-        public UsersController(UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)// IEmailSender emailSender)
+        public UsersController(IConfiguration configuration,UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)// IEmailSender emailSender)
         {
             _userManager = userManager;
             _dbContext = dbContext;
-           // _emailSender = emailSender;
+            _configuration = configuration;
+            // _emailSender = emailSender;
         }
        // [Authorize(Permissions.PremissionList.User_ViewUsers)]
 
@@ -124,6 +141,90 @@ namespace Survey.Web.Controllers
                 await _userManager.DeleteAsync(a);
             }
             return RedirectToAction("Index");
+        }
+
+        public  ActionResult ImportUsers()
+        {
+            return View();
+        }
+       
+
+        [HttpPost]
+        public async Task<IActionResult> ImportExcelFile(IFormFile FormFile)
+        {
+
+            try
+            {
+                var fileextension = Path.GetExtension(FormFile.FileName);
+                var filename = Guid.NewGuid().ToString() + fileextension;
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadsUsers", filename);
+                using (FileStream fs = System.IO.File.Create(filepath))
+                {
+                    FormFile.CopyTo(fs);
+                }
+                int rowno = 1;
+                XLWorkbook workbook = XLWorkbook.OpenFromTemplate(filepath);
+                var sheets = workbook.Worksheets.First();
+                var rows = sheets.Rows().ToList();
+                foreach (var row in rows)
+                {
+                    if (rowno != 1)
+                    {
+                        var test = row.Cell(1).Value.ToString();
+                        if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
+                        {
+                            break;
+                        }
+                        IdentityUser student;
+                        student = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
+                        if (student == null)
+                        {
+                            student = new IdentityUser();
+                        }
+                        student.UserName = row.Cell(1).Value.ToString();
+                        student.Email = row.Cell(2).Value.ToString();
+                        student.EmailConfirmed = true;
+                        student.NormalizedUserName=row.Cell(1).Value.ToString().ToLower();
+                        student.NormalizedEmail = row.Cell(2).Value.ToString().ToUpper();
+                        IdentityResult result = await _userManager.CreateAsync(student, "P@ssw0rd");
+                        
+                        var usCheck = _dbContext.Users.Any(x=>x.Email== row.Cell(2).Value.ToString());
+                        // student. = row.Cell(3).Value.ToString();
+                        if (!usCheck)//student.Id == Guid.Empty)
+                        {
+                            _dbContext.Users.Add(student);
+                            _dbContext.SaveChanges();
+                            var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(2).Value.ToString()).Id;
+                            var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToLower() == "student");
+                            IdentityUserRole<string> iur = new IdentityUserRole<string>
+                            {
+                                RoleId = adminRole.Id,
+                                UserId = idu //user.Id
+                            };
+                            var ut = _dbContext.UserRoles.Add(iur);
+                        }
+                        else
+                            _dbContext.Users.Update(student);
+                    }
+                    else
+                    {
+                        rowno = 2;
+                    }
+                }
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+                //return new ResponseViewModel<object>
+                //{
+                //    Status = true,
+                //    Message = "Data Updated Successfully",
+                //    StatusCode = System.Net.HttpStatusCode.OK.ToString()
+                //};
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
     }

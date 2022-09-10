@@ -64,14 +64,15 @@
 <script src="//www.amcharts.com/lib/3/themes/light.js"></script>
 
 <script>var results = [];</script>
+
 @foreach (var result in Model.RecentSubmits)
 {
 
-    int i = 0;
+    //int i = 0;
     <script>
         results.push({"Date":"@result.Item1","Submissions":@result.Item2});
     </script>
-    i++;
+    //i++;
 }
 <script></script>
 

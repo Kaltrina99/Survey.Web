@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.4" />
     <PackageReference Include="NPOI" Version="2.5.4" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
   </ItemGroup>
 

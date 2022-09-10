@@ -269,7 +269,6 @@ namespace Survey.Web.Controllers
                 GetProjects = _projects.GetProjects(null, ""),
                 GetClients = _projectCategory.GetClients()
             };
-
             return View(formViewModel);
         }
 
