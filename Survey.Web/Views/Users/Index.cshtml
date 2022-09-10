@@ -16,11 +16,15 @@
 
 
     <h1>User List</h1>
-      @*  <div class="pt-10 pb-10">
-            <a href="identity/Account/createuser"  type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark"  style="cursor:pointer">
+        <div class="pt-10 pb-10">
+        <a asp-action="Create" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
               <i class="fa fa-plus"></i>  Add new user
             </a>
-        </div>*@
+        <a asp-action="ImportUsers" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+            <i class="fa fa-file-import"></i>Import New Users
+        </a>
+        </div>
+   
     <table class="table table-striped  table-hover paginated-table mb-15" id="userTable">
         <thead>
             <tr>

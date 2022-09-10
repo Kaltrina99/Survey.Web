@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using NPOI.SS.Formula.Functions;
 using Survey.Core.ViewModels;
 using Survey.Infrastructure.Data;
 using System;
@@ -64,17 +65,24 @@ namespace Survey.Web.Controllers
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
-                var idu = _dbContext.Users.FirstOrDefault(x => x.Email == user.Email).Id;
-                var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToLower() == "user");
-                IdentityUserRole<string> iur = new IdentityUserRole<string>
+                var usCheck = _dbContext.Users.Any(x => x.Email == user.Email);
+                // student. = row.Cell(3).Value.ToString();
+                if (!usCheck)//student.Id == Guid.Empty)
                 {
-                    RoleId = adminRole.Id,
-                    UserId = idu //user.Id
-                };
-                var ut = _dbContext.UserRoles.Add(iur);
-                _dbContext.SaveChanges();
-                string temporary_sender = user.Email;
-                string Link = HttpContext.Request.Host + "/Identity/Account/Login?ReturnUrl=%2F?" ;
+                    _dbContext.Users.Add(appUser);
+                    _dbContext.SaveChanges();
+                    var idu = _dbContext.Users.FirstOrDefault(x => x.Email == appUser.Email).Id;
+                    var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToLower() == "student");
+                    IdentityUserRole<string> iur = new IdentityUserRole<string>
+                    {
+                        RoleId = adminRole.Id,
+                        UserId = idu //user.Id
+                    };
+                    var ut = _dbContext.UserRoles.Add(iur);
+                    _dbContext.SaveChanges();
+                }
+               // string temporary_sender = user.Email;
+               //string Link = HttpContext.Request.Host + "/Identity/Account/Login?ReturnUrl=%2F?" ;
 
                 //_emailSender.SendEmailAsync(temporary_sender, "Welcome new user:" + user.Name, "Username: " + user.Name + "<br><br>Password: " + user.Password + "<br><br>Emal: " + user.Email + $"<br><br>Try it now <a href='{HtmlEncoder.Default.Encode(Link)}'>login here</a>.");
                 if (result.Succeeded)
