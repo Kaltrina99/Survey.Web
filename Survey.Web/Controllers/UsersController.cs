@@ -8,6 +8,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NPOI.SS.Formula.Functions;
+using Survey.Core.Models;
 using Survey.Core.ViewModels;
 using Survey.Infrastructure.Data;
 using System;
@@ -201,8 +202,13 @@ namespace Survey.Web.Controllers
                         if (!usCheck)//student.Id == Guid.Empty)
                         {
                             _dbContext.Users.Add(student);
+                            UserProjectCategory p= new UserProjectCategory();
+                       
                             _dbContext.SaveChanges();
                             var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(2).Value.ToString()).Id;
+                            p.UserId = idu;
+                            p.CategoryId =int.Parse(row.Cell(3).Value.ToString());
+                            _dbContext.UserProjectCategories.Add(p);
                             var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToLower() == "student");
                             IdentityUserRole<string> iur = new IdentityUserRole<string>
                             {

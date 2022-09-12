@@ -51,18 +51,7 @@ namespace Survey.Web.Controllers
         }
         #endregion
 
-        #region Media
-        public async Task<IActionResult> Media(int id)
-        {
-            var response = await _results.getMedia(id);
-            if (!response.Success)
-            {
-                return BadRequest(response.Message);
-            }
-            return View(response.Data);
-
-        }
-        #endregion
+      
         #region Download
         [Authorize]
         public async Task<IActionResult> Downloads(int id)

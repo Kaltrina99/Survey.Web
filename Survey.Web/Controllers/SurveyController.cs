@@ -591,6 +591,11 @@ namespace Survey.Web.Controllers
             {
                 return NotFound();
             }
+            var resub=_dbContext.SurveySubmissions.FirstOrDefault(x=>x.FormId== id && x.AgentId==SAgTRid);
+            if (resub != null)
+            {
+                return RedirectToAction("SuccessfullySubmitted");
+            }
             var testModel = await _question.StartSurvey(id);
             testModel.formid = id;
             if (SAgTRid is null)

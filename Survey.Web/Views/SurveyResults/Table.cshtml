@@ -59,7 +59,7 @@
                                 var answer = subm.Answers.Where(x => x.Question_Id == question.Id).ToList();
                                 if (answer.Count > 0)
                                 {
-                                    if ((int)question.Field_Type == 3)
+                                    if ((int)question.Field_Type == 2)
                                     {
                                         <td >
                                             @foreach (var an in answer)
@@ -68,7 +68,7 @@
                                             }
                                         </td>
                                     }
-                                    else if ((int)question.Field_Type == 14)
+                                    else if ((int)question.Field_Type == 5)
                                     {
                                         <td title=" @answer[0].Option.OptionText">
                                             @answer[0].Option.OptionText
@@ -103,7 +103,6 @@
     </div>
 </div>
 
-<script src="/js/JavaScripttableresizeable.js"></script>
 
 <script>
 
