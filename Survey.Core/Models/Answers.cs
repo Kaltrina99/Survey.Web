@@ -14,8 +14,6 @@ namespace Survey.Core.Models
         [Key]
         public int Id { get; set; }
         public int? Form_Id { get; set; }
-        public string? Team_Id { get; set; }
-        public string? Tenant_Id { get; set; }
         public int Question_Id { get; set; }
         public int? OptionId { get; set; }
         public virtual  QuestionOptions Option { get; set; }

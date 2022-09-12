@@ -42,8 +42,6 @@ namespace Survey.Core.DTOmodels
             QuestionDescription = question.QuestionDescription;
             QuestionText = question.QuestionText;
             Skip_Logic = question.skipChild.Any();
-            Team_Id = question.Team_Id;
-            Tenant_Id = question.Tenant_Id;
             Options = question.Options;
             Answers = question.Answers;
             SkipLogicType = question.SkipLogicType;

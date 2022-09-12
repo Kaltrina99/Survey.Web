@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Survey.Infrastructure.Migrations
 {
-    public partial class firstMigration : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -323,6 +323,30 @@ namespace Survey.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserProjectCategories",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProjectCategories", x => new { x.UserId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_UserProjectCategories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserProjectCategories_ProjectCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "ProjectCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Forms",
                 columns: table => new
                 {
@@ -357,9 +381,7 @@ namespace Survey.Infrastructure.Migrations
                     QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuestionDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuestionOrder = table.Column<int>(type: "int", nullable: false),
-                    Team_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SkipLogicType = table.Column<int>(type: "int", nullable: false),
-                    Tenant_Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    SkipLogicType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -466,8 +488,6 @@ namespace Survey.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Form_Id = table.Column<int>(type: "int", nullable: true),
-                    Team_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tenant_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Question_Id = table.Column<int>(type: "int", nullable: false),
                     OptionId = table.Column<int>(type: "int", nullable: true),
                     Answer = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -512,9 +532,7 @@ namespace Survey.Infrastructure.Migrations
                     Child_Question_Id = table.Column<int>(type: "int", nullable: false),
                     Condition_Option = table.Column<int>(type: "int", nullable: true),
                     Operator = table.Column<int>(type: "int", nullable: false),
-                    Comparable_Value = table.Column<double>(type: "float", nullable: true),
-                    Team_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tenant_Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Comparable_Value = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -544,11 +562,11 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "102df05b-0506-4824-ae64-275bdc0f9de7", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "ca1efc7a-7ac3-4f7f-9add-67047404e670", "Dean", "DEAN" },
-                    { "5", "0b4c2f8d-d081-4e19-b3e6-3ea4597c581b", "Student", "STUDENT" },
-                    { "3", "af816b27-8ea5-4291-b83b-d5e7992d0be9", "Professor", "PROFESSOR" },
-                    { "4", "45429c5d-be63-4ec0-8991-e12ead72ce52", "QA", "QA" }
+                    { "1", "4c43328f-802e-4c78-97d9-c96a3da48426", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "5a561923-8002-4842-afde-79d92110ee9e", "Dean", "DEAN" },
+                    { "5", "a2f1702e-bd2d-400c-9bc3-ad149b19ae68", "Student", "STUDENT" },
+                    { "3", "610416f5-65e6-4722-b340-403e99271ac7", "Professor", "PROFESSOR" },
+                    { "4", "da1b74ad-47c4-4a74-9b94-bc0bb701d452", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
@@ -556,8 +574,8 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "659c693e-9be1-4683-bd84-b6a82f868b2b", "IdentityUser", "admin@Survey.com", true, false, null, "ADMIN@SURVEY.COM", null, "AQAAAAEAACcQAAAAEG/aiFAIV2pnJKYTtGrAy+B3ks4GFTl14m5lJqR3TuVC9KqTWrR30gClHSWeGux1ow==", null, false, "fbac9b38-86df-44ce-be3f-afa3089c0048", false, "SuperAdmin" },
-                    { "2", 0, "c4863980-b3a1-4916-9f84-9d69699578cc", "IdentityUser", "user@gmail.com", true, false, null, "USER@GMAIL.COM", null, "AQAAAAEAACcQAAAAEKbSXGo82W3KBDBGUKad+WsMdesdvo4EuaW9S1rhwgdc6qoZEFnI5GyOVYq7NYIL8g==", null, false, "742814eb-c7f5-4455-b937-243b9524099c", false, "user" }
+                    { "1", 0, "9c10b921-fa20-4033-920f-c76131500ac8", "IdentityUser", "admin@Survey.com", true, false, null, "ADMIN@SURVEY.COM", null, "AQAAAAEAACcQAAAAEJ1BYRRQNxardGgIBtrbUAaovhYqeTr0YYhfh4rdZd7hlPZ7Tj+S62PK/IV8UvQNQQ==", null, false, "4e8decb6-4acb-4f79-a878-4aa6dc10f485", false, "SuperAdmin" },
+                    { "2", 0, "e1cf31ef-0c00-41f6-a132-7bd74d933962", "IdentityUser", "user@gmail.com", true, false, null, "USER@GMAIL.COM", null, "AQAAAAEAACcQAAAAEOW7/y7cYVJQ7tKjLUIA/uY4XYHH4SuPJWDNhPRYr3LGBfgEWAcJzc9kEkb/qyMeVA==", null, false, "ca55c164-5e6a-484d-ad6c-08f0f9190af8", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -757,6 +775,11 @@ namespace Survey.Infrastructure.Migrations
                 name: "IX_SurveySubmissions_FormId",
                 table: "SurveySubmissions",
                 column: "FormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProjectCategories_CategoryId",
+                table: "UserProjectCategories",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -799,6 +822,9 @@ namespace Survey.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SurveyDownloads");
+
+            migrationBuilder.DropTable(
+                name: "UserProjectCategories");
 
             migrationBuilder.DropTable(
                 name: "SurveySubmissions");

@@ -1,0 +1,486 @@
+{
+  "$id": "1",
+  "Title": "Vlersimi per lenden hyrje",
+  "Questions": [
+    {
+      "$id": "2",
+      "QuestionType": "Select_One",
+      "QuestionText": "Si e vlersoni lenden e hyrje ne informatiknga 1 deri ne 5",
+      "Options": [
+        {
+          "$id": "3",
+          "OptionId": 1,
+          "Option": "1 dobet"
+        },
+        {
+          "$id": "4",
+          "OptionId": 2,
+          "Option": " 2 nen mesatare"
+        },
+        {
+          "$id": "5",
+          "OptionId": 3,
+          "Option": " 3 mesatarishte"
+        },
+        {
+          "$id": "6",
+          "OptionId": 4,
+          "Option": " 4 mire"
+        },
+        {
+          "$id": "7",
+          "OptionId": 5,
+          "Option": " 5 shume mire"
+        }
+      ],
+      "Answers": []
+    },
+    {
+      "$id": "8",
+      "QuestionType": "Text",
+      "QuestionText": "Shkruani diqka",
+      "Options": [],
+      "Answers": []
+    },
+    {
+      "$id": "9",
+      "QuestionType": "Select_Multiple",
+      "QuestionText": "Vlersimi i profesorit",
+      "Options": [
+        {
+          "$id": "10",
+          "OptionId": 1,
+          "Option": "Malesore"
+        },
+        {
+          "$id": "11",
+          "OptionId": 2,
+          "Option": " Profesor 2"
+        }
+      ],
+      "Answers": []
+    },
+    {
+      "$id": "12",
+      "QuestionType": "Select_One",
+      "QuestionText": "Vlersoni Malesore nga 1 deri ne 5",
+      "Options": [
+        {
+          "$id": "13",
+          "OptionId": 1,
+          "Option": "1"
+        },
+        {
+          "$id": "14",
+          "OptionId": 2,
+          "Option": " 2"
+        },
+        {
+          "$id": "15",
+          "OptionId": 3,
+          "Option": " 3"
+        },
+        {
+          "$id": "16",
+          "OptionId": 4,
+          "Option": " 4"
+        },
+        {
+          "$id": "17",
+          "OptionId": 5,
+          "Option": " 5"
+        }
+      ],
+      "Answers": []
+    },
+    {
+      "$id": "18",
+      "QuestionType": "Select_One",
+      "QuestionText": "Vlerso profesor 2 nga 1 deri ne 5",
+      "Options": [
+        {
+          "$id": "19",
+          "OptionId": 1,
+          "Option": "1"
+        },
+        {
+          "$id": "20",
+          "OptionId": 2,
+          "Option": " 2"
+        },
+        {
+          "$id": "21",
+          "OptionId": 3,
+          "Option": " 3"
+        },
+        {
+          "$id": "22",
+          "OptionId": 4,
+          "Option": "4"
+        },
+        {
+          "$id": "23",
+          "OptionId": 5,
+          "Option": " 5"
+        }
+      ],
+      "Answers": []
+    },
+    {
+      "$id": "24",
+      "QuestionType": "Numbers",
+      "QuestionText": "pyetja finale",
+      "Options": [],
+      "Answers": []
+    }
+  ],
+  "Submissions": [
+    {
+      "$id": "25",
+      "StartDate": "2022-09-12T15:42:32",
+      "EndDate": "2022-09-12T15:46:08",
+      "Questions": [
+        {
+          "$id": "26",
+          "QuestionType": "Select_One",
+          "QuestionText": "Si e vlersoni lenden e hyrje ne informatiknga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "27",
+              "OptionId": 1,
+              "Option": "1 dobet"
+            },
+            {
+              "$id": "28",
+              "OptionId": 2,
+              "Option": " 2 nen mesatare"
+            },
+            {
+              "$id": "29",
+              "OptionId": 3,
+              "Option": " 3 mesatarishte"
+            },
+            {
+              "$id": "30",
+              "OptionId": 4,
+              "Option": " 4 mire"
+            },
+            {
+              "$id": "31",
+              "OptionId": 5,
+              "Option": " 5 shume mire"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "32",
+              "Answer": null,
+              "optionId": 5
+            }
+          ]
+        },
+        {
+          "$id": "33",
+          "QuestionType": "Text",
+          "QuestionText": "Shkruani diqka",
+          "Options": [],
+          "Answers": [
+            {
+              "$id": "34",
+              "Answer": "test",
+              "optionId": null
+            }
+          ]
+        },
+        {
+          "$id": "35",
+          "QuestionType": "Select_Multiple",
+          "QuestionText": "Vlersimi i profesorit",
+          "Options": [
+            {
+              "$id": "36",
+              "OptionId": 1,
+              "Option": "Malesore"
+            },
+            {
+              "$id": "37",
+              "OptionId": 2,
+              "Option": " Profesor 2"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "38",
+              "Answer": null,
+              "optionId": 1
+            },
+            {
+              "$id": "39",
+              "Answer": null,
+              "optionId": 2
+            }
+          ]
+        },
+        {
+          "$id": "40",
+          "QuestionType": "Select_One",
+          "QuestionText": "Vlersoni Malesore nga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "41",
+              "OptionId": 1,
+              "Option": "1"
+            },
+            {
+              "$id": "42",
+              "OptionId": 2,
+              "Option": " 2"
+            },
+            {
+              "$id": "43",
+              "OptionId": 3,
+              "Option": " 3"
+            },
+            {
+              "$id": "44",
+              "OptionId": 4,
+              "Option": " 4"
+            },
+            {
+              "$id": "45",
+              "OptionId": 5,
+              "Option": " 5"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "46",
+              "Answer": null,
+              "optionId": 5
+            }
+          ]
+        },
+        {
+          "$id": "47",
+          "QuestionType": "Select_One",
+          "QuestionText": "Vlerso profesor 2 nga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "48",
+              "OptionId": 1,
+              "Option": "1"
+            },
+            {
+              "$id": "49",
+              "OptionId": 2,
+              "Option": " 2"
+            },
+            {
+              "$id": "50",
+              "OptionId": 3,
+              "Option": " 3"
+            },
+            {
+              "$id": "51",
+              "OptionId": 4,
+              "Option": "4"
+            },
+            {
+              "$id": "52",
+              "OptionId": 5,
+              "Option": " 5"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "53",
+              "Answer": null,
+              "optionId": 2
+            }
+          ]
+        },
+        {
+          "$id": "54",
+          "QuestionType": "Numbers",
+          "QuestionText": "pyetja finale",
+          "Options": [],
+          "Answers": [
+            {
+              "$id": "55",
+              "Answer": "20",
+              "optionId": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$id": "56",
+      "StartDate": "2022-09-12T15:47:21",
+      "EndDate": "2022-09-12T15:47:41",
+      "Questions": [
+        {
+          "$id": "57",
+          "QuestionType": "Select_One",
+          "QuestionText": "Si e vlersoni lenden e hyrje ne informatiknga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "58",
+              "OptionId": 1,
+              "Option": "1 dobet"
+            },
+            {
+              "$id": "59",
+              "OptionId": 2,
+              "Option": " 2 nen mesatare"
+            },
+            {
+              "$id": "60",
+              "OptionId": 3,
+              "Option": " 3 mesatarishte"
+            },
+            {
+              "$id": "61",
+              "OptionId": 4,
+              "Option": " 4 mire"
+            },
+            {
+              "$id": "62",
+              "OptionId": 5,
+              "Option": " 5 shume mire"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "63",
+              "Answer": null,
+              "optionId": 4
+            }
+          ]
+        },
+        {
+          "$id": "64",
+          "QuestionType": "Text",
+          "QuestionText": "Shkruani diqka",
+          "Options": [],
+          "Answers": [
+            {
+              "$id": "65",
+              "Answer": "test",
+              "optionId": null
+            }
+          ]
+        },
+        {
+          "$id": "66",
+          "QuestionType": "Select_Multiple",
+          "QuestionText": "Vlersimi i profesorit",
+          "Options": [
+            {
+              "$id": "67",
+              "OptionId": 1,
+              "Option": "Malesore"
+            },
+            {
+              "$id": "68",
+              "OptionId": 2,
+              "Option": " Profesor 2"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "69",
+              "Answer": null,
+              "optionId": 1
+            }
+          ]
+        },
+        {
+          "$id": "70",
+          "QuestionType": "Select_One",
+          "QuestionText": "Vlersoni Malesore nga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "71",
+              "OptionId": 1,
+              "Option": "1"
+            },
+            {
+              "$id": "72",
+              "OptionId": 2,
+              "Option": " 2"
+            },
+            {
+              "$id": "73",
+              "OptionId": 3,
+              "Option": " 3"
+            },
+            {
+              "$id": "74",
+              "OptionId": 4,
+              "Option": " 4"
+            },
+            {
+              "$id": "75",
+              "OptionId": 5,
+              "Option": " 5"
+            }
+          ],
+          "Answers": [
+            {
+              "$id": "76",
+              "Answer": null,
+              "optionId": 5
+            }
+          ]
+        },
+        {
+          "$id": "77",
+          "QuestionType": "Select_One",
+          "QuestionText": "Vlerso profesor 2 nga 1 deri ne 5",
+          "Options": [
+            {
+              "$id": "78",
+              "OptionId": 1,
+              "Option": "1"
+            },
+            {
+              "$id": "79",
+              "OptionId": 2,
+              "Option": " 2"
+            },
+            {
+              "$id": "80",
+              "OptionId": 3,
+              "Option": " 3"
+            },
+            {
+              "$id": "81",
+              "OptionId": 4,
+              "Option": "4"
+            },
+            {
+              "$id": "82",
+              "OptionId": 5,
+              "Option": " 5"
+            }
+          ],
+          "Answers": []
+        },
+        {
+          "$id": "83",
+          "QuestionType": "Numbers",
+          "QuestionText": "pyetja finale",
+          "Options": [],
+          "Answers": [
+            {
+              "$id": "84",
+              "Answer": "23",
+              "optionId": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

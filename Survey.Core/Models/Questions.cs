@@ -33,9 +33,7 @@ namespace Survey.Core.Models
         [NotMapped]
         public bool Skip_Logic { get; set; }
         public int QuestionOrder { get; set; }
-        public string? Team_Id { get; set; }
         public SkipLogicType SkipLogicType { get; set; }
-        public string? Tenant_Id { get; set; }
         [Required]
         [ForeignKey("Form_Id")]
         public virtual Forms form { get; set; }

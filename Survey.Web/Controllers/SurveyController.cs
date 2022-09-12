@@ -21,6 +21,7 @@ using Survey.Core.Filter;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
 using Mailjet.Client.Resources;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Survey.Web.Controllers
 {
@@ -266,9 +267,21 @@ namespace Survey.Web.Controllers
             var u = _userManager.GetUserAsync(HttpContext.User);
 
 
+            var users = _dbContext.UserProjectCategories.Where(x => x.UserId == u.Id.ToString()).ToList();
+            var cat = new List<Projects>();
+            var forms = new List<Forms>();
+            foreach (var user in users)
+            {
+                cat.Add(_dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == user.CategoryId));
+            }
+            foreach (var i in cat)
+            {
+                forms.Add(_dbContext.Forms.FirstOrDefault(x => x.Project_Id == i.Id));
+            }
+
+            
             FormViewModel formViewModel = new FormViewModel()
             {
-                //Forms = _form.GetAll().Where(x => x.Tenant_Id == ten.Id)
                 Forms = _form.GetForms(model.Filter, pageNumber, pageSize),
                 GetProjects = _projects.GetProjects(null, ""),
                 GetClients = _projectCategory.GetClients()
@@ -724,14 +737,14 @@ namespace Survey.Web.Controllers
                 var hasSub = _dbContext.SurveySubmissions.FirstOrDefault(x => x.FormId == id && x.AgentId == user.UserId);
                 if (hasSub == null)
                 {
-                    var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId).Email;
+                    var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId);
                     FormViewModel viewModel = new FormViewModel()
                     {
                         SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id + "?SAgTRid=" + user.UserId
                     };
-                    string temporary_sender = emailuser;
+                    string temporary_sender = emailuser.Email;
 
-                    var email = _emailSender.SendEmailAsync(temporary_sender, "New Survey [#" + id + "] ", $"<br><br>Please view the ticket by <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>clicking here</a>.");
+                    var email = _emailSender.SendEmailAsync(temporary_sender, "New Survey [#" + id + "] ", $"<br><br>Pershendetje, <br/>Ju lutem plotsoni survey: {form.FormTitle}, mjafton te <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>klikoni ketu</a>.<br/>Faleminderit qe na ndihmoni ne permisimin e kualitetit te sherbimeve tona!");
                 }
             }
             return View();

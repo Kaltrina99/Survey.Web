@@ -49,35 +49,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "2814ad01-caab-431d-8b62-a5d8e5a4090d",
+                            ConcurrencyStamp = "4c43328f-802e-4c78-97d9-c96a3da48426",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "3d2240e0-a676-4c8e-a6dc-28ecd056a6a6",
+                            ConcurrencyStamp = "5a561923-8002-4842-afde-79d92110ee9e",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "fe100865-10e6-4cd4-8c5f-c65f8510b074",
+                            ConcurrencyStamp = "a2f1702e-bd2d-400c-9bc3-ad149b19ae68",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "fe09ca95-c8a4-411b-841d-9100b00fb5e3",
+                            ConcurrencyStamp = "610416f5-65e6-4722-b340-403e99271ac7",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "d1745d41-5b85-4983-9ed4-7f3432861539",
+                            ConcurrencyStamp = "da1b74ad-47c4-4a74-9b94-bc0bb701d452",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -478,14 +478,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ebe4891-6252-4372-838c-fc1ba502ae12",
+                            ConcurrencyStamp = "9c10b921-fa20-4033-920f-c76131500ac8",
                             Email = "admin@Survey.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SURVEY.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECS1vcm+Yt8Ln++loHId8DIc8TaAK/CR5zdNS0YJKzJXvTAtM7i28wseJuw7L5Pw+Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ1BYRRQNxardGgIBtrbUAaovhYqeTr0YYhfh4rdZd7hlPZ7Tj+S62PK/IV8UvQNQQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "59dfa45f-94da-4156-83ba-ac186822da4a",
+                            SecurityStamp = "4e8decb6-4acb-4f79-a878-4aa6dc10f485",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         },
@@ -493,14 +493,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f286422-c0a4-43bc-9b41-3da00b85b659",
+                            ConcurrencyStamp = "e1cf31ef-0c00-41f6-a132-7bd74d933962",
                             Email = "user@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAalXHfU6q29612itlzBbiG5AXBES9epaVt0QX9keKY2ilvvmT1lukx/BYF4neWtgw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOW7/y7cYVJQ7tKjLUIA/uY4XYHH4SuPJWDNhPRYr3LGBfgEWAcJzc9kEkb/qyMeVA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2806ae11-fea7-4a42-9ea2-13cc0869db5b",
+                            SecurityStamp = "ca55c164-5e6a-484d-ad6c-08f0f9190af8",
                             TwoFactorEnabled = false,
                             UserName = "user"
                         });
@@ -619,12 +619,6 @@ namespace Survey.Infrastructure.Migrations
 
                     b.Property<int?>("SubmissionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Team_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tenant_Id")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -944,12 +938,6 @@ namespace Survey.Infrastructure.Migrations
                     b.Property<int>("SkipLogicType")
                         .HasColumnType("int");
 
-                    b.Property<string>("Team_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tenant_Id")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Form_Id");
@@ -978,12 +966,6 @@ namespace Survey.Infrastructure.Migrations
 
                     b.Property<int>("Parent_Question_Id")
                         .HasColumnType("int");
-
-                    b.Property<string>("Team_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tenant_Id")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

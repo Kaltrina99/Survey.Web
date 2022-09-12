@@ -198,8 +198,8 @@ namespace Survey.Web.Controllers
                         IdentityResult result = await _userManager.CreateAsync(student, "P@ssw0rd");
                         
                         var usCheck = _dbContext.Users.Any(x=>x.Email== row.Cell(2).Value.ToString());
-                        // student. = row.Cell(3).Value.ToString();
-                        if (!usCheck)//student.Id == Guid.Empty)
+                        
+                        if (!usCheck)
                         {
                             _dbContext.Users.Add(student);
                             UserProjectCategory p= new UserProjectCategory();
@@ -207,12 +207,12 @@ namespace Survey.Web.Controllers
                             _dbContext.SaveChanges();
                             var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(2).Value.ToString()).Id;
                             p.UserId = idu;
-                            p.CategoryId =int.Parse(row.Cell(3).Value.ToString());
+                            p.CategoryId =int.Parse(row.Cell(4).Value.ToString());
                             _dbContext.UserProjectCategories.Add(p);
-                            var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToLower() == "student");
+                            
                             IdentityUserRole<string> iur = new IdentityUserRole<string>
                             {
-                                RoleId = adminRole.Id,
+                                RoleId = row.Cell(3).Value.ToString(),
                                 UserId = idu //user.Id
                             };
                             var ut = _dbContext.UserRoles.Add(iur);
@@ -227,18 +227,33 @@ namespace Survey.Web.Controllers
                 }
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
-                //return new ResponseViewModel<object>
-                //{
-                //    Status = true,
-                //    Message = "Data Updated Successfully",
-                //    StatusCode = System.Net.HttpStatusCode.OK.ToString()
-                //};
+                
             }
             catch (Exception e)
             {
                 throw e;
             }
 
+        }
+        [HttpPost]
+        public IActionResult ExportUser()
+        {
+            DataTable dt = new DataTable("UsersExcel");
+            dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"),
+                                        new DataColumn("Email"),
+                                        new DataColumn("RoleId"),
+                                        new DataColumn("CategoryId") });
+
+           
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UsersExcel.xlsx");
+                }
+            }
         }
 
     }

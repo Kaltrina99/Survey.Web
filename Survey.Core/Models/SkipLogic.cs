@@ -21,9 +21,6 @@ namespace Survey.Core.Models
         [NotMapped]
         public string operator_string { get; set; }
         public double? Comparable_Value { get; set; }
-        public string? Team_Id { get; set; }
-        public string? Tenant_Id { get; set; }
-
         [ForeignKey("Parent_Question_Id")]
         public virtual Questions ParentQuestion { get; set; }
         [ForeignKey("Child_Question_Id")]

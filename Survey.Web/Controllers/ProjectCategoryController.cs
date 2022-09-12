@@ -230,32 +230,6 @@ namespace Survey.Web.Controllers
 
             return RedirectToAction("Index");
         }
-        //public async Task<IActionResult> RemoveUser(string id, string team)
-        //{
-        //    if (id == null && team != null)
-        //    {
-        //        return RedirectToAction("Index");
-
-        //    }
-        //    var response = await _projectCategory.RemoveUserFromTeamAsync(team, id);
-        //    return RedirectToAction("Index");
-        //}
-        //[Authorize(Permissions.PremissionList.Team_View)]
-        //public IActionResult GetUserInTeam(int id)
-        //{
-
-        //    var usersIds = _dbContext.UserProjectCategories.Where(x => x.CategoryId == id).Select(x => x.UserId);
-        //    var users = _dbContext.Users.Where(x => usersIds.Any(y => y == x.Id)).ToList();
-        //    var te = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id);
-        //    ViewBag.name = te.Name;
-        //    ViewBag.u = id;
-        //    //var model = new ProjectCategory()
-        //    //{
-        //    //    UserList = users
-        //    //};
-        //    return View(model);
-        //}
-
-
+       
     }
 }
