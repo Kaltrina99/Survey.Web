@@ -160,7 +160,7 @@
                                                 }
                                             </td>
                                         <td>
-                                        <div>
+                                        
                                              <td>
                                                     <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
                                                         <p class="nav-icon">
@@ -198,6 +198,14 @@
                                                             </p>
                                                             <p class="nav-text">Deactivate</p>
                                                         </a>
+                                            <td>
+                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
+                                                    <p class="nav-icon">
+                                                        <i class="flaticon2-check-mark"></i>
+                                                    </p>
+                                                    <p class="nav-text">Send Email</p>
+                                                </a>
+                                            </td>
                                                     }
                                                     else
                                                     {
@@ -234,7 +242,7 @@
                                                     </a>
                                                 </td>
                                             
-                                        </div>
+                                        
                                     </td>
                                 </tr>
                             }

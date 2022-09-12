@@ -18,6 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Survey.Core.Filter;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Encodings.Web;
+using Mailjet.Client.Resources;
 
 namespace Survey.Web.Controllers
 {
@@ -35,10 +38,10 @@ namespace Survey.Web.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
-
+        private readonly IEmailSender _emailSender;
         public SurveyController(ISurveySubmission submition, IForms form, IProjects projects, IProjectCategory projectCategory, IQuestions question, IQuestionOptions option,
           IAnswers answer, ISkipLogic skipLogic, /*ICases cases,*/ IWebHostEnvironment webHostEnvironment,
-          UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)
+          UserManager<IdentityUser> userManager, ApplicationDbContext dbContext, IEmailSender emailSender)
         {
             _submition = submition;
             _form = form;
@@ -52,6 +55,7 @@ namespace Survey.Web.Controllers
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
             _dbContext = dbContext;
+            _emailSender = emailSender;
         }
         public IActionResult Index()
         {
@@ -306,6 +310,7 @@ namespace Survey.Web.Controllers
             table_form.WasPublished = true;
             _form.Update(table_form);
             _form.Save();
+          
             return RedirectToAction("ManageForm");
         }
 
@@ -594,7 +599,7 @@ namespace Survey.Web.Controllers
             var resub=_dbContext.SurveySubmissions.FirstOrDefault(x=>x.FormId== id && x.AgentId==SAgTRid);
             if (resub != null)
             {
-                return RedirectToAction("SuccessfullySubmitted");
+                return RedirectToAction("SurveyWasSubmitted");
             }
             var testModel = await _question.StartSurvey(id);
             testModel.formid = id;
@@ -704,6 +709,40 @@ namespace Survey.Web.Controllers
         }
 
         #endregion
+        [AllowAnonymous]
+
+        public IActionResult EmailSuccessfullySend(int id)
+        {
+            var uId = _dbContext.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).Id;
+            var form = _dbContext.Forms.FirstOrDefault(x=>x.Id==id);
+            var cat = _dbContext.Projects.FirstOrDefault(x => x.Id == form.Project_Id).ProjectCategoryId;
+            var users = _dbContext.UserProjectCategories.Where(x => x.CategoryId == cat).ToList();
+            //var users=_dbContext.UserProjectCategories.Where 
+            //var u = DateTime.Now.Ticks;
+            foreach (var user in users)
+            {
+                var hasSub = _dbContext.SurveySubmissions.FirstOrDefault(x => x.FormId == id && x.AgentId == user.UserId);
+                if (hasSub == null)
+                {
+                    var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId).Email;
+                    FormViewModel viewModel = new FormViewModel()
+                    {
+                        SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id + "?SAgTRid=" + user.UserId
+                    };
+                    string temporary_sender = emailuser;
+
+                    var email = _emailSender.SendEmailAsync(temporary_sender, "New Survey [#" + id + "] ", $"<br><br>Please view the ticket by <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>clicking here</a>.");
+                }
+            }
+            return View();
+        }
+        [AllowAnonymous]
+
+        public IActionResult SurveyWasSubmitted()
+        {
+            return View();
+        }
+
 
         #region Collect
 
@@ -715,6 +754,7 @@ namespace Survey.Web.Controllers
             {
                 SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id +"?SAgTRid=" + uId
            };
+           
             return View(viewModel);
         }
 

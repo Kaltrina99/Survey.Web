@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Survey.Core.Interfaces;
 using Survey.Infrastructure.Data;
 using Survey.Infrastructure.Repositories;
+using Survey.Infrastructure.Utility.Email_Service;
 using Survey.Web.Permission;
 
 
@@ -69,6 +71,7 @@ namespace Survey.Web
             services.AddScoped<ISurveyResultDownload, SurveyResultDownload>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddTransient<IEmailSender, MailJetEmailSender>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
