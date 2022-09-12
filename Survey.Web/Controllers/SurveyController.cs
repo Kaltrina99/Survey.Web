@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
 using Mailjet.Client.Resources;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using X.PagedList;
 
 namespace Survey.Web.Controllers
 {
@@ -206,43 +207,21 @@ namespace Survey.Web.Controllers
 
         public IActionResult DeleteExistingForm(int? id)
         {
-            /*            var table_checkboxes = _checkBoxAnswers.GetSelectedOptionsByFormId(id);
-            */
+         
             var table_answers = _answer.GetAnswersByFormId(id);
             var table_questions = _question.GetQuestionsByFormId(id);
 
-            /* foreach (var option in table_checkboxes)
-             {
-                 _checkBoxAnswers.Remove(option);
-             }
-             _checkBoxAnswers.Save();*/
 
             foreach (var answer in table_answers)
             {
                 _answer.Remove(answer);
             }
             _answer.Save();
-
-            foreach (var question in table_questions)
+            var f = _dbContext.Questions.Where(x => x.Form_Id == id);
+            foreach (var question in f)
             {
-                var table_options = _option.GetOptionsByQuestionId(question.Id);
-                var table_skipLogic = _skipLogic.GetSkipLogicByQuestionId(question.Id);
-
-                foreach (var option in table_options)
-                {
-                    _option.Remove(option);
-                }
-                foreach (var skiplogic in table_skipLogic)
-                {
-                    _skipLogic.Remove(skiplogic);
-                }
-
-                _question.Remove(question);
+                _question.DeleteQuestion(question.Id);
             }
-            _option.Save();
-            _skipLogic.Save();
-            _question.Save();
-
             var objForm = _form.Find(id.GetValueOrDefault());
 
             if (objForm == null)
@@ -252,7 +231,7 @@ namespace Survey.Web.Controllers
             _form.Remove(objForm);
             _form.Save();
             TempData[WebConstants.Success] = "Action Completed Successfully !";
-
+            //_dbContext.SaveChanges();
             return RedirectToAction("ManageForm");
         }
 
@@ -268,18 +247,31 @@ namespace Survey.Web.Controllers
 
 
             var users = _dbContext.UserProjectCategories.Where(x => x.UserId == u.Id.ToString()).ToList();
-            var cat = new List<Projects>();
-            var forms = new List<Forms>();
-            foreach (var user in users)
+            var r=_dbContext.UserRoles.Where(x => x.UserId == u.Id.ToString()).ToList();
+            var rList=new List<string>();
+            foreach (var item in r)
             {
-                cat.Add(_dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == user.CategoryId));
+                if(item.RoleId!="1")
+                { 
+                    var cat = new List<Projects>();
+                    var forms = new List<Forms>();
+                    foreach (var user in users)
+                    {
+                        cat.Add(_dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == user.CategoryId));
+                    }
+                    foreach (var i in cat)
+                    {
+                        forms.Add(_dbContext.Forms.FirstOrDefault(x => x.Project_Id == i.Id));
+                    }
+                    FormViewModel formViewModel1 = new FormViewModel()
+                    {
+                        Forms = (IPagedList<Forms>)forms,
+                        GetProjects = cat,
+                        GetClients = _projectCategory.GetClients()
+                    };
+                    return View(formViewModel1);
+                }
             }
-            foreach (var i in cat)
-            {
-                forms.Add(_dbContext.Forms.FirstOrDefault(x => x.Project_Id == i.Id));
-            }
-
-            
             FormViewModel formViewModel = new FormViewModel()
             {
                 Forms = _form.GetForms(model.Filter, pageNumber, pageSize),
