@@ -23,26 +23,16 @@ namespace Survey.Infrastructure.Data
             {
                 Id = "1",
                 UserName = "SuperAdmin",
-                Email = "admin@Survey.com",
-                NormalizedEmail = "admin@Survey.com".ToUpper(),
+                Email = "admin@riinvest.net",
+                NormalizedEmail = "admin@riinvest.net".ToUpper(),
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             superAdminAccount.PasswordHash = hasher.HashPassword(superAdminAccount, "P@ssw0rd");
-            IdentityUser defaultUser = new IdentityUser
-            {
-                Id = "2",
-                UserName = "user",
-                NormalizedEmail = "user@gmail.com".ToUpper(),
-                Email = "user@gmail.com",
-                EmailConfirmed = true,
-                LockoutEnabled = false,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-            defaultUser.PasswordHash = hasher.HashPassword(defaultUser, "P@ssw0rd");
+            
 
-            modelBuilder.Entity<IdentityUser>().HasData(superAdminAccount,defaultUser);
+            modelBuilder.Entity<IdentityUser>().HasData(superAdminAccount);
             #endregion
 
             #region RolesSeed
@@ -86,12 +76,8 @@ namespace Survey.Infrastructure.Data
                 UserId = superAdminAccount.Id,
                 RoleId = SuperAdminRole.Id
             };
-            IdentityUserRole<string> DefaultUserRole = new IdentityUserRole<string>()
-            {
-                UserId = defaultUser.Id,
-                RoleId = AdminRole.Id
-            };
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(SuperAdminIdentityUserRole,DefaultUserRole);
+            
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(SuperAdminIdentityUserRole);
             #endregion
 
             #region RolePremissions

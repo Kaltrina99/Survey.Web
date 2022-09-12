@@ -562,80 +562,81 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "4c43328f-802e-4c78-97d9-c96a3da48426", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "5a561923-8002-4842-afde-79d92110ee9e", "Dean", "DEAN" },
-                    { "5", "a2f1702e-bd2d-400c-9bc3-ad149b19ae68", "Student", "STUDENT" },
-                    { "3", "610416f5-65e6-4722-b340-403e99271ac7", "Professor", "PROFESSOR" },
-                    { "4", "da1b74ad-47c4-4a74-9b94-bc0bb701d452", "QA", "QA" }
+                    { "1", "f5aecc45-688b-40d0-bd45-8865c5dbedf0", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "87e00889-c254-4e63-944d-62e476858cd2", "Dean", "DEAN" },
+                    { "5", "6618348f-7bb2-440f-92e0-bdce30e93a85", "Student", "STUDENT" },
+                    { "3", "615eef83-6d78-4617-bbaf-d97926fa4129", "Professor", "PROFESSOR" },
+                    { "4", "a6ff2e35-fbff-4ba2-aed6-bb420616d47a", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "1", 0, "9c10b921-fa20-4033-920f-c76131500ac8", "IdentityUser", "admin@Survey.com", true, false, null, "ADMIN@SURVEY.COM", null, "AQAAAAEAACcQAAAAEJ1BYRRQNxardGgIBtrbUAaovhYqeTr0YYhfh4rdZd7hlPZ7Tj+S62PK/IV8UvQNQQ==", null, false, "4e8decb6-4acb-4f79-a878-4aa6dc10f485", false, "SuperAdmin" },
-                    { "2", 0, "e1cf31ef-0c00-41f6-a132-7bd74d933962", "IdentityUser", "user@gmail.com", true, false, null, "USER@GMAIL.COM", null, "AQAAAAEAACcQAAAAEOW7/y7cYVJQ7tKjLUIA/uY4XYHH4SuPJWDNhPRYr3LGBfgEWAcJzc9kEkb/qyMeVA==", null, false, "ca55c164-5e6a-484d-ad6c-08f0f9190af8", false, "user" }
-                });
+                values: new object[] { "1", 0, "59a29049-7de6-45f8-9d02-ab9ac7f25bbd", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEK74lDmlRS/x2hHGLmuehv5fvBt3cuKQFDiws23n2jC4+fi0arFNgzcRhev8+ZVmHw==", null, false, "1f50ee0c-4db4-4c4b-b3cc-2ca978d8c793", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[,]
                 {
-                    { 3, "Permission", "Permissions.Survey.View", "1" },
-                    { 27, "Permission", "Permissions.Survey.Collect", "2" },
-                    { 28, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
-                    { 29, "Permission", "Permissions.User.ViewUsers", "2" },
-                    { 30, "Permission", "Permissions.User.UpdateUser", "2" },
-                    { 31, "Permission", "Permissions.User.DeleteUser", "2" },
-                    { 32, "Permission", "Permissions.User.AddUser", "2" },
-                    { 33, "Permission", "Permissions.Project.AssignUsers", "2" },
-                    { 34, "Permission", "Permissions.Project.Add", "2" },
-                    { 26, "Permission", "Permissions.Survey.Delete", "2" },
-                    { 35, "Permission", "Permissions.Project.Delete", "2" },
-                    { 37, "Permission", "Permissions.Project.View", "2" },
-                    { 38, "Permission", "Permissions.DataSet.AddCases", "2" },
-                    { 39, "Permission", "Permissions.DataSet.AssignCases", "2" },
-                    { 40, "Permission", "Permissions.DataSet.DeleteCases", "2" },
-                    { 41, "Permission", "Permissions.DataSet.ViewCases", "2" },
-                    { 42, "Permission", "Permissions.DataSet.UpdateCases", "2" },
+                    { 3, "Permission", "Permissions.Survey.ViewAll", "1" },
+                    { 27, "Permission", "Permissions.Survey.Update", "2" },
+                    { 28, "Permission", "Permissions.Survey.Delete", "2" },
+                    { 29, "Permission", "Permissions.Survey.Collect", "2" },
+                    { 30, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
+                    { 31, "Permission", "Permissions.User.ViewUsers", "2" },
+                    { 32, "Permission", "Permissions.User.UpdateUser", "2" },
+                    { 33, "Permission", "Permissions.User.DeleteUser", "2" },
+                    { 34, "Permission", "Permissions.User.AddUser", "2" },
+                    { 35, "Permission", "Permissions.Project.AssignUsers", "2" },
+                    { 36, "Permission", "Permissions.Project.Add", "2" },
+                    { 37, "Permission", "Permissions.Project.Delete", "2" },
+                    { 38, "Permission", "Permissions.Project.Update", "2" },
+                    { 39, "Permission", "Permissions.Project.View", "2" },
+                    { 40, "Permission", "Permissions.DataSet.AddCases", "2" },
+                    { 41, "Permission", "Permissions.DataSet.AssignCases", "2" },
+                    { 42, "Permission", "Permissions.DataSet.DeleteCases", "2" },
+                    { 43, "Permission", "Permissions.DataSet.ViewCases", "2" },
+                    { 44, "Permission", "Permissions.DataSet.UpdateCases", "2" },
                     { 1, "Permission", "Permissions.Survey.View", "5" },
+                    { 26, "Permission", "Permissions.Survey.Create", "2" },
                     { 2, "Permission", "Permissions.Survey.Collect", "5" },
-                    { 36, "Permission", "Permissions.Project.Update", "2" },
-                    { 25, "Permission", "Permissions.Survey.Update", "2" },
-                    { 24, "Permission", "Permissions.Survey.Create", "2" },
-                    { 23, "Permission", "Permissions.Survey.View", "2" },
-                    { 4, "Permission", "Permissions.Survey.Create", "1" },
-                    { 5, "Permission", "Permissions.Survey.Update", "1" },
-                    { 6, "Permission", "Permissions.Survey.Delete", "1" },
-                    { 7, "Permission", "Permissions.Survey.Collect", "1" },
-                    { 8, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
-                    { 9, "Permission", "Permissions.User.ViewUsers", "1" },
-                    { 10, "Permission", "Permissions.User.UpdateUser", "1" },
-                    { 11, "Permission", "Permissions.User.DeleteUser", "1" },
-                    { 12, "Permission", "Permissions.User.AddUser", "1" },
-                    { 13, "Permission", "Permissions.Project.AssignUsers", "1" },
-                    { 14, "Permission", "Permissions.Project.Add", "1" },
-                    { 15, "Permission", "Permissions.Project.Delete", "1" },
-                    { 16, "Permission", "Permissions.Project.Update", "1" },
-                    { 17, "Permission", "Permissions.Project.View", "1" },
-                    { 18, "Permission", "Permissions.DataSet.AddCases", "1" },
-                    { 19, "Permission", "Permissions.DataSet.AssignCases", "1" },
-                    { 20, "Permission", "Permissions.DataSet.DeleteCases", "1" },
-                    { 21, "Permission", "Permissions.DataSet.ViewCases", "1" },
-                    { 22, "Permission", "Permissions.DataSet.UpdateCases", "1" }
+                    { 25, "Permission", "Permissions.Survey.View", "2" },
+                    { 23, "Permission", "Permissions.DataSet.UpdateCases", "1" },
+                    { 4, "Permission", "Permissions.Survey.View", "1" },
+                    { 5, "Permission", "Permissions.Survey.Create", "1" },
+                    { 6, "Permission", "Permissions.Survey.Update", "1" },
+                    { 7, "Permission", "Permissions.Survey.Delete", "1" },
+                    { 8, "Permission", "Permissions.Survey.Collect", "1" },
+                    { 9, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
+                    { 10, "Permission", "Permissions.User.ViewUsers", "1" },
+                    { 11, "Permission", "Permissions.User.UpdateUser", "1" },
+                    { 12, "Permission", "Permissions.User.DeleteUser", "1" },
+                    { 13, "Permission", "Permissions.User.AddUser", "1" },
+                    { 14, "Permission", "Permissions.Project.AssignUsers", "1" },
+                    { 15, "Permission", "Permissions.Project.Add", "1" },
+                    { 16, "Permission", "Permissions.Project.Delete", "1" },
+                    { 17, "Permission", "Permissions.Project.Update", "1" },
+                    { 18, "Permission", "Permissions.Project.View", "1" },
+                    { 19, "Permission", "Permissions.DataSet.AddCases", "1" },
+                    { 20, "Permission", "Permissions.DataSet.AssignCases", "1" },
+                    { 21, "Permission", "Permissions.DataSet.DeleteCases", "1" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoleClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
+                values: new object[] { 22, "Permission", "Permissions.DataSet.ViewCases", "1" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoleClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
+                values: new object[] { 24, "Permission", "Permissions.Survey.ViewAll", "2" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "1", "1" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "2", "2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_Form_Id",

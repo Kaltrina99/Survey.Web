@@ -262,14 +262,18 @@ namespace Survey.Web.Controllers
             List<string> ids = new List<string>();
             foreach (var item in r)
             {
-                if (item.RoleId != "1")
+                var claim = _dbContext.RoleClaims.Where(x => x.RoleId == item.RoleId);
+                foreach (var c in claim)
                 {
-                    ids.Add(item.RoleId);
-                }
-                else
-                {
-                    ids.Clear();
-                    break;
+                    if (c.ClaimValue != "Permissions.Survey.ViewAll")
+                    {
+                        ids.Add(c.RoleId);
+                    }
+                    else
+                    {
+                        ids.Clear();
+                        break;
+                    }
                 }
             }
             FormViewModel formViewModel = new FormViewModel()
