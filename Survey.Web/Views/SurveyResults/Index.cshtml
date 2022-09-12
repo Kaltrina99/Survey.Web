@@ -44,9 +44,13 @@
                 <h3 class="card-label">Simple Column Chart</h3>
             </div>
         </div>
-        <div class="card-body">
-            <div id="kt_amcharts_1" style="height: 500px;"></div>
+        <div class="card card-bordered">
+            <div class="card-body">
+                <div id="chartdiv" style="height: 500px;"></div>
+            </div>
         </div>
+
+       
     </div>
 </div>
 
@@ -63,18 +67,43 @@
 <script src="//www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="//www.amcharts.com/lib/3/themes/light.js"></script>
 
-<script>var results = [];</script>
-
+<script>var resultsData = [];</script>
 @foreach (var result in Model.RecentSubmits)
 {
 
-    //int i = 0;
+    int i = 0;
     <script>
-        results.push({"Date":"@result.Item1","Submissions":@result.Item2});
+        resultsData.push({ "Date": "@result.Item1", "Submissions": @result.Item2});
     </script>
-    //i++;
+    i++;
 }
-<script></script>
+<script>
+    var chart = AmCharts.makeChart("chartdiv", {
+        "type": "serial",
+        "theme": "light",
+        "categoryField": "Date",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 20
+        },
+        "graphs": [
+            {
+                "balloonText": "Submissions",
+                 "valueField": "Submissions"
+            }
+        ],
+        "legend": {
+            "useGraphSettings": true
+        },
+        "titles": [
+            {
+                "size": 15,
+                "text": "Simple submissions Chart"
+            }
+        ],
+        "dataProvider": resultsData
+    });
+</script>
 
-
-<script src="~/js/ChartForResults.js"></script>
