@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
+using Survey.Core.ViewModels;
 
 namespace Survey.Infrastructure.Repositories
 {
@@ -139,13 +140,25 @@ namespace Survey.Infrastructure.Repositories
             }
             return response;
         }
-        public IPagedList<Forms> GetForms(FormFilter filter, int pagenumber, int pagesize)
+        public IPagedList<Forms> GetForms(FormFilter filter, List<string>? id, List<int>? proj, int pagenumber, int pagesize)
         {
+            if (id.Count==0) { 
             List<Forms> results = new List<Forms>();
 
-           
-                var formlist = _dbContext.Forms.ToPagedList(pagenumber,pagesize);
+            var formlist = _dbContext.Forms.ToPagedList(pagenumber, pagesize);
             return formlist;
+            }
+            else
+            {
+                List<Forms> results = new List<Forms>();
+
+                foreach ( var nr in proj)
+                {
+                    List<Forms> tem = _dbContext.Forms.Where(x => x.Project_Id == nr).ToList();
+                    results.AddRange(tem);
+                }
+                return results.ToPagedList(pagenumber, pagesize);
+            }
             
         }
 

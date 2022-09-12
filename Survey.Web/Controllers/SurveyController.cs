@@ -23,6 +23,7 @@ using System.Text.Encodings.Web;
 using Mailjet.Client.Resources;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using X.PagedList;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Survey.Web.Controllers
 {
@@ -244,37 +245,36 @@ namespace Survey.Web.Controllers
             if (pageNumber < 1) { pageNumber = 1; }
             if (pageSize < 10 || pageSize > 50) { pageSize = 10; }
             var u = _userManager.GetUserAsync(HttpContext.User);
-
-
-            var users = _dbContext.UserProjectCategories.Where(x => x.UserId == u.Id.ToString()).ToList();
-            var r=_dbContext.UserRoles.Where(x => x.UserId == u.Id.ToString()).ToList();
-            var rList=new List<string>();
+            
+            var users = _dbContext.UserProjectCategories.Where(x => x.UserId == u.Result.Id).ToList();
+            List<int> proj = new List<int>();
+            List<int> categ = new List<int>();
+            foreach (var user in users)
+            {
+                categ.Add(user.CategoryId);
+            }
+            foreach (var cat in categ)
+            {
+                var t = _dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == cat);
+                proj.Add(t.Id);
+            }
+            var r = _dbContext.UserRoles.Where(x => x.UserId ==u.Result.Id).ToList();
+            List<string> ids = new List<string>();
             foreach (var item in r)
             {
-                if(item.RoleId!="1")
-                { 
-                    var cat = new List<Projects>();
-                    var forms = new List<Forms>();
-                    foreach (var user in users)
-                    {
-                        cat.Add(_dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == user.CategoryId));
-                    }
-                    foreach (var i in cat)
-                    {
-                        forms.Add(_dbContext.Forms.FirstOrDefault(x => x.Project_Id == i.Id));
-                    }
-                    FormViewModel formViewModel1 = new FormViewModel()
-                    {
-                        Forms = (IPagedList<Forms>)forms,
-                        GetProjects = cat,
-                        GetClients = _projectCategory.GetClients()
-                    };
-                    return View(formViewModel1);
+                if (item.RoleId != "1")
+                {
+                    ids.Add(item.RoleId);
+                }
+                else
+                {
+                    ids.Clear();
+                    break;
                 }
             }
             FormViewModel formViewModel = new FormViewModel()
             {
-                Forms = _form.GetForms(model.Filter, pageNumber, pageSize),
+                Forms = _form.GetForms(model.Filter,ids,proj, pageNumber, pageSize),
                 GetProjects = _projects.GetProjects(null, ""),
                 GetClients = _projectCategory.GetClients()
             };

@@ -20,6 +20,7 @@ namespace Survey.Core.Constants
         {
 
             #region Survey Permissions
+            public const string Survey_View_All = "Permissions.Survey.ViewAll";
             public const string Survey_View = "Permissions.Survey.View";
             public const string Survey_Create = "Permissions.Survey.Create";
             public const string Survey_Update = "Permissions.Survey.Update";
@@ -55,7 +56,7 @@ namespace Survey.Core.Constants
             {
                 List<string> list = new List<string>()
                 {
-                   
+                    Survey_View_All,
                     Survey_View,
                     Survey_Create,
                     Survey_Update,
@@ -76,7 +77,6 @@ namespace Survey.Core.Constants
                     DataSet_DeleteCases,
                     DataSet_View,
                     DataSet_Update
-
                 };
 
                 return list;
