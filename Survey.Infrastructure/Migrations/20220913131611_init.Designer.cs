@@ -10,7 +10,7 @@ using Survey.Infrastructure.Data;
 namespace Survey.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220913072505_init")]
+    [Migration("20220913131611_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,35 +51,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "571a2e63-72a3-4146-8bd8-aca6d81c9fd7",
+                            ConcurrencyStamp = "33dc8cf6-74cf-41ba-8888-49e132e24218",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "bd543bdb-695b-4627-9ed5-433b84ac38d4",
+                            ConcurrencyStamp = "af3d9e3e-8354-4f22-8721-d622281f9067",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "0fd93d7f-9dab-4aa9-91be-06ef1808dc65",
+                            ConcurrencyStamp = "8d2d3cbc-404a-450f-807b-2cd20d1a1d0e",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "02b9a54f-9efd-42a1-b5fe-53e94e76c350",
+                            ConcurrencyStamp = "c616ef38-cc8f-48a2-a55c-b265fd451625",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "65c3f7ad-5cf4-4e3f-8f60-f455527b19f0",
+                            ConcurrencyStamp = "95522da5-1f31-43c7-81e5-63538425e8bc",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -620,14 +620,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "db2df7a3-8fdc-4125-a4c4-5d6f64a4ce8b",
+                            ConcurrencyStamp = "21f5b947-9329-423f-ad16-ca4ec0712f07",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAELEyXp/EsbrkOLuOES/gcXotQtq8pVjXhLFADMY8qRCJVSsIDB4sEqwr9pIIqYJmGQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKL/OLuGJu+1tvzxT0vM+Jj0W5OsasNQb0G1BFDgt0IYAXsumUSmQ8FIlqxFOvUqfQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b45f73b2-72a1-4088-9142-265a18c5147c",
+                            SecurityStamp = "cd2dca58-8c6b-472a-989b-1fec96503d6a",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -1167,6 +1167,21 @@ namespace Survey.Infrastructure.Migrations
                     b.ToTable("SurveySubmissions");
                 });
 
+            modelBuilder.Entity("Survey.Core.Models.UserProject", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProjectsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProjectsId");
+
+                    b.HasIndex("ProjectsId");
+
+                    b.ToTable("UserProject");
+                });
+
             modelBuilder.Entity("Survey.Core.Models.UserProjectCategory", b =>
                 {
                     b.Property<string>("UserId")
@@ -1421,6 +1436,25 @@ namespace Survey.Infrastructure.Migrations
                     b.Navigation("Form");
                 });
 
+            modelBuilder.Entity("Survey.Core.Models.UserProject", b =>
+                {
+                    b.HasOne("Survey.Core.Models.Projects", "Projects")
+                        .WithMany("UserList")
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Survey.Core.Models.ApplicationUser", "User")
+                        .WithMany("ProjectList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projects");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Survey.Core.Models.UserProjectCategory", b =>
                 {
                     b.HasOne("Survey.Core.Models.ProjectCategory", "Category")
@@ -1461,6 +1495,11 @@ namespace Survey.Infrastructure.Migrations
                     b.Navigation("UserList");
                 });
 
+            modelBuilder.Entity("Survey.Core.Models.Projects", b =>
+                {
+                    b.Navigation("UserList");
+                });
+
             modelBuilder.Entity("Survey.Core.Models.QuestionOptions", b =>
                 {
                     b.Navigation("ChildOption");
@@ -1487,6 +1526,8 @@ namespace Survey.Infrastructure.Migrations
             modelBuilder.Entity("Survey.Core.Models.ApplicationUser", b =>
                 {
                     b.Navigation("CategoryList");
+
+                    b.Navigation("ProjectList");
 
                     b.Navigation("SurveySubmissions");
                 });

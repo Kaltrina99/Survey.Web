@@ -149,6 +149,109 @@ namespace Survey.Web.Controllers
 
         }
         #endregion
+        #region Enroll Users
+        //[Authorize(Permissions.PremissionList.Category_AssignUser)]
+        public IActionResult EnrollUsersToClients(string id)
+        {
+            ViewBag.u = id;
+
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            var t = _dbContext.Projects.FirstOrDefault(x => (x.Id).ToString() == id /*&& x.Tenant_Id == ten.Id*/);
+            if (t == null)
+            {
+                ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            var model = new List<ProjectViewModel>();
+
+
+            return View(model);
+        }
+       // [Authorize(Permissions.PremissionList.Category_AssignUser)]
+        #endregion
+        public IActionResult Enroll(int id)
+        {
+            ViewBag.u = id;
+
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            var t = _dbContext.Projects.FirstOrDefault(x => x.Id == id);
+
+            var model = new List<ProjectPartUserViewModel>();
+            var r = _dbContext.RoleClaims.Where(x => x.ClaimValue == "Permissions.Survey.SeeSurveyResults");
+
+            List<string> usersId = new List<string>();
+            foreach (var claim in r)
+            {
+               foreach (var user in _dbContext.UserRoles.Where(x => x.RoleId==claim.RoleId))
+                    {
+                    usersId.Add(user.UserId.ToString());
+                }
+            }
+            //var us = _dbContext.Users.ToList();
+
+            foreach (var user in usersId)
+            {
+                var tamPartUserViewModel = new ProjectPartUserViewModel
+                {
+                    UserId = user,
+                    UserName = _dbContext.Users.FirstOrDefault(x => x.Id == user).UserName
+                };
+                var d = _dbContext.UserProject.FirstOrDefault(x => x.UserId == user && x.ProjectsId == t.Id);
+                if (d != null)
+                {
+                    tamPartUserViewModel.IsSelected = true;
+                }
+                else
+                {
+                    tamPartUserViewModel.IsSelected = false;
+                }
+
+                model.Add(tamPartUserViewModel);
+            }
+
+            return View(model);
+        }
+       // [Authorize(Permissions.PremissionList.Category_AssignUser)]
+        [HttpPost]
+        public IActionResult Enroll(List<ProjectPartUserViewModel> model, int id)
+        {
+            var u = _userManager.GetUserAsync(HttpContext.User);
+            var t = _dbContext.Projects.FirstOrDefault(x => x.Id == id);
+            if (t == null)
+            {
+                ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            for (int i = 0; i < model.Count; i++)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == model[i].UserId);
+
+                var d = _dbContext.UserProject.AsNoTracking().FirstOrDefault(x => x.UserId == user.Id && x.ProjectsId == t.Id);
+                if (model[i].IsSelected && !(d != null))
+                {
+                    UserProject model1 = new UserProject()
+                    {
+                        UserId = user.Id,
+                        ProjectsId = t.Id
+                    };
+                    var result = _dbContext.UserProject.Add(model1);
+                    _dbContext.SaveChanges();
+                }
+                else if (!model[i].IsSelected && d != null)
+                {
+                    UserProject model1 = new UserProject()
+                    {
+                        UserId = user.Id,
+                        ProjectsId = t.Id
+                    };
+                    var result = _dbContext.UserProject.Remove(model1);
+                    _dbContext.SaveChanges();
+                }
+
+            }
+
+            return RedirectToAction("Index");
+        }
 
     }
 }

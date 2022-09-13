@@ -24,5 +24,7 @@ namespace Survey.Core.Models
         public int ProjectCategoryId { get; set; }
         [ForeignKey("ProjectCategoryId")]
         public virtual ProjectCategory ProjectCategory { get; set; }
+        [NotMapped]
+        public virtual List<UserProject> UserList { get; set; }
     }
 }

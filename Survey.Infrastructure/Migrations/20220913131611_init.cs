@@ -370,6 +370,30 @@ namespace Survey.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserProject",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProjectsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProject", x => new { x.UserId, x.ProjectsId });
+                    table.ForeignKey(
+                        name: "FK_UserProject_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserProject_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -562,17 +586,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "571a2e63-72a3-4146-8bd8-aca6d81c9fd7", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "bd543bdb-695b-4627-9ed5-433b84ac38d4", "Dean", "DEAN" },
-                    { "5", "0fd93d7f-9dab-4aa9-91be-06ef1808dc65", "Student", "STUDENT" },
-                    { "3", "02b9a54f-9efd-42a1-b5fe-53e94e76c350", "Professor", "PROFESSOR" },
-                    { "4", "65c3f7ad-5cf4-4e3f-8f60-f455527b19f0", "QA", "QA" }
+                    { "1", "33dc8cf6-74cf-41ba-8888-49e132e24218", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "af3d9e3e-8354-4f22-8721-d622281f9067", "Dean", "DEAN" },
+                    { "5", "8d2d3cbc-404a-450f-807b-2cd20d1a1d0e", "Student", "STUDENT" },
+                    { "3", "c616ef38-cc8f-48a2-a55c-b265fd451625", "Professor", "PROFESSOR" },
+                    { "4", "95522da5-1f31-43c7-81e5-63538425e8bc", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "db2df7a3-8fdc-4125-a4c4-5d6f64a4ce8b", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAELEyXp/EsbrkOLuOES/gcXotQtq8pVjXhLFADMY8qRCJVSsIDB4sEqwr9pIIqYJmGQ==", null, false, "b45f73b2-72a1-4088-9142-265a18c5147c", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "21f5b947-9329-423f-ad16-ca4ec0712f07", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEKL/OLuGJu+1tvzxT0vM+Jj0W5OsasNQb0G1BFDgt0IYAXsumUSmQ8FIlqxFOvUqfQ==", null, false, "cd2dca58-8c6b-472a-989b-1fec96503d6a", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
@@ -795,6 +819,11 @@ namespace Survey.Infrastructure.Migrations
                 column: "FormId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserProject_ProjectsId",
+                table: "UserProject",
+                column: "ProjectsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProjectCategories_CategoryId",
                 table: "UserProjectCategories",
                 column: "CategoryId");
@@ -840,6 +869,9 @@ namespace Survey.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SurveyDownloads");
+
+            migrationBuilder.DropTable(
+                name: "UserProject");
 
             migrationBuilder.DropTable(
                 name: "UserProjectCategories");

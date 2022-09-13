@@ -32,6 +32,7 @@ namespace Survey.Infrastructure.Data
         public DbSet<SurveySubmission> SurveySubmissions { get; set; }
         public DbSet<SurveyDownload> SurveyDownloads { get; set; }
         public DbSet<UserProjectCategory> UserProjectCategories { get; set; }
+        public DbSet<UserProject> UserProject { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,6 +79,18 @@ namespace Survey.Infrastructure.Data
                 .WithMany(t => t.CategoryList)
                 .HasForeignKey(pt => pt.UserId);
 
+            modelBuilder.Entity<UserProject>()
+               .HasKey(t => new { t.UserId, t.ProjectsId });
+
+            modelBuilder.Entity<UserProject>()
+                .HasOne(pt => pt.Projects)
+                .WithMany(p => p.UserList)
+                .HasForeignKey(pt => pt.ProjectsId);
+
+            modelBuilder.Entity<UserProject>()
+                .HasOne(pt => pt.User)
+                .WithMany(t => t.ProjectList)
+                .HasForeignKey(pt => pt.UserId);
         }
     }
 }

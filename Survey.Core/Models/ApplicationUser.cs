@@ -21,6 +21,8 @@ namespace Survey.Core.Models
         [NotMapped]
         public virtual List<UserProjectCategory> CategoryList { get; set; }
         [NotMapped]
+        public virtual List<UserProject> ProjectList { get; set; }
+        [NotMapped]
         public virtual List<SurveyDownload> SurveyDownloads { get; set; }
         [NotMapped]
         public ICollection<SurveySubmission> SurveySubmissions { get; set; }
