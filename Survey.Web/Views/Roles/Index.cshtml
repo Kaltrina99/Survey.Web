@@ -18,15 +18,16 @@
     {
         <form method="post" asp-action="addrole" asp-controller="roles">
             <div class="input-group row pb-8">
-            <div class="col-lg-3">
-                <input name="roleName" class="form-control w-10">
-            </div>
+                <div class="col-lg-3">
+                    <input name="roleName" class="form-control w-10">
+                </div>
 
-            <span class="input-group-btn col-lg-3">
-                <button  type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" ><i class="fa fa-plus"></i>Add New Role</button>
-            </span>
-        </div>
-    </form>}
+                <span class="input-group-btn col-lg-3">
+                    <button type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark"><i class="fa fa-plus"></i>Add New Role</button>
+                </span>
+            </div>
+        </form>
+    }
     <table class="table table-striped" id="roleTable">
         <thead>
             <tr>
@@ -37,7 +38,7 @@
                     Id
                 </th>
                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded ||
-           (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded )
+                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
                 {
                     <th style="width:10%">
                         Actions
@@ -48,15 +49,15 @@
         <tbody>
             @foreach (var role in Model)
             {
-                    <tr>
-                        <td>
-                            @role.Name
-                        </td>
-                        <td>
-                            @role.Id
-                        </td>
+                <tr>
+                    <td>
+                        @role.Name
+                    </td>
+                    <td>
+                        @role.Id
+                    </td>
                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded ||
-              (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
+                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
                     {
                         <td>
                             <div class="btn-group">
@@ -75,21 +76,21 @@
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
                                     {
                                         <a class="dropdown-item" asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id">Manage Permissions</a>
-                                    }  
+                                    }
                                 </div>
                             </div>
 
-                        </td>}
-                    </tr>
-                    
-                }
-            </tbody>
+                        </td>
+                    }
+                </tr>
+
+            }
+        </tbody>
     </table>
 </div>
 <style>
     .table td {
         padding: 0.75rem;
         vertical-align: middle;
-       
     }
 </style>

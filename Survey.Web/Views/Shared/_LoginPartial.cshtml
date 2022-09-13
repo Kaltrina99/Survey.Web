@@ -5,47 +5,49 @@
 @inject IAuthorizationService AuthorizationService
 @using Survey.Core.Constants
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
+    @if (SignInManager.IsSignedIn(User))
+    {
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_ViewUsers)).Result.Succeeded || (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_View)).Result.Succeeded)
         {
             <div class="dropdown">
 
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-   Hello @User.Identity.Name!
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Hello @User.Identity.Name!
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_ViewUsers)).Result.Succeeded)
                     {
-    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index" title="Users">Users</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index" title="Users">Users</a>
                     }
                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_View)).Result.Succeeded)
                     {
-    <a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index" title="Roles">Roles</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index" title="Roles">Roles</a>
                     }
-  </div>
-</div>}
-else{
+                </div>
+            </div>
+        }
+        else
+        {
             <li class="nav-item">
                 <a class="nav-link text-dark">Hello @User.Identity.Name!</a>
             </li>
-}
-    @*<li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        }
+        @*<li class="nav-item">
+    <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
     </li>*@
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

@@ -29,7 +29,7 @@
                             <a href="" class="text-muted">Manage</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            <a class ="text-muted">Projects </a>
+                            <a class="text-muted">Projects </a>
                         </li>
                     </ul>
                     <!--end::Breadcrumb-->
@@ -58,11 +58,11 @@
                     {
                         <div class="card-toolbar">
 
-                            <a asp-controller="Project" asp-action="CreateProject" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" >
+                            <a asp-controller="Project" asp-action="CreateProject" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
                                 <i class="fa fa-plus"></i>New Project
                             </a>
 
-                    </div>
+                        </div>
                     }
                 </div>
                 <div class="card-body">
@@ -71,35 +71,24 @@
                     <div class="mb-7">
                         <div class="row align-items-center">
                             <form asp-action="Index">
-                            <div class="col-lg-12 col-xl-12">
-                                <div class="row align-items-center">
-                                    <div class=" col-lg-4 col-md-4 col-sm-6 my-2 my-md-0">
-                                        <div class="input-icon">
-                                            <input type="text" class="form-control" placeholder="Search..." name="searchingword" />
-                                            <span>
-                                                <i class="flaticon2-search-1 text-muted"></i>
-                                            </span>
+                                <div class="col-lg-12 col-xl-12">
+                                    <div class="row align-items-center">
+                                        <div class=" col-lg-4 col-md-4 col-sm-6 my-2 my-md-0">
+                                            <div class="input-icon">
+                                                <input type="text" class="form-control" placeholder="Search..." name="searchingword" />
+                                                <span>
+                                                    <i class="flaticon2-search-1 text-muted"></i>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-4 col-sm-6 my-2 my-md-0">
-                                        <div class="d-flex align-items-center">
-                                         @*   <label class="mr-3 mb-0 d-none d-md-block">Program or Client:</label>
-                                            <select class="form-control" name="projectId">
-                                                <option value="">All</option>
-                                                @foreach (var client in Model.GetClients)
-                                                { 
-                                                    <option value="@client.Id">@client.Name</option>
-                                                }
-                                            </select>*@
+                                        
+                                        <div class="col-lg-3 col-md-4 col-sm-6">
+                                            <button type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
-                                         <button type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
                                     </div>
                                 </div>
-                            </div>
 
-                          </form>
+                            </form>
                         </div>
                     </div>
                     <!--end::Search Form-->
@@ -112,39 +101,41 @@
                                 <th class="p-0 min-w-100px">Code</th>
                                 <th class="p-0 min-w-125px">Category</th>
                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded ||
-                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded){
-                                <th title="Field #8">Actions</th>
+                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
+                                {
+                                    <th title="Field #8">Actions</th>
                                 }
                             </tr>
                         </thead>
 
                         <tbody>
-                                @foreach (var project in Model.Projects)
-                                {
-                                    <tr>
-                                        <td>@project.Title</td>
-                                        <td>@project.Code</td>
-                                        <td>@project.ProjectCategory.Name</td>
+                            @foreach (var project in Model.Projects)
+                            {
+                                <tr>
+                                    <td>@project.Title</td>
+                                    <td>@project.Code</td>
+                                    <td>@project.ProjectCategory.Name</td>
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded ||
                                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
-                                   {
+                                    {
                                         <td style="text-align:right;" class="text-right">
-                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
-                                        {
-                                            <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-primary">
-                                                <i class="flaticon-edit"></i>Edit
-                                            </a>
-                                        }
-                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded)
-                                        {
-                                        <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
-                                                <i class="flaticon2-trash"></i>Delete
-                                            </a>
-                                        }
-                                        </td>  }                                      
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
+                                            {
+                                                <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-primary">
+                                                    <i class="flaticon-edit"></i>Edit
+                                                </a>
+                                            }
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded)
+                                            {
+                                                <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
+                                                    <i class="flaticon2-trash"></i>Delete
+                                                </a>
+                                            }
+                                        </td>
+                                    }
 
-                                    </tr>
-                                }
+                                </tr>
+                            }
 
                         </tbody>
                     </table>
@@ -160,17 +151,17 @@
 <!--end::Content-->
 <style>
     th span {
-        color: #b5b5c3!important;
+        color: #b5b5c3 !important;
         font-size: .9rem;
         text-transform: uppercase;
-        font-weight: 600!important;
+        font-weight: 600 !important;
         letter-spacing: .1rem;
     }
+
     th:last-child span {
         text-align: right;
-        
     }
- 
+
     [data-field="ID"] span, [data-field="ID"] th {
         width: 34px !important;
     }
@@ -179,6 +170,7 @@
         box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
         border: 0;
     }
+
     tbody tr:hover {
         background-color: #F3F6F9;
     }
@@ -195,23 +187,23 @@
     }
 
 
-        th:last-child span {
-            float: right;
-            padding-right: 40px;
-        }
+    th:last-child span {
+        float: right;
+        padding-right: 40px;
+    }
 
-        .datatable-row > .datatable-cell:first-child {
-            padding-left: 10px !important;
-        }
+    .datatable-row > .datatable-cell:first-child {
+        padding-left: 10px !important;
+    }
 
-        .form-control:focus {
-            border-color: #ED7D31 !important;
-        }
+    .form-control:focus {
+        border-color: #ED7D31 !important;
+    }
 
-        @@media only screen and (max-width: 500px) {
-            table {
-                width: 100%;
-                overflow-x: auto !important;
-            }
+    @@media only screen and (max-width: 500px) {
+        table {
+            width: 100%;
+            overflow-x: auto !important;
         }
+    }
 </style>

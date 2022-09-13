@@ -19,16 +19,16 @@
 
     <h1>User List</h1>
     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_AddUser)).Result.Succeeded)
-                    {
+    {
         <div class="pt-10 pb-10">
-        <a asp-action="Create" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
-              <i class="fa fa-plus"></i>  Add new user
+            <a asp-action="Create" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
+                <i class="fa fa-plus"></i>  Add new user
             </a>
-        <a asp-action="ImportUsers" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
-            <i class="fa fa-file-import"></i>Import New Users
-        </a>
+            <a asp-action="ImportUsers" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                <i class="fa fa-file-import"></i>Import New Users
+            </a>
         </div>
-                    }
+    }
     <table class="table table-striped  table-hover paginated-table mb-15" id="userTable">
         <thead>
             <tr>
@@ -41,13 +41,14 @@
                 <th>
                     Email
                 </th>
-                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded||
-                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded||
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded ||
+                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded ||
                 (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
                 {
                     <th style="width:10%">
                         Actions
-                </th>}
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -55,7 +56,7 @@
             {
                 <tr>
                     <td>
-                        <div >
+                        <div>
                             <a>
                                 @user.UserName
                             </a>
@@ -66,7 +67,7 @@
                             @user.Id
                         </a>
                     </td>
-                   
+
                     <td>
                         <a>
                             @user.Email
@@ -96,25 +97,26 @@
                                         <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
                                     }
                                 </div>
-                        </div>
-                    </td>}
+                            </div>
+                        </td>
+                    }
                 </tr>
-                                }
+            }
         </tbody>
     </table>
-@*      <form asp-action="Index" id="form1">
-                    <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/users/Index");' data-="" />
-                </form>*@
+    @*      <form asp-action="Index" id="form1">
+    <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/users/Index");' data-="" />
+    </form>*@
     <span class="prev btn btn-rounded btn-light"><i class="fa fa-angle-double-left"></i> Previous</span> <span class="next  btn btn-rounded btn-light"><i class="fa fa-angle-double-right"></i> Next</span>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     @*<script>
-            $(document).ready(function () {
-                $('#userTable').dataTable({
+    $(document).ready(function () {
+    $('#userTable').dataTable({
 
-                });
-            });
-        </script>*@
+    });
+    });
+    </script>*@
 </div>
 <script>
 
@@ -126,7 +128,7 @@
     $('.paginated-table').each(function () {
         var cTable = $(this);
         var cRows = cTable.find('tr:gt(0)');
-        var cRowCount =  cRows.size();
+        var cRowCount = cRows.size();
         console.log(cRowCount);
 
         if (cRowCount < maxRows) {

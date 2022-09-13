@@ -30,7 +30,7 @@
                             <a href="" class="text-muted">Manage </a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            <a class ="text-muted">Programs category</a>
+                            <a class="text-muted">Programs category</a>
                         </li>
                     </ul>
                     <!--end::Breadcrumb-->
@@ -45,7 +45,7 @@
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
         <div class="container">
-          
+
             <!--begin::Card-->
             <div class="card card-custom">
                 <div style="box-shadow: 0 0 30px 0 #523f690d;" class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -59,7 +59,7 @@
                     {
                         <div class="card-toolbar">
                             <!--begin::Button-->
-                            <a asp-controller="ProjectCategory"  asp-action="CreateProjectCategory" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                            <a asp-controller="ProjectCategory" asp-action="CreateProjectCategory" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
                                 <i class="fa fa-plus"></i> New project category
                             </a>
                             <!--end::Button-->
@@ -85,7 +85,6 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xl-6 mt-5 mt-lg-0">
-
                             </div>
                         </div>
                     </div>
@@ -98,42 +97,46 @@
                                 <th title="Field #1">ID</th>
                                 <th title="Field #2">Title</th>
                                 <th title="Field #2">Numer of users enrolled</th>
-                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded ||
-                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded || 
-                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded){
-                                <th title="Field #3">Actions</th>
-                                  }
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded ||
+                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded ||
+                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                                {
+                                    <th title="Field #3">Actions</th>
+                                }
                             </tr>
                         </thead>
 
                         <tbody id="kot">
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td id="kot">@item.Id</td>
-                                <td>   @Html.DisplayFor(modelItem => item.Name)</td>
+                                <tr>
+                                    <td id="kot">@item.Id</td>
+                                    <td>   @Html.DisplayFor(modelItem => item.Name)</td>
 
                                     <td>@counnntUser(@item.Id)</td>
 
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded ||
                                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded ||
-                                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded){
-                                    <td style="text-align:right;" class="text-right">
-                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
-                                        {
-                                            <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
-                                                <i class="flaticon2-trash"></i>Delete
-                                        </a>}
-                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
-                                        {
-                                            <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary" title="Edit">
-                                                <i class="flaticon-edit"></i>Edit
-                                        </a>}
-                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
-                                        {
-                                            <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
-                                        }
-                                    </td>
+                                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                                    {
+                                        <td style="text-align:right;" class="text-right">
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
+                                            {
+                                                <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
+                                                    <i class="flaticon2-trash"></i>Delete
+                                                </a>
+                                            }
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                                            {
+                                                <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary" title="Edit">
+                                                    <i class="flaticon-edit"></i>Edit
+                                                </a>
+                                            }
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
+                                            {
+                                                <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
+                                            }
+                                        </td>
                                     }
                                 </tr>
                             }
@@ -148,22 +151,22 @@
     </div>
     <!--end::Entry-->
 </div>
-    <!--end::Content-->
+<!--end::Content-->
 
 
 <style>
     th span {
-        color: #b5b5c3!important;
+        color: #b5b5c3 !important;
         font-size: .9rem;
         text-transform: uppercase;
-        font-weight: 600!important;
+        font-weight: 600 !important;
         letter-spacing: .1rem;
     }
+
     th:last-child span {
         text-align: right;
-        
     }
- 
+
     [data-field="ID"] span, [data-field="ID"] th {
         width: 34px !important;
     }
@@ -172,6 +175,7 @@
         box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
         border: 0;
     }
+
     tbody tr:hover {
         background-color: #F3F6F9;
     }
@@ -188,23 +192,23 @@
     }
 
 
-        th:last-child span {
-            float: right;
-            padding-right: 40px;
-        }
+    th:last-child span {
+        float: right;
+        padding-right: 40px;
+    }
 
-        .datatable-row > .datatable-cell:first-child {
-            padding-left: 10px !important;
-        }
+    .datatable-row > .datatable-cell:first-child {
+        padding-left: 10px !important;
+    }
 
-        .form-control:focus {
-            border-color: #ED7D31 !important;
-        }
+    .form-control:focus {
+        border-color: #ED7D31 !important;
+    }
 
-        @@media only screen and (max-width: 500px) {
-            table {
-                width: 100%;
-                overflow-x: auto !important;
-            }
+    @@media only screen and (max-width: 500px) {
+        table {
+            width: 100%;
+            overflow-x: auto !important;
         }
+    }
 </style>
