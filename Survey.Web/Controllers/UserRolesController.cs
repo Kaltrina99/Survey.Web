@@ -59,7 +59,6 @@ namespace Survey.Web.Controllers
             result = await _userManager.AddToRolesAsync(user, model.UserRoles.Where(x => x.Selected).Select(y => y.RoleName).ToList());
             var currentUser = await _userManager.GetUserAsync(User);
             await _signInManager.RefreshSignInAsync(currentUser);
-            //await Seeds.DefaultUsers.SeedSuperAdminAsync(_userManager, _roleManager);
             return RedirectToAction("Index", "Users");
         }
     }

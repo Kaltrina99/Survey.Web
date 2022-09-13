@@ -28,6 +28,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\DownloadHistory\" />
+    <Folder Include="wwwroot\DownloadHistory\Excel\" />
+    <Folder Include="wwwroot\DownloadHistory\Json\" />
+    <Folder Include="wwwroot\survey\files\" />
+    <Folder Include="wwwroot\survey\surveyImages\" />
     <Folder Include="wwwroot\UploadExcel\" />
     <Folder Include="wwwroot\UploadsUsers\" />
   </ItemGroup>
