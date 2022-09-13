@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,7 @@ using Survey.Infrastructure.Data;
 using Survey.Infrastructure.Repositories;
 using Survey.Infrastructure.Utility.Email_Service;
 using Survey.Web.Permission;
-
+using System.Security.Claims;
 
 namespace Survey.Web
 {
@@ -42,6 +43,12 @@ namespace Survey.Web
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 
             services.AddAuthentication()
+                .AddCookie(options =>
+                {
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.IsEssential = true;
+                })
                .AddGoogle(options =>
                {
                    IConfigurationSection googleAuthSection = Configuration.GetSection("Authentication:Google");
@@ -49,7 +56,15 @@ namespace Survey.Web
                    options.ClientId = googleAuthSection["ClientId"];
                    options.ClientSecret = googleAuthSection["ClientSecret"];
                    options.SaveTokens = true;
-                   options.SignInScheme = IdentityConstants.ExternalScheme;
+                   options.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
+                   options.ClaimActions.Clear();
+                   options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
+                   options.ClaimActions.MapJsonKey("urn:google:profile", "link");
+                   options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                   options.ClaimActions.MapJsonKey("picture", "picture");
                });
 
             services.AddControllersWithViews();
@@ -93,6 +108,12 @@ namespace Survey.Web
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.None,
+                Secure = CookieSecurePolicy.Always,
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -100,6 +121,7 @@ namespace Survey.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }
