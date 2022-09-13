@@ -192,33 +192,45 @@ namespace Survey.Web.Controllers
                         {
                             student = new IdentityUser();
                         }
-                        student.UserName = row.Cell(1).Value.ToString();
-                        student.Email = row.Cell(2).Value.ToString();
+                        student.UserName = row.Cell(2).Value.ToString();
+                        student.Email = row.Cell(3).Value.ToString();
                         student.EmailConfirmed = true;
-                        student.NormalizedUserName=row.Cell(1).Value.ToString().ToLower();
-                        student.NormalizedEmail = row.Cell(2).Value.ToString().ToUpper();
+                        student.NormalizedUserName=row.Cell(1).Value.ToString();
+                        student.NormalizedEmail = row.Cell(3).Value.ToString().ToUpper();
                         IdentityResult result = await _userManager.CreateAsync(student, "P@ssw0rd");
                         
-                        var usCheck = _dbContext.Users.Any(x=>x.Email== row.Cell(2).Value.ToString());
+                        var usCheck = _dbContext.Users.Any(x=>x.Email== row.Cell(3).Value.ToString());
                         
-                        if (!usCheck)
+                        if (usCheck)
                         {
-                            _dbContext.Users.Add(student);
-                            UserProjectCategory p= new UserProjectCategory();
-                       
-                            _dbContext.SaveChanges();
-                            var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(2).Value.ToString()).Id;
-                            p.UserId = idu;
-                            
-                            p.CategoryId =int.Parse(row.Cell(4).Value.ToString());
-                            _dbContext.UserProjectCategories.Add(p);
-                            
-                            IdentityUserRole<string> iur = new IdentityUserRole<string>
+                            var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(3).Value.ToString()).Id;
+                            if (!String.IsNullOrEmpty(row.Cell(6).Value.ToString()))
                             {
-                                RoleId = row.Cell(3).Value.ToString(),
-                                UserId = idu //user.Id
-                            };
-                            var ut = _dbContext.UserRoles.Add(iur);
+                                UserProjectCategory p = new UserProjectCategory();
+
+                                p.UserId = idu;
+
+                                p.CategoryId = int.Parse(row.Cell(6).Value.ToString());
+                                _dbContext.UserProjectCategories.Add(p);
+                            }
+                            if (!String.IsNullOrEmpty(row.Cell(5).Value.ToString()))
+                            {
+                                UserProject p = new UserProject();
+
+                                p.UserId = idu;
+
+                                p.ProjectsId = int.Parse(row.Cell(5).Value.ToString());
+                                _dbContext.UserProject.Add(p);
+                            }
+                            if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
+                            {
+                                IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                {
+                                    RoleId = row.Cell(4).Value.ToString(),
+                                    UserId = idu //user.Id
+                                };
+                                var ut = _dbContext.UserRoles.Add(iur);
+                            }
                         }
                         else
                             _dbContext.Users.Update(student);
@@ -242,9 +254,11 @@ namespace Survey.Web.Controllers
         public IActionResult ExportUser()
         {
             DataTable dt = new DataTable("UsersExcel");
-            dt.Columns.AddRange(new DataColumn[4] { new DataColumn("Name"),
+            dt.Columns.AddRange(new DataColumn[6] { new DataColumn("Name"),
+                                        new DataColumn("UserName"),
                                         new DataColumn("Email"),
                                         new DataColumn("RoleId"),
+                                        new DataColumn("ProjectId"),
                                         new DataColumn("CategoryId") });
 
            
