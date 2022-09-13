@@ -49,35 +49,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "33dc8cf6-74cf-41ba-8888-49e132e24218",
+                            ConcurrencyStamp = "d369df0f-1688-4e7b-9d77-e86b7143dcec",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "af3d9e3e-8354-4f22-8721-d622281f9067",
+                            ConcurrencyStamp = "ff11e0d6-dddd-4afd-8216-db50d2eff179",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "8d2d3cbc-404a-450f-807b-2cd20d1a1d0e",
+                            ConcurrencyStamp = "4a11c707-4777-4646-8828-f6d7a76e04a6",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "c616ef38-cc8f-48a2-a55c-b265fd451625",
+                            ConcurrencyStamp = "8286dc41-bd6a-4587-937d-ac6c17f7e0bf",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "95522da5-1f31-43c7-81e5-63538425e8bc",
+                            ConcurrencyStamp = "dbdf1f56-02d0-4254-bcf6-274e451353a2",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -618,14 +618,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "21f5b947-9329-423f-ad16-ca4ec0712f07",
+                            ConcurrencyStamp = "4e2f87b7-b56b-43ad-a27e-2d514bccf13f",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKL/OLuGJu+1tvzxT0vM+Jj0W5OsasNQb0G1BFDgt0IYAXsumUSmQ8FIlqxFOvUqfQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBGUuVEDIt4LTsrTxK9++poFHfmOboL4DHGexGA+ouPI15LBYlBKCTNCPxJgDHVPfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd2dca58-8c6b-472a-989b-1fec96503d6a",
+                            SecurityStamp = "7e25b3fe-0e58-4284-833e-4adbe96dac3a",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });

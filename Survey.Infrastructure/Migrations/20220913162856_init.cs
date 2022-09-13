@@ -586,17 +586,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "33dc8cf6-74cf-41ba-8888-49e132e24218", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "af3d9e3e-8354-4f22-8721-d622281f9067", "Dean", "DEAN" },
-                    { "5", "8d2d3cbc-404a-450f-807b-2cd20d1a1d0e", "Student", "STUDENT" },
-                    { "3", "c616ef38-cc8f-48a2-a55c-b265fd451625", "Professor", "PROFESSOR" },
-                    { "4", "95522da5-1f31-43c7-81e5-63538425e8bc", "QA", "QA" }
+                    { "1", "d369df0f-1688-4e7b-9d77-e86b7143dcec", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "ff11e0d6-dddd-4afd-8216-db50d2eff179", "Dean", "DEAN" },
+                    { "5", "4a11c707-4777-4646-8828-f6d7a76e04a6", "Student", "STUDENT" },
+                    { "3", "8286dc41-bd6a-4587-937d-ac6c17f7e0bf", "Professor", "PROFESSOR" },
+                    { "4", "dbdf1f56-02d0-4254-bcf6-274e451353a2", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "21f5b947-9329-423f-ad16-ca4ec0712f07", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEKL/OLuGJu+1tvzxT0vM+Jj0W5OsasNQb0G1BFDgt0IYAXsumUSmQ8FIlqxFOvUqfQ==", null, false, "cd2dca58-8c6b-472a-989b-1fec96503d6a", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "4e2f87b7-b56b-43ad-a27e-2d514bccf13f", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEBGUuVEDIt4LTsrTxK9++poFHfmOboL4DHGexGA+ouPI15LBYlBKCTNCPxJgDHVPfA==", null, false, "7e25b3fe-0e58-4284-833e-4adbe96dac3a", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",

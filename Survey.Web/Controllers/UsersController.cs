@@ -258,6 +258,59 @@ namespace Survey.Web.Controllers
                 }
             }
         }
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            ChangePassword user = new ChangePassword();
+               user.UserId =  _dbContext.Users.FirstOrDefault(x => x.UserName == id).Id;
+            if (user != null)
+                return View(user);
+            else
+                return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassword userUpdate)
+        {
+            IdentityUser user = await _userManager.FindByIdAsync(userUpdate.UserId);
+            ChangePassword newPage = new ChangePassword();
+            if (user != null)
+            {
+                if (userUpdate.NewPassword == userUpdate.ConfirmPassword)
+                {
+                   
+                    if (!string.IsNullOrWhiteSpace(userUpdate.NewPassword))
+                    {
+                        PasswordHasher<IdentityUser> hasher = new PasswordHasher<IdentityUser>();
+                        user.PasswordHash = hasher.HashPassword(user, userUpdate.NewPassword);
+                    }
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (IdentityError error in result.Errors)
+                            ModelState.AddModelError("", error.Description);
+                        newPage.UserId = userUpdate.UserId;
+                        return View(newPage);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Check password again!");
+                    
+                    newPage.UserId=userUpdate.UserId;
+                    return View(newPage);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "User Not Found");
+                return RedirectToAction("Index");
+            }
+            return View(user);
+        }
+
 
     }
 }

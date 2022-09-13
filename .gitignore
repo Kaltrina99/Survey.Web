@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Survey.Web/wwwroot/UploadsUsers/a127b6a5-c709-4050-b779-d6324ad73b76.xlsx
