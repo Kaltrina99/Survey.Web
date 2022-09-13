@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @model IEnumerable<IdentityUser>
 @inject Survey.Infrastructure.Data.ApplicationDbContext _dbContext
-@using Survey.Core.Constants
 @using Survey.Core.Models
 @using X.PagedList
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Survey.Core.Constants
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,6 +18,8 @@
 
 
     <h1>User List</h1>
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_AddUser)).Result.Succeeded)
+                    {
         <div class="pt-10 pb-10">
         <a asp-action="Create" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
               <i class="fa fa-plus"></i>  Add new user
@@ -24,7 +28,7 @@
             <i class="fa fa-file-import"></i>Import New Users
         </a>
         </div>
-   
+                    }
     <table class="table table-striped  table-hover paginated-table mb-15" id="userTable">
         <thead>
             <tr>
@@ -37,9 +41,13 @@
                 <th>
                     Email
                 </th>
-                <th style="width:10%">
-                    Actions
-                </th>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded||
+                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded||
+                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
+                {
+                    <th style="width:10%">
+                        Actions
+                </th>}
             </tr>
         </thead>
         <tbody>
@@ -64,21 +72,32 @@
                             @user.Email
                         </a>
                     </td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-light-orange dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Action
-                            </button>
-                            <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-action="Update" asp-route-Id="@user.Id" method="post">Edit</a>
-                                
-                                    <a class="dropdown-item" asp-action="Delete" asp-route-Id="@user.Id" method="post">Delete</a>
-                               
-                                    <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
-                                
-                            </div>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded ||
+                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded ||
+                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
+                    {
+                        <td>
+                            <div class="btn-group">
+
+                                <button type="button" class="btn btn-light-orange dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu">
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@user.Id" method="post">Edit</a>
+                                    }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-Id="@user.Id" method="post">Delete</a>
+                                    }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
+                                    }
+                                </div>
                         </div>
-                    </td>
+                    </td>}
                 </tr>
                                 }
         </tbody>

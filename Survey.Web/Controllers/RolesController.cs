@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Survey.Core.Constants;
 using Survey.Infrastructure.Data;
 using System.Threading.Tasks;
 
@@ -15,12 +17,13 @@ namespace Survey.Web.Controllers
             _roleManager = roleManager;
             _db = db;
         }
-
+        [Authorize(Permissions.PremissionList.Role_View)]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
             return View(roles);
         }
+        [Authorize(Permissions.PremissionList.Role_Add)]
         [HttpPost]
         public async Task<IActionResult> AddRole(string roleName)
         {
@@ -31,7 +34,7 @@ namespace Survey.Web.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [Authorize(Permissions.PremissionList.Role_Delete)]
         public async Task<IActionResult> Delete(string id)
         {
             if (id != null)
@@ -48,6 +51,7 @@ namespace Survey.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Permissions.PremissionList.Role_Update)]
         public async Task<IActionResult> Update(string id)
         {
             IdentityRole user = await _roleManager.FindByIdAsync(id);
@@ -56,6 +60,7 @@ namespace Survey.Web.Controllers
             else
                 return RedirectToAction("Index");
         }
+        [Authorize(Permissions.PremissionList.Role_Update)]
         [HttpPost]
         public async Task<IActionResult> Update(IdentityRole role)
         {

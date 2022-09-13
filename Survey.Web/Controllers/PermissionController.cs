@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Survey.Core.Constants;
 using Survey.Core.Interfaces;
 using Survey.Core.ViewModels;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace Survey.Web.Controllers
         {
             _roleClaim = roleClaim;
         }
-
+        [Authorize(Permissions.PremissionList.Role_Update)]
         public async Task<IActionResult> Index(string roleId)
         {
             var model = new PermissionViewModel();

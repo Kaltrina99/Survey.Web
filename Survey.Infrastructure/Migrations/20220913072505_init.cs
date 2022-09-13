@@ -562,17 +562,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "f5aecc45-688b-40d0-bd45-8865c5dbedf0", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "87e00889-c254-4e63-944d-62e476858cd2", "Dean", "DEAN" },
-                    { "5", "6618348f-7bb2-440f-92e0-bdce30e93a85", "Student", "STUDENT" },
-                    { "3", "615eef83-6d78-4617-bbaf-d97926fa4129", "Professor", "PROFESSOR" },
-                    { "4", "a6ff2e35-fbff-4ba2-aed6-bb420616d47a", "QA", "QA" }
+                    { "1", "571a2e63-72a3-4146-8bd8-aca6d81c9fd7", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "bd543bdb-695b-4627-9ed5-433b84ac38d4", "Dean", "DEAN" },
+                    { "5", "0fd93d7f-9dab-4aa9-91be-06ef1808dc65", "Student", "STUDENT" },
+                    { "3", "02b9a54f-9efd-42a1-b5fe-53e94e76c350", "Professor", "PROFESSOR" },
+                    { "4", "65c3f7ad-5cf4-4e3f-8f60-f455527b19f0", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "59a29049-7de6-45f8-9d02-ab9ac7f25bbd", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEK74lDmlRS/x2hHGLmuehv5fvBt3cuKQFDiws23n2jC4+fi0arFNgzcRhev8+ZVmHw==", null, false, "1f50ee0c-4db4-4c4b-b3cc-2ca978d8c793", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "db2df7a3-8fdc-4125-a4c4-5d6f64a4ce8b", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAELEyXp/EsbrkOLuOES/gcXotQtq8pVjXhLFADMY8qRCJVSsIDB4sEqwr9pIIqYJmGQ==", null, false, "b45f73b2-72a1-4088-9142-265a18c5147c", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
@@ -580,58 +580,75 @@ namespace Survey.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 3, "Permission", "Permissions.Survey.ViewAll", "1" },
-                    { 27, "Permission", "Permissions.Survey.Update", "2" },
-                    { 28, "Permission", "Permissions.Survey.Delete", "2" },
-                    { 29, "Permission", "Permissions.Survey.Collect", "2" },
-                    { 30, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
-                    { 31, "Permission", "Permissions.User.ViewUsers", "2" },
-                    { 32, "Permission", "Permissions.User.UpdateUser", "2" },
-                    { 33, "Permission", "Permissions.User.DeleteUser", "2" },
-                    { 34, "Permission", "Permissions.User.AddUser", "2" },
-                    { 35, "Permission", "Permissions.Project.AssignUsers", "2" },
-                    { 36, "Permission", "Permissions.Project.Add", "2" },
-                    { 37, "Permission", "Permissions.Project.Delete", "2" },
-                    { 38, "Permission", "Permissions.Project.Update", "2" },
-                    { 39, "Permission", "Permissions.Project.View", "2" },
-                    { 40, "Permission", "Permissions.DataSet.AddCases", "2" },
-                    { 41, "Permission", "Permissions.DataSet.AssignCases", "2" },
-                    { 42, "Permission", "Permissions.DataSet.DeleteCases", "2" },
-                    { 43, "Permission", "Permissions.DataSet.ViewCases", "2" },
-                    { 44, "Permission", "Permissions.DataSet.UpdateCases", "2" },
+                    { 36, "Permission", "Permissions.Survey.Update", "2" },
+                    { 37, "Permission", "Permissions.Survey.Delete", "2" },
+                    { 38, "Permission", "Permissions.Survey.Collect", "2" },
+                    { 39, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
+                    { 40, "Permission", "Permissions.Survey.Publish", "2" },
+                    { 41, "Permission", "Permissions.User.ViewUsers", "2" },
+                    { 42, "Permission", "Permissions.User.UpdateUser", "2" },
+                    { 43, "Permission", "Permissions.User.DeleteUser", "2" },
+                    { 44, "Permission", "Permissions.User.AddUser", "2" },
+                    { 45, "Permission", "Permissions.Role.Add", "2" },
+                    { 46, "Permission", "Permissions.Role.Delete", "2" },
+                    { 47, "Permission", "Permissions.Role.PermissionsView", "2" },
+                    { 48, "Permission", "Permissions.Role.View", "2" },
+                    { 35, "Permission", "Permissions.Survey.Create", "2" },
+                    { 49, "Permission", "Permissions.Project.Add", "2" },
+                    { 51, "Permission", "Permissions.Project.Update", "2" },
+                    { 52, "Permission", "Permissions.Project.View", "2" },
+                    { 53, "Permission", "Permissions.Category.Add", "2" },
+                    { 54, "Permission", "Permissions.Category.AssignUsers", "2" },
+                    { 55, "Permission", "Permissions.Category.Delete", "2" },
+                    { 56, "Permission", "Permissions.Category.Update", "2" },
+                    { 57, "Permission", "Permissions.Category.View", "2" },
+                    { 58, "Permission", "Permissions.DataSet.AddCases", "2" },
+                    { 59, "Permission", "Permissions.DataSet.AssignCases", "2" },
+                    { 60, "Permission", "Permissions.DataSet.DeleteCases", "2" },
+                    { 61, "Permission", "Permissions.DataSet.ViewCases", "2" },
+                    { 62, "Permission", "Permissions.DataSet.UpdateCases", "2" },
                     { 1, "Permission", "Permissions.Survey.View", "5" },
-                    { 26, "Permission", "Permissions.Survey.Create", "2" },
+                    { 50, "Permission", "Permissions.Project.Delete", "2" },
                     { 2, "Permission", "Permissions.Survey.Collect", "5" },
-                    { 25, "Permission", "Permissions.Survey.View", "2" },
-                    { 23, "Permission", "Permissions.DataSet.UpdateCases", "1" },
+                    { 34, "Permission", "Permissions.Survey.View", "2" },
+                    { 32, "Permission", "Permissions.DataSet.UpdateCases", "1" },
                     { 4, "Permission", "Permissions.Survey.View", "1" },
                     { 5, "Permission", "Permissions.Survey.Create", "1" },
                     { 6, "Permission", "Permissions.Survey.Update", "1" },
                     { 7, "Permission", "Permissions.Survey.Delete", "1" },
                     { 8, "Permission", "Permissions.Survey.Collect", "1" },
                     { 9, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
-                    { 10, "Permission", "Permissions.User.ViewUsers", "1" },
-                    { 11, "Permission", "Permissions.User.UpdateUser", "1" },
-                    { 12, "Permission", "Permissions.User.DeleteUser", "1" },
-                    { 13, "Permission", "Permissions.User.AddUser", "1" },
-                    { 14, "Permission", "Permissions.Project.AssignUsers", "1" },
-                    { 15, "Permission", "Permissions.Project.Add", "1" },
-                    { 16, "Permission", "Permissions.Project.Delete", "1" },
-                    { 17, "Permission", "Permissions.Project.Update", "1" },
-                    { 18, "Permission", "Permissions.Project.View", "1" },
-                    { 19, "Permission", "Permissions.DataSet.AddCases", "1" },
-                    { 20, "Permission", "Permissions.DataSet.AssignCases", "1" },
-                    { 21, "Permission", "Permissions.DataSet.DeleteCases", "1" }
+                    { 10, "Permission", "Permissions.Survey.Publish", "1" },
+                    { 11, "Permission", "Permissions.User.ViewUsers", "1" },
+                    { 12, "Permission", "Permissions.User.UpdateUser", "1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
-                values: new object[] { 22, "Permission", "Permissions.DataSet.ViewCases", "1" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoleClaims",
-                columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
-                values: new object[] { 24, "Permission", "Permissions.Survey.ViewAll", "2" });
+                values: new object[,]
+                {
+                    { 13, "Permission", "Permissions.User.DeleteUser", "1" },
+                    { 14, "Permission", "Permissions.User.AddUser", "1" },
+                    { 15, "Permission", "Permissions.Role.Add", "1" },
+                    { 16, "Permission", "Permissions.Role.Delete", "1" },
+                    { 33, "Permission", "Permissions.Survey.ViewAll", "2" },
+                    { 17, "Permission", "Permissions.Role.PermissionsView", "1" },
+                    { 19, "Permission", "Permissions.Project.Add", "1" },
+                    { 20, "Permission", "Permissions.Project.Delete", "1" },
+                    { 21, "Permission", "Permissions.Project.Update", "1" },
+                    { 22, "Permission", "Permissions.Project.View", "1" },
+                    { 23, "Permission", "Permissions.Category.Add", "1" },
+                    { 24, "Permission", "Permissions.Category.AssignUsers", "1" },
+                    { 25, "Permission", "Permissions.Category.Delete", "1" },
+                    { 26, "Permission", "Permissions.Category.Update", "1" },
+                    { 27, "Permission", "Permissions.Category.View", "1" },
+                    { 28, "Permission", "Permissions.DataSet.AddCases", "1" },
+                    { 29, "Permission", "Permissions.DataSet.AssignCases", "1" },
+                    { 30, "Permission", "Permissions.DataSet.DeleteCases", "1" },
+                    { 31, "Permission", "Permissions.DataSet.ViewCases", "1" },
+                    { 18, "Permission", "Permissions.Role.View", "1" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

@@ -70,7 +70,7 @@ namespace Survey.Web.Controllers
             return Ok();
         }
 
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         #region Create Form
         public IActionResult AddForm()
         {
@@ -84,6 +84,7 @@ namespace Survey.Web.Controllers
             };
             return View(addViewModel);
         }
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddForm(FormViewModel formViewModel)
@@ -100,6 +101,7 @@ namespace Survey.Web.Controllers
             }
             return View(formViewModel);
         }
+        [Authorize(Permissions.PremissionList.Survey_Update)]
         [HttpGet]
         public IActionResult UpdateForm(int id)
         {
@@ -113,7 +115,7 @@ namespace Survey.Web.Controllers
             };
             return View(addViewModel);
         }
-
+        [Authorize(Permissions.PremissionList.Survey_Update)]
         [HttpPost, ActionName("UpdateForm")]
         [ValidateAntiForgeryToken]
 
@@ -129,10 +131,9 @@ namespace Survey.Web.Controllers
             return View(formViewModel);
         }
 
-       
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         [Authorize]
         [HttpGet]
-
         public IActionResult ImportSurvey()
         {
             var model = new FormViewModel();
@@ -144,7 +145,7 @@ namespace Survey.Web.Controllers
         }
         [Authorize]
         [HttpGet]
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         public async Task<IActionResult> CreateExcelFromSurvey(int id)
         {
             var response = await _form.CreateExcelFromForm(id);
@@ -163,7 +164,7 @@ namespace Survey.Web.Controllers
         }
         [Authorize]
         [HttpPost]
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         public async Task<IActionResult> CreateSurveyExcel(FormViewModel file)
         {
             var u = _userManager.GetUserAsync(HttpContext.User);
@@ -186,7 +187,7 @@ namespace Survey.Web.Controllers
             return Ok();
         }
         #endregion
-
+        [Authorize(Permissions.PremissionList.Survey_Delete)]
         #region Delete Form
         public IActionResult DeleteForm(int? id)
         {
@@ -202,7 +203,7 @@ namespace Survey.Web.Controllers
             }
             return View(form);
         }
-
+        [Authorize(Permissions.PremissionList.Survey_Delete)]
         [HttpPost, ActionName("DeleteForm")]
         [ValidateAntiForgeryToken]
 
@@ -307,7 +308,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Publish Form
-
+        [Authorize(Permissions.PremissionList.Survey_Publish)]
         public IActionResult PublishForm(int id)
         {
             var table_form = _form.FirstOrDefault(x => x.Id == id);
@@ -327,7 +328,7 @@ namespace Survey.Web.Controllers
 
         #region Designer
         [HttpGet]
-
+        [Authorize(Permissions.PremissionList.Survey_Delete)]
         public IActionResult DeleteQuestion(int id)
         {
             var response = _question.DeleteQuestion(id);
@@ -338,7 +339,7 @@ namespace Survey.Web.Controllers
             return Ok();
         }
 
-
+        [Authorize(Permissions.PremissionList.Survey_Delete)]
         public IActionResult EditQuestion(int id)
         {
             FormViewModel model = new();
@@ -350,7 +351,7 @@ namespace Survey.Web.Controllers
             model = response.Data;
             return View(model);
         }
-
+        [Authorize(Permissions.PremissionList.Survey_Delete)]
         public IActionResult updateQuestion(FormViewModel model)
         {
             var response = _question.UpdateQuestion(model.Question, model.otherOptions);
@@ -362,7 +363,7 @@ namespace Survey.Web.Controllers
             return RedirectToAction("Designer", new { id = model.Question.Form_Id });
         }
         [HttpGet]
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         public IActionResult Designer(int id)
         {
             FormViewModel formViewModel = new FormViewModel()
@@ -380,7 +381,7 @@ namespace Survey.Web.Controllers
         }
 
         [HttpPost]
-
+       
         public async Task<IActionResult> OrderQuestions(FormViewModel model)
         {
             var response = await _question.UpdateOrder(model.OriginalQuestion, model.formid);
@@ -393,7 +394,7 @@ namespace Survey.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         public async Task<IActionResult> Designer(FormViewModel formViewModel, QType FieldType, string _isRequired)
         {
             bool isRequired = false;
@@ -470,7 +471,7 @@ namespace Survey.Web.Controllers
 
 
         #region Skip Logic
-
+        [Authorize(Permissions.PremissionList.Survey_Create)]
         public IActionResult SkipLogic(int id)
         {
             int question_formId = _question.GetQuestionsFormId(id);
@@ -598,7 +599,7 @@ namespace Survey.Web.Controllers
         #region Test / Submit Survey
         [HttpGet]
         [AllowAnonymous]
-
+       
         public async Task<IActionResult> Survey(int id, [FromQuery] string SAgTRid, [FromQuery] int? caseId)
         {
             if (SAgTRid == null || !_dbContext.IdentityUsers.Any(x => x.Id == SAgTRid))
@@ -754,7 +755,7 @@ namespace Survey.Web.Controllers
 
 
         #region Collect
-
+        [Authorize(Permissions.PremissionList.Survey_Collect)]
         public IActionResult Collect(int id)
         {
             var uId = _dbContext.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).Id;

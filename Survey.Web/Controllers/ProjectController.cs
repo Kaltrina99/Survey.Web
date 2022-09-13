@@ -32,7 +32,7 @@ namespace Survey.Web.Controllers
             _userManager = userManager;
             _dbContext = dbContext;
         }
-       // [Authorize(Permissions.PremissionList.Project_View)]
+        [Authorize(Permissions.PremissionList.Project_View)]
 
         public IActionResult Index(int? projectId, string searchingword)
         {
@@ -47,7 +47,7 @@ namespace Survey.Web.Controllers
         }
 
         #region Create Project
-      //  [Authorize(Permissions.PremissionList.Project_Add)]
+        [Authorize(Permissions.PremissionList.Project_Add)]
 
         public IActionResult CreateProject()
         {
@@ -59,7 +59,7 @@ namespace Survey.Web.Controllers
             };
             return View(projectViewModel);
         }
-        //[Authorize(Permissions.PremissionList.Project_Add)]
+        [Authorize(Permissions.PremissionList.Project_Add)]
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -146,26 +146,8 @@ namespace Survey.Web.Controllers
             _project.Save();
 
             return RedirectToAction("Index");
-           // return View(project);
+
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult DeleteProject(int? projectId)
-        //{
-        //    var objProject = _project.Find(projectId.GetValueOrDefault());
-
-        //    if (objProject == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _project.Remove(objProject);
-        //    _project.Save();
-        //    TempData[WebConstants.Success] = "Action Completed Successfully !";
-
-        //    return RedirectToAction("Index");
-        //}
         #endregion
 
     }

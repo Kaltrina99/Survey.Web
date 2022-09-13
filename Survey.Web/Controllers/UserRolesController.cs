@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Survey.Core.Constants;
 using Survey.Core.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Survey.Web.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
-
+      
         public async Task<IActionResult> Index(string userId)
         {
             var viewModel = new List<UserRolesViewModel>();

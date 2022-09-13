@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Survey.Core.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Survey.Web.Controllers
 {
@@ -26,6 +28,7 @@ namespace Survey.Web.Controllers
             _userManager = userManager;
             _dbContext = dbContext;
         }
+        [Authorize(Permissions.PremissionList.Category_View)]
         public IActionResult Index()
         {
             var u = _userManager.GetUserAsync(HttpContext.User);
@@ -34,12 +37,12 @@ namespace Survey.Web.Controllers
         }
 
         #region Create Project Category
-
+        [Authorize(Permissions.PremissionList.Category_Add)]
         public IActionResult CreateProjectCategory()
         {
             return View();
         }
-
+        [Authorize(Permissions.PremissionList.Category_Add)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateProjectCategory(ProjectCategory projectCategory)
@@ -57,7 +60,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Update Category
-
+        [Authorize(Permissions.PremissionList.Category_Update)]
         public IActionResult UpdateCategory(int? id)
         {
             var u = _userManager.GetUserAsync(HttpContext.User);
@@ -81,7 +84,7 @@ namespace Survey.Web.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Permissions.PremissionList.Category_Update)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateCategory(ProjectViewModel projectViewModel)
@@ -101,7 +104,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Delete Category
-
+        [Authorize(Permissions.PremissionList.Category_Delete)]
         public IActionResult DeleteCategory(int? id)
         {
             if (id == null || id == 0)
@@ -118,7 +121,7 @@ namespace Survey.Web.Controllers
             return View(category);
         }
 
-
+        [Authorize(Permissions.PremissionList.Category_Delete)]
         [HttpPost, ActionName("DeleteCategory")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteExistingCategory(int? id)
@@ -140,7 +143,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Enroll Users
-
+        [Authorize(Permissions.PremissionList.Category_AssignUser)]
         public IActionResult EnrollUsersToClients(string id)
         {
             ViewBag.u = id;
@@ -157,6 +160,7 @@ namespace Survey.Web.Controllers
 
             return View(model);
         }
+        [Authorize(Permissions.PremissionList.Category_AssignUser)]
         #endregion
         public IActionResult Enroll(int id)
         {
@@ -190,6 +194,7 @@ namespace Survey.Web.Controllers
 
             return View(model);
         }
+        [Authorize(Permissions.PremissionList.Category_AssignUser)]
         [HttpPost]
         public IActionResult Enroll(List<CategoryPartUserViewModel> model, int id)
         {

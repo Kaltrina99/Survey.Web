@@ -1,4 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Survey.Core.Constants
 @model IEnumerable<IdentityRole>
 @{
     ViewData["Title"] = "Index";
@@ -11,8 +14,10 @@
 
     <h1>Roles</h1>
     <br />
-    <form method="post" asp-action="addrole" asp-controller="roles">
-        <div class="input-group row pb-8">
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Add)).Result.Succeeded)
+    {
+        <form method="post" asp-action="addrole" asp-controller="roles">
+            <div class="input-group row pb-8">
             <div class="col-lg-3">
                 <input name="roleName" class="form-control w-10">
             </div>
@@ -21,7 +26,7 @@
                 <button  type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" ><i class="fa fa-plus"></i>Add New Role</button>
             </span>
         </div>
-    </form>
+    </form>}
     <table class="table table-striped" id="roleTable">
         <thead>
             <tr>
@@ -31,10 +36,13 @@
                 <th>
                     Id
                 </th>
-
-                <th style="width:10%">
-                    Actions
-                </th>
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded ||
+           (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded )
+                {
+                    <th style="width:10%">
+                        Actions
+                    </th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -47,21 +55,31 @@
                         <td>
                             @role.Id
                         </td>
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded ||
+              (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
+                    {
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-light-orange dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-action="Update" asp-route-Id="@role.Id">Edit</a>
-                                    <a class="dropdown-item" asp-action="Delete" asp-route-Id="@role.Id" method="post">Delete</a>
-                                    
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@role.Id">Edit</a>
+                                    }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-Id="@role.Id" method="post">Delete</a>
+                                    }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
+                                    {
                                         <a class="dropdown-item" asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id">Manage Permissions</a>
-                                   
+                                    }  
                                 </div>
                             </div>
 
-                        </td>
+                        </td>}
                     </tr>
                     
                 }

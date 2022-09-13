@@ -1,10 +1,15 @@
 ﻿@inject Survey.Infrastructure.Data.ApplicationDbContext db
 @model IEnumerable<Survey.Core.Models.ProjectCategory>
-
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Survey.Core.Constants
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    int counnntUser(int id)
+    {
+        return db.UserProjectCategories.Where(x => x.CategoryId == id).ToList().Count;
+    }
 }
 
 
@@ -50,13 +55,16 @@
                             <span class="d-block text-muted pt-2 font-size-sm"> Find all the  programs below: </span>
                         </h3>
                     </div>
-                    <div class="card-toolbar">
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Add)).Result.Succeeded)
+                    {
+                        <div class="card-toolbar">
                             <!--begin::Button-->
                             <a asp-controller="ProjectCategory"  asp-action="CreateProjectCategory" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
                                 <i class="fa fa-plus"></i> New project category
                             </a>
                             <!--end::Button-->
-                    </div>
+                        </div>
+                    }
                 </div>
                 <div class="card-body">
                     <!--begin: Search Form-->
@@ -89,9 +97,12 @@
                             <tr>
                                 <th title="Field #1">ID</th>
                                 <th title="Field #2">Title</th>
-                                <th title="Field #2">Created date </th>
+                                <th title="Field #2">Numer of users enrolled</th>
+                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded ||
+                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded || 
+                                (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded){
                                 <th title="Field #3">Actions</th>
-
+                                  }
                             </tr>
                         </thead>
 
@@ -102,18 +113,28 @@
                                 <td id="kot">@item.Id</td>
                                 <td>   @Html.DisplayFor(modelItem => item.Name)</td>
 
-                                <td>02/04/2021</td>
-                               
+                                    <td>@counnntUser(@item.Id)</td>
+
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded ||
+                                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded ||
+                                   (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded){
                                     <td style="text-align:right;" class="text-right">
-                                        <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
-                                            <i class="flaticon2-trash"></i>Delete
-                                        </a>
-                                        <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary" title="Edit">
-                                            <i class="flaticon-edit"></i>Edit
-                                        </a>
-                                          <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
+                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
+                                        {
+                                            <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
+                                                <i class="flaticon2-trash"></i>Delete
+                                        </a>}
+                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                                        {
+                                            <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-primary" title="Edit">
+                                                <i class="flaticon-edit"></i>Edit
+                                        </a>}
+                                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
+                                        {
+                                            <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
+                                        }
                                     </td>
-                               
+                                    }
                                 </tr>
                             }
                         </tbody>

@@ -27,6 +27,7 @@ namespace Survey.Core.Constants
             public const string Survey_Delete = "Permissions.Survey.Delete";
             public const string Survey_Collect = "Permissions.Survey.Collect";
             public const string Survey_SeeResults = "Permissions.Survey.SeeSurveyResults";
+            public const string Survey_Publish = "Permissions.Survey.Publish";
             #endregion
 
             #region Project Permissions
@@ -34,14 +35,25 @@ namespace Survey.Core.Constants
             public const string Project_Delete = "Permissions.Project.Delete";
             public const string Project_Update = "Permissions.Project.Update";
             public const string Project_View = "Permissions.Project.View";
-            public const string Project_AssignUser = "Permissions.Project.AssignUsers";
             #endregion
-
+            #region Category Permissions
+            public const string Category_Add = "Permissions.Category.Add";
+            public const string Category_Delete = "Permissions.Category.Delete";
+            public const string Category_Update = "Permissions.Category.Update";
+            public const string Category_View = "Permissions.Category.View";
+            public const string Category_AssignUser = "Permissions.Category.AssignUsers";
+            #endregion
             #region User Permissions
             public const string User_AddUser = "Permissions.User.AddUser";
             public const string User_DeleteUser = "Permissions.User.DeleteUser";
             public const string User_UpdateUser = "Permissions.User.UpdateUser";
             public const string User_ViewUsers = "Permissions.User.ViewUsers";
+            #endregion
+            #region Role Permissions
+            public const string Role_Add = "Permissions.Role.Add";
+            public const string Role_Delete = "Permissions.Role.Delete";
+            public const string Role_Update = "Permissions.Role.PermissionsView";
+            public const string Role_View = "Permissions.Role.View";
             #endregion
 
             #region Cases Permissions
@@ -63,15 +75,24 @@ namespace Survey.Core.Constants
                     Survey_Delete,
                     Survey_Collect,
                     Survey_SeeResults,
+                    Survey_Publish,
                     User_ViewUsers,
                     User_UpdateUser,
                     User_DeleteUser,
                     User_AddUser,
-                    Project_AssignUser,
+                    Role_Add,
+                    Role_Delete,
+                    Role_Update,
+                    Role_View,
                     Project_Add,
                     Project_Delete,
                     Project_Update,
                     Project_View,
+                    Category_Add,
+                    Category_AssignUser,
+                    Category_Delete,
+                    Category_Update,
+                    Category_View,
                     DataSet_AddCases,
                     DataSet_AssignCases,
                     DataSet_DeleteCases,

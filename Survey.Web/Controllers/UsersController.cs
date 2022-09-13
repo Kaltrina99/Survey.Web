@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NPOI.SS.Formula.Functions;
+using Survey.Core.Constants;
 using Survey.Core.Models;
 using Survey.Core.ViewModels;
 using Survey.Infrastructure.Data;
@@ -38,7 +40,7 @@ namespace Survey.Web.Controllers
             _configuration = configuration;
             // _emailSender = emailSender;
         }
-       // [Authorize(Permissions.PremissionList.User_ViewUsers)]
+        [Authorize(Permissions.PremissionList.User_ViewUsers)]
 
         public async Task<IActionResult> Index()
         {
@@ -46,10 +48,10 @@ namespace Survey.Web.Controllers
             var allUsersExceptCurrentUuer = await _userManager.Users.ToListAsync();
             return View(allUsersExceptCurrentUuer);
         }
-        //[Authorize(Permissions.PremissionList.User_AddUser)]
+        [Authorize(Permissions.PremissionList.User_AddUser)]
 
         public ViewResult Create() => View();
-       // [Authorize(Permissions.PremissionList.User_AddUser)]
+        [Authorize(Permissions.PremissionList.User_AddUser)]
 
         [HttpPost]
         public async Task<IActionResult> Create(UsersViewModel user)
@@ -96,7 +98,7 @@ namespace Survey.Web.Controllers
             }
             return View(user);
         }
-        //[Authorize(Permissions.PremissionList.User_UpdateUser)]
+        [Authorize(Permissions.PremissionList.User_UpdateUser)]
 
         public async Task<IActionResult> Update(string id)
         {
@@ -106,7 +108,7 @@ namespace Survey.Web.Controllers
             else
                 return RedirectToAction("Index");
         }
-        //[Authorize(Permissions.PremissionList.User_UpdateUser)]
+        [Authorize(Permissions.PremissionList.User_UpdateUser)]
 
         [HttpPost]
         public async Task<IActionResult> Update(IdentityUser userUpdate, string password)
@@ -140,7 +142,7 @@ namespace Survey.Web.Controllers
             }
             return View(user);
         }
-       // [Authorize(Permissions.PremissionList.User_DeleteUser)]
+        [Authorize(Permissions.PremissionList.User_DeleteUser)]
 
         public async Task<IActionResult> Delete(string id)
         {
@@ -151,13 +153,13 @@ namespace Survey.Web.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [Authorize(Permissions.PremissionList.User_AddUser)]
         public  ActionResult ImportUsers()
         {
             return View();
         }
-       
 
+        [Authorize(Permissions.PremissionList.User_AddUser)]
         [HttpPost]
         public async Task<IActionResult> ImportExcelFile(IFormFile FormFile)
         {

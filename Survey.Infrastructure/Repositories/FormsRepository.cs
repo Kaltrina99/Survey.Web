@@ -154,7 +154,7 @@ namespace Survey.Infrastructure.Repositories
 
                 foreach ( var nr in proj)
                 {
-                    List<Forms> tem = _dbContext.Forms.Where(x => x.Project_Id == nr).ToList();
+                    List<Forms> tem = _dbContext.Forms.Where(x => x.Project_Id == nr && (int)x.Form_Status==1).ToList();
                     results.AddRange(tem);
                 }
                 return results.ToPagedList(pagenumber, pagesize);

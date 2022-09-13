@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Survey.Core.Constants;
 
 namespace Survey.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace Survey.Web.Controllers
             _env = env;
             _userManager = userManager;
         }
-
+        [Authorize(Permissions.PremissionList.Survey_SeeResults)]
         #region Index
         public async Task<IActionResult> Index(int id)
         {

@@ -49,35 +49,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "f5aecc45-688b-40d0-bd45-8865c5dbedf0",
+                            ConcurrencyStamp = "571a2e63-72a3-4146-8bd8-aca6d81c9fd7",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "87e00889-c254-4e63-944d-62e476858cd2",
+                            ConcurrencyStamp = "bd543bdb-695b-4627-9ed5-433b84ac38d4",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "6618348f-7bb2-440f-92e0-bdce30e93a85",
+                            ConcurrencyStamp = "0fd93d7f-9dab-4aa9-91be-06ef1808dc65",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "615eef83-6d78-4617-bbaf-d97926fa4129",
+                            ConcurrencyStamp = "02b9a54f-9efd-42a1-b5fe-53e94e76c350",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "a6ff2e35-fbff-4ba2-aed6-bb420616d47a",
+                            ConcurrencyStamp = "65c3f7ad-5cf4-4e3f-8f60-f455527b19f0",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -174,243 +174,369 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = 10,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.ViewUsers",
+                            ClaimValue = "Permissions.Survey.Publish",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 11,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.UpdateUser",
+                            ClaimValue = "Permissions.User.ViewUsers",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 12,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.DeleteUser",
+                            ClaimValue = "Permissions.User.UpdateUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 13,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.AddUser",
+                            ClaimValue = "Permissions.User.DeleteUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 14,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.AssignUsers",
+                            ClaimValue = "Permissions.User.AddUser",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 15,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Add",
+                            ClaimValue = "Permissions.Role.Add",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 16,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Delete",
+                            ClaimValue = "Permissions.Role.Delete",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 17,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Update",
+                            ClaimValue = "Permissions.Role.PermissionsView",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 18,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.View",
+                            ClaimValue = "Permissions.Role.View",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 19,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AddCases",
+                            ClaimValue = "Permissions.Project.Add",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 20,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            ClaimValue = "Permissions.Project.Delete",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 21,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            ClaimValue = "Permissions.Project.Update",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 22,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            ClaimValue = "Permissions.Project.View",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 23,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.UpdateCases",
+                            ClaimValue = "Permissions.Category.Add",
                             RoleId = "1"
                         },
                         new
                         {
                             Id = 24,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.ViewAll",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.Category.AssignUsers",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 25,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.View",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.Category.Delete",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 26,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Create",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.Category.Update",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 27,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Update",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.Category.View",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 28,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Delete",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.DataSet.AddCases",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 29,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.Collect",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 30,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Survey.SeeSurveyResults",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 31,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.ViewUsers",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 32,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.UpdateUser",
-                            RoleId = "2"
+                            ClaimValue = "Permissions.DataSet.UpdateCases",
+                            RoleId = "1"
                         },
                         new
                         {
                             Id = 33,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.DeleteUser",
+                            ClaimValue = "Permissions.Survey.ViewAll",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 34,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.User.AddUser",
+                            ClaimValue = "Permissions.Survey.View",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 35,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.AssignUsers",
+                            ClaimValue = "Permissions.Survey.Create",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 36,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Add",
+                            ClaimValue = "Permissions.Survey.Update",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 37,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Delete",
+                            ClaimValue = "Permissions.Survey.Delete",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 38,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.Update",
+                            ClaimValue = "Permissions.Survey.Collect",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 39,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.Project.View",
+                            ClaimValue = "Permissions.Survey.SeeSurveyResults",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 40,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AddCases",
+                            ClaimValue = "Permissions.Survey.Publish",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 41,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            ClaimValue = "Permissions.User.ViewUsers",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 42,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            ClaimValue = "Permissions.User.UpdateUser",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 43,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            ClaimValue = "Permissions.User.DeleteUser",
                             RoleId = "2"
                         },
                         new
                         {
                             Id = 44,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.User.AddUser",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Role.Add",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Role.Delete",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Role.PermissionsView",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Role.View",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Add",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Delete",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.Update",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Project.View",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Category.Add",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Category.AssignUsers",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Category.Delete",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Category.Update",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.Category.View",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.AddCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.AssignCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.DeleteCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            ClaimType = "Permission",
+                            ClaimValue = "Permissions.DataSet.ViewCases",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 62,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.DataSet.UpdateCases",
                             RoleId = "2"
@@ -492,14 +618,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "59a29049-7de6-45f8-9d02-ab9ac7f25bbd",
+                            ConcurrencyStamp = "db2df7a3-8fdc-4125-a4c4-5d6f64a4ce8b",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK74lDmlRS/x2hHGLmuehv5fvBt3cuKQFDiws23n2jC4+fi0arFNgzcRhev8+ZVmHw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELEyXp/EsbrkOLuOES/gcXotQtq8pVjXhLFADMY8qRCJVSsIDB4sEqwr9pIIqYJmGQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f50ee0c-4db4-4c4b-b3cc-2ca978d8c793",
+                            SecurityStamp = "b45f73b2-72a1-4088-9142-265a18c5147c",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });

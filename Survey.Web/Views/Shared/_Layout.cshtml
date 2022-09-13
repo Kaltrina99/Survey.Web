@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Survey.Core.Constants
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,15 +26,24 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Survey" asp-action="ManageForm">Survey</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategory" asp-action="Index">Project Category</a>
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_View)).Result.Succeeded)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Survey" asp-action="ManageForm">Survey</a>
+                                </li>
+                            }
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_View)).Result.Succeeded)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Project</a>
+                                </li>
+                            }
+                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ProjectCategory" asp-action="Index">Project Category</a>
                         </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />
