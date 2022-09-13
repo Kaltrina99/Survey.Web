@@ -22,8 +22,9 @@ namespace Survey.Infrastructure.Utility.Email_Service
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             
-            string admin_email = "kaltrina.aliu@riinvest.net";
+            
             _mailJetOptions = _configuration.GetSection("MailJet").Get<MailJetOptions>();
+            string admin_email =_mailJetOptions.Email;
             MailjetClient client = new MailjetClient(_mailJetOptions.ApiKey, _mailJetOptions.SecretKey)
             {
                 Version = ApiVersion.V3_1,

@@ -10,5 +10,6 @@ namespace Survey.Infrastructure.Utility.Email_Service
     {
         public string ApiKey { get; set; }
         public string SecretKey { get; set; }
+        public string Email { get; set; }
     }
 }
