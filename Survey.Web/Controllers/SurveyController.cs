@@ -248,8 +248,13 @@ namespace Survey.Web.Controllers
             var u = _userManager.GetUserAsync(HttpContext.User);
             
             var users = _dbContext.UserProjectCategories.Where(x => x.UserId == u.Result.Id).ToList();
+            var usersP = _dbContext.UserProject.Where(x => x.UserId == u.Result.Id).ToList();
             List<int> proj = new List<int>();
             List<int> categ = new List<int>();
+            foreach (var item in usersP)
+            {
+                proj.Add(item.ProjectsId);
+            }
             foreach (var user in users)
             {
                 categ.Add(user.CategoryId);
@@ -257,6 +262,7 @@ namespace Survey.Web.Controllers
             foreach (var cat in categ)
             {
                 var t = _dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == cat);
+               
                 proj.Add(t.Id);
             }
             var r = _dbContext.UserRoles.Where(x => x.UserId ==u.Result.Id).ToList();
@@ -270,6 +276,7 @@ namespace Survey.Web.Controllers
                     {
                         ids.Add(c.RoleId);
                     }
+                    
                     else
                     {
                         ids.Clear();

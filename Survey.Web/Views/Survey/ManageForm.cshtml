@@ -20,7 +20,47 @@
         var getClient = db.Projects.Where(x => x.Id == ids).Select(x => x.ProjectCategoryId).First();
         return db.ProjectCategories.Where(x => x.Id == getClient).Select(x => x.Name).First();
     }
+    bool CheckIfPrem()
+    {
 
+        var u = User.Identity.Name;
+        var user = db.Users.FirstOrDefault(x => x.UserName == u);
+        var roles = db.UserRoles.Where(x => x.UserId == user.Id).ToList();
+        foreach (var item in roles)
+        {
+            if (db.RoleClaims.Any(x => x.RoleId == item.RoleId && x.ClaimValue == "Permissions.Survey.ViewAll"))
+            {
+                return true;
+            }
+            
+        }
+        return false;
+    }
+    bool IsEnroll(int? projectId)
+    {
+
+        var u = User.Identity.Name;
+        var user = db.Users.FirstOrDefault(x => x.UserName == u);
+        var item = db.UserProject.FirstOrDefault(x => x.ProjectsId == projectId && x.UserId == user.Id);
+        if (item == null && !CheckIfPrem()) return false;
+
+        return true;
+    }
+    int GetCat(int? projectId){
+        var u = User.Identity.Name;
+        var user = db.Users.FirstOrDefault(x => x.UserName == u);
+        var item2 = db.Projects.FirstOrDefault(x => x.Id == projectId);
+        return item2.ProjectCategoryId;
+    }
+    bool IsEnrollCat(int projectId)
+    {
+        var u = User.Identity.Name;
+        var user = db.Users.FirstOrDefault(x => x.UserName == u);
+        var item3 = db.UserProjectCategories.Any(x => x.UserId == user.Id && x.CategoryId == projectId);
+        if (item3 == false && !CheckIfPrem()) return false;
+
+        return true;
+    }
 }
 <link rel="stylesheet" href="~/css/ManageForm.css" type="text/css" />
 <!--begin::Wrapper-->
@@ -174,18 +214,20 @@
                                                 </a>
                                             </td>
                                             }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_SeeResults)).Result.Succeeded)
+                                            @if (IsEnroll(form.Project_Id)==true &&(AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_SeeResults)).Result.Succeeded)
                                             {
-                                            <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="fas fa-chart-bar"></i>
-                                                    </p>
-                                                    <p class="nav-text">Results</p>
-                                                </a>
-                                            </td>
+                                                
+                                                    <td>
+                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+                                                            <p class="nav-icon">
+                                                                <i class="fas fa-chart-bar"></i>
+                                                            </p>
+                                                            <p class="nav-text">Results</p>
+                                                        </a>
+                                                    </td>
+                                                
                                             }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Collect)).Result.Succeeded)
+                                            @if (IsEnrollCat(GetCat(form.Project_Id)) && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Collect)).Result.Succeeded)
                                             {
                                                 @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
                                                 {

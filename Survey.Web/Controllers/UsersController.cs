@@ -209,6 +209,7 @@ namespace Survey.Web.Controllers
                             _dbContext.SaveChanges();
                             var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(2).Value.ToString()).Id;
                             p.UserId = idu;
+                            
                             p.CategoryId =int.Parse(row.Cell(4).Value.ToString());
                             _dbContext.UserProjectCategories.Add(p);
                             
