@@ -32,7 +32,7 @@
             {
                 return true;
             }
-            
+
         }
         return false;
     }
@@ -46,7 +46,8 @@
 
         return true;
     }
-    int GetCat(int? projectId){
+    int GetCat(int? projectId)
+    {
         var u = User.Identity.Name;
         var user = db.Users.FirstOrDefault(x => x.UserName == u);
         var item2 = db.Projects.FirstOrDefault(x => x.Id == projectId);
@@ -203,114 +204,100 @@
                                             }
                                         </td>
                                         <td>
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Update)).Result.Succeeded)
-                                            {
-                                            <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-trash"></i>
-                                                    </p>
-                                                    <p class="nav-text">Update</p>
-                                                </a>
-                                            </td>
-                                            }
-                                            @if (IsEnroll(form.Project_Id)==true &&(AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_SeeResults)).Result.Succeeded)
-                                            {
-                                                
-                                                    <td>
-                                                        <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
-                                                            <p class="nav-icon">
-                                                                <i class="fas fa-chart-bar"></i>
-                                                            </p>
-                                                            <p class="nav-text">Results</p>
-                                                        </a>
-                                                    </td>
-                                                
-                                            }
-                                            @if (IsEnrollCat(GetCat(form.Project_Id)) && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Collect)).Result.Succeeded)
-                                            {
-                                                @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                {
-                                                <td>
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon2-check-mark"></i>
-                                                        </p>
-                                                        <p class="nav-text">Collect</p>
-                                                    </a>
-                                                </td>
-                                                }
+                                            <table>
+                                                <tr>
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Update)).Result.Succeeded)
+                                                    {
+                                                        <td>
+                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
 
-                                            }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Publish)).Result.Succeeded)
-                                            {
-                                            <td>
-                                                    @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
-                                                    {
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon2-cross"></i>
-                                                        </p>
-                                                        <p class="nav-text">Deactivate</p>
-                                                    </a>
-                                                <td>
-                                                    <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
-                                                        <p class="nav-icon">
-                                                            <i class="flaticon2-check-mark"></i>
-                                                        </p>
-                                                        <p class="nav-text">Send Email</p>
-                                                    </a>
-                                                </td>
+                                                                <p class="nav-text">Update</p>
+                                                            </a>
+                                                        </td>
                                                     }
-                                                    else
+                                                    @if (IsEnroll(form.Project_Id) == true && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_SeeResults)).Result.Succeeded)
                                                     {
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-check-mark"></i>
-                                                    </p>
-                                                    <p class="nav-text">Publish</p>
-                                                </a>
+
+                                                        <td>
+                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+
+                                                                <p class="nav-text">Results</p>
+                                                            </a>
+                                                        </td>
+
                                                     }
+                                                    @if (IsEnrollCat(GetCat(form.Project_Id)) && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Collect)).Result.Succeeded)
+                                                    {
+                                                        @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                        {
+                                                            <td>
+                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
+
+                                                                    <p class="nav-text">Collect</p>
+                                                                </a>
+                                                            </td>
+                                                        }
+
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Publish)).Result.Succeeded)
+                                                    {
+                                                        <td>
+                                                            @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
+                                                            {
+                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
+
+                                                                    <p class="nav-text">Deactivate</p>
+                                                                </a>
+                                                            <td>
+                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
+
+                                                                    <p class="nav-text">Email</p>
+                                                                </a>
+                                                            </td>
+                                                            }
+                                                            else
+                                                            {
+                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
+
+                                                                <p class="nav-text">Publish</p>
+                                                            </a>
+                                                            }
                                             </td>
-                                            }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
-                                            {
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
+                                                    {
                                             <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="fas fa-file-export"></i>
-                                                    </p>
+                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
+
                                                     <p class="nav-text">Export</p>
                                                 </a>
                                             </td>
-                                            }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Delete)).Result.Succeeded)
-                                            {
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Delete)).Result.Succeeded)
+                                                    {
                                             <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon2-trash"></i>
-                                                    </p>
+                                                <a type="button" class="btn btn-outline-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
+
                                                     <p class="nav-text">Delete</p>
                                                 </a>
                                             </td>
-                                            }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
-                                            {
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
+                                                    {
                                             <td>
-                                                <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded">
-                                                    <p class="nav-icon">
-                                                        <i class="flaticon-edit"></i>
-                                                    </p>
+                                                <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded btn-sm">
+
                                                     <p class="nav-text"> Desinger</p>
                                                 </a>
                                             </td>
-                                            }
-
-                                        </td>
+                                                    }
                                     </tr>
+                            </table>
+                            </td>
+
+                            </tr>
                                 }
-                            </tbody>
+                        </tbody>
                         </table>
 
                         <form asp-action="ManageForm" id="form1">
