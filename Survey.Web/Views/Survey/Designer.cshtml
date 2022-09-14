@@ -1,10 +1,13 @@
 ﻿@model Survey.Core.ViewModels.FormViewModel
-
+@inject Survey.Infrastructure.Data.ApplicationDbContext _dbContext
 @{
     ViewData["Title"] = "Designer";
 
     string temporary_formId = "";
-   
+    string GetUser()
+    {
+        return _dbContext.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).Id;
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -286,7 +289,7 @@
                                         <div class="col-6 text-center">
                                             <input type="submit" value="Save" class="btn btn-orange mr-2 " />
                                             <a asp-action="ManageForm" class="btn btn-secondary">Back to List</a>
-                                            <a asp-action="Survey" asp-route-id="@Model.formid" class="btn btn-orange">Test Survey</a>
+                                                <a asp-action="Survey" asp-route-id="@Model.formid" asp-route-SAgTRid="@GetUser()" class="btn btn-orange">Test Survey</a>
 
                                         </div>
 
