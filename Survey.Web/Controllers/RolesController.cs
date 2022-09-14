@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Survey.Core.Constants;
 using Survey.Infrastructure.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Survey.Web.Controllers
@@ -39,15 +40,16 @@ namespace Survey.Web.Controllers
         {
             if (id != null)
             {
-                var r = _db.RoleClaims.ToListAsync().Result;
-                foreach (var item in r)
+                var rols=_roleManager.FindByIdAsync(id);
+                var r = _roleManager.GetClaimsAsync(rols.Result).Result;//.ToListAsync().Result;
+              if(r != null)
                 {
-                    var t = item.RoleId == id;
-                    _db.RoleClaims.Remove(item);
-                    _db.SaveChanges();
-                }
-                IdentityRole i = await _roleManager.FindByIdAsync(id);
-                await _roleManager.DeleteAsync(i);
+                    foreach (var c in r) {
+                        _roleManager.RemoveClaimAsync(rols.Result, c);
+                            }
+}
+               
+                await _roleManager.DeleteAsync(rols.Result);
             }
             return RedirectToAction("Index");
         }
