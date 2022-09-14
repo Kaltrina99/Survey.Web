@@ -30,7 +30,7 @@
                         <th class="resize-handle">#</th>
                         <th class="resize-handle">Start Time</th>
                         <th class="resize-handle">End Time</th>
-                        <th class="resize-handle">User</th>
+                       @* <th class="resize-handle">User</th>*@
                         @foreach (var question in Model.Questions)
                         {
                             <th class="truncate resize-handle" title=" @question.QuestionText">
@@ -53,7 +53,7 @@
                             <td title="@(Model.Submissions.FirstItemOnPage+i)">@(Model.Submissions.FirstItemOnPage+i)</td>
                             <td title="@subm.StartTime ">@subm.StartTime </td>
                             <td title="@subm.EndTime">@subm.EndTime</td>
-                            <td title="@subm.AgentUsername">@subm.AgentUsername</td>
+                          @*  <td title="@subm.AgentUsername">@subm.AgentUsername</td>*@
                             @foreach (var question in Model.Questions)
                             {
                                 var answer = subm.Answers.Where(x => x.Question_Id == question.Id).ToList();

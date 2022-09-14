@@ -101,7 +101,7 @@ namespace Survey.Infrastructure.Repositories
                         Id = x.Id,
                         StartTime = x.StartTime,
                         EndTime = x.EndTime,
-                        AgentUsername =x.AgentUsername,
+                        //AgentUsername =x.AgentUsername,
                         SubmitFromIP = x.SubmitFromIP,
                         Answers = x.Answers,
                         FormId = x.FormId
