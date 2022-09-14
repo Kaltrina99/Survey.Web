@@ -262,8 +262,20 @@ namespace Survey.Web.Controllers
             foreach (var cat in categ)
             {
                 var t = _dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == cat);
-               
-                proj.Add(t.Id);
+                if (proj.Count > 0)
+                {
+                    foreach (var item in proj)
+                    {
+                        if (item != t.Id)
+                        {
+                            proj.Add(t.Id);
+                        }
+                    }
+                }
+                else
+                {
+                    proj.Add(t.Id);
+                }
             }
             var r = _dbContext.UserRoles.Where(x => x.UserId ==u.Result.Id).ToList();
             List<string> ids = new List<string>();
@@ -276,7 +288,6 @@ namespace Survey.Web.Controllers
                     {
                         ids.Add(c.RoleId);
                     }
-                    
                     else
                     {
                         ids.Clear();

@@ -195,7 +195,7 @@ namespace Survey.Web.Controllers
                         student.UserName = row.Cell(2).Value.ToString();
                         student.Email = row.Cell(3).Value.ToString();
                         student.EmailConfirmed = true;
-                        student.NormalizedUserName=row.Cell(1).Value.ToString();
+                        student.NormalizedUserName=row.Cell(2).Value.ToString();
                         student.NormalizedEmail = row.Cell(3).Value.ToString().ToUpper();
                         IdentityResult result = await _userManager.CreateAsync(student, "P@ssw0rd");
                         
