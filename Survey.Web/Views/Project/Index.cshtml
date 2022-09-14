@@ -97,6 +97,7 @@
                     <table class="table" id="kt_datatable">
                         <thead>
                             <tr>
+                                <th class="p-0 min-w-200px">Id</th>
                                 <th class="p-0 min-w-200px">Title</th>
                                 <th class="p-0 min-w-100px">Code</th>
                                 <th class="p-0 min-w-125px">Category</th>
@@ -112,6 +113,7 @@
                             @foreach (var project in Model.Projects)
                             {
                                 <tr>
+                                    <td>@project.Id</td>
                                     <td>@project.Title</td>
                                     <td>@project.Code</td>
                                     <td>@project.ProjectCategory.Name</td>
