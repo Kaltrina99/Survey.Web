@@ -516,7 +516,7 @@ function AddEvenToForm() {
         
             if (response.Success) {
               
-                Swal.fire({ title: "Success", text: "You'r Form Was Submited", icon: "success", allowOutsideClick: false }).then(async function (result) {
+                Swal.fire({ title: "Success", text: "Your Form Was Submited", icon: "success", allowOutsideClick: false }).then(async function (result) {
                     var data = await db.collection(AutoSaveDb).doc(form_id).get();
                     await RemoveFileFromData(formData);
                     if (data != null) {
@@ -534,7 +534,7 @@ function AddEvenToForm() {
         else {
             const formProps = Object.fromEntries(data);
             await db.collection(OfflineSurveyDb).add(formProps);
-            Swal.fire({ title: "Offline Mode", text: "It Looks Like You'r Offline. We Will Submit The Form When You Come Back Online", icon: "warning", allowOutsideClick: false }).then(async function (result) {
+            Swal.fire({ title: "Offline Mode", text: "It Looks Like You Are Offline. We Will Submit The Form When You Come Back Online", icon: "warning", allowOutsideClick: false }).then(async function (result) {
                 var data = await db.collection(AutoSaveDb).doc(form_id).get();
                 if (data != null) {
                     await db.collection(AutoSaveDb).doc(form_id).delete();
@@ -567,13 +567,13 @@ async function CheckDb()
                 var response =await SaveDataFromStorage(da);
                 if (response) {
                     await db.collection(OfflineSurveyDb).doc(da).delete()
-                    Swal.fire("Success", "You'r Saved Data From Offline Mode Has Been Saved", "success");
+                    Swal.fire("Success", "Your Saved Data From Offline Mode Has Been Saved", "success");
 
                    
                 }
                 else {
                         //sead
-                        Swal.fire("Something Went Wrong!", "You'r Saved Data From Offline Mode Was Not Saved ", "warning");
+                        Swal.fire("Something Went Wrong!", "Your Saved Data From Offline Mode Was Not Saved ", "warning");
                     }
                 })
         }

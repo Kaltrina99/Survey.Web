@@ -10,6 +10,7 @@
     {
         return db.UserProjectCategories.Where(x => x.CategoryId == id).ToList().Count;
     }
+    var id = ViewData["Id"];
 }
 
 
@@ -59,10 +60,13 @@
                     {
                         <div class="card-toolbar">
                             <!--begin::Button-->
-                            <a asp-controller="ProjectCategory" asp-action="CreateProjectCategory" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                            <a asp-controller="ProjectCategory" asp-action="CreateProjectCategory" asp-route-id="@id" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
                                 <i class="fa fa-plus"></i> New project category
                             </a>
                             <!--end::Button-->
+                            <a asp-controller="ProjectCategory" asp-action="Sub" class="btn btn-info" title="Delete">
+                                <i class="flaticon2-trash"></i>Tree Structure
+                            </a>
                         </div>
                     }
                 </div>
@@ -120,6 +124,12 @@
                                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
                                     {
                                         <td style="text-align:right;" class="text-right">
+                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                                            {
+                                                <a asp-controller="ProjectCategory" asp-action="Index" asp-route-id="@item.Id" class="btn btn-info" title="Delete">
+                                                    <i class="flaticon2-trash"></i>SubCategory
+                                                </a>
+                                            }
                                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
                                             {
                                                 <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">

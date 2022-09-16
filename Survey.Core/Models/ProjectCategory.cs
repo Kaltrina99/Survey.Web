@@ -16,7 +16,13 @@ namespace Survey.Core.Models
         [MaxLength(25)]
         [Display(Name = "Title")]
         public string Name { get; set; }
+        public int? ParentID { get; set; }
+
         [NotMapped]
         public virtual List<UserProjectCategory> UserList { get; set; }
+        [ForeignKey("ParentID")]
+        public virtual ProjectCategory Parent { get; set; }
+        public virtual ICollection<ProjectCategory> Childs { get; set; }
+        
     }
 }

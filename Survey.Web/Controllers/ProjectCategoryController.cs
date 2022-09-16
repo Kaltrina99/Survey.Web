@@ -29,24 +29,49 @@ namespace Survey.Web.Controllers
             _dbContext = dbContext;
         }
         [Authorize(Permissions.PremissionList.Category_View)]
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
+            ViewData["Id"] = id;
             var u = _userManager.GetUserAsync(HttpContext.User);
             IEnumerable<ProjectCategory> projectCategoryList = _projectCategory.GetAll();
-            return View(projectCategoryList);
+            var parent = projectCategoryList.Where(x => x.ParentID==id);
+            return View(parent);
         }
+
+        public IActionResult Sub()
+        {
+            return View();
+        }
+        
+        //public  IActionResult SubCategory()
+        //{
+        //    //IList<ProjectCategory> comments = _dbContext.ProjectCategories.Where(c => c.ParentID == null).ToList();
+        //    //return View(comments);
+        //    return View();
+        //}
 
         #region Create Project Category
         [Authorize(Permissions.PremissionList.Category_Add)]
-        public IActionResult CreateProjectCategory()
+        public IActionResult CreateProjectCategory(int? id)
         {
-            return View();
+            ProjectCategory model = new ProjectCategory();
+            if (id == null || id == 0)
+            {
+                model.ParentID =null;
+                return View(model);
+            }
+            else
+            {
+                model.ParentID = id;
+                return View(model);
+            }
         }
         [Authorize(Permissions.PremissionList.Category_Add)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateProjectCategory(ProjectCategory projectCategory)
         {
+            projectCategory.Id = 0;
             var u = _userManager.GetUserAsync(HttpContext.User);
             if (ModelState.IsValid)
             {
@@ -133,13 +158,31 @@ namespace Survey.Web.Controllers
                 return NotFound();
             }
 
-            _projectCategory.Remove(category);
-            _projectCategory.Save();
+            var cToDelete = SubCat(category.Id);
+            cToDelete.Add(category);
+            _dbContext.ProjectCategories.RemoveRange(cToDelete);
+            _dbContext.SaveChanges();
+            //_projectCategory.Remove(category);
+            //_projectCategory.Save();
             TempData[WebConstants.Success] = "Action Completed Successfully !";
 
             return RedirectToAction("Index");
         }
+        public List<ProjectCategory> SubCat(int folderId)
+        {
+            var subFolders = _dbContext.ProjectCategories
+                .Where(d => d.ParentID == folderId)
+                .ToList();
 
+            var allFolders = new List<ProjectCategory>();
+            foreach (var subFolder in subFolders)
+            {
+                allFolders.Add(subFolder);
+                allFolders.AddRange( SubCat(subFolder.Id));
+            }
+
+            return allFolders;
+        }
         #endregion
 
         #region Enroll Users

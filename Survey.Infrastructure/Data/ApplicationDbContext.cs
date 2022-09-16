@@ -91,6 +91,13 @@ namespace Survey.Infrastructure.Data
                 .HasOne(pt => pt.User)
                 .WithMany(t => t.ProjectList)
                 .HasForeignKey(pt => pt.UserId);
+
+            
+            modelBuilder.Entity<ProjectCategory>().HasOne(x => x.Parent)
+                .WithMany(x => x.Childs)
+                .HasForeignKey(x => x.ParentID)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

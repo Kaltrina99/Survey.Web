@@ -1,0 +1,70 @@
+﻿@inject Survey.Infrastructure.Data.ApplicationDbContext db
+@model IEnumerable<Survey.Core.Models.ProjectCategory>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Microsoft.EntityFrameworkCore
+@using Survey.Core.Constants
+@using Survey.Core.Models
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<ProjectCategory> issuers1 = db.ProjectCategories.Include(c => c.Childs).Where(x => x.ParentID == null).ToList();
+    ShowTreeData(issuers1);
+
+
+}
+
+<!--begin::Container-->
+<div class="container">
+    @functions {
+        IList<ProjectCategory> GetAll(int id)
+        {
+            return db.ProjectCategories.Include(x => x.Childs).AsEnumerable().Where(x => x.ParentID == id).ToList();
+        }
+    }
+    @functions {
+        public void ShowTreeData(IEnumerable<ProjectCategory> issuers)
+        {
+            <ul class="nested">
+
+                @foreach (var i in issuers)
+                {
+
+                    <li class="alert alert-success">
+                        Category Id:@i.Id <br />
+                        Category Name: @i.Name <br />
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
+                        {
+                            <a class="btn btn-primary" href="Enroll/@i.Id"><i class="fa fa-file-signature"> Enroll </i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                        {
+                            <a class="btn btn-info" href="Index/@i.ParentID"><i class="fa fa-list-dropdown"> View siblings </i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
+                        {
+                            <a class="btn btn-danger" href="DeleteCategory/@i.Id"><i class="fa fa-trash"> Delete </i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Add)).Result.Succeeded)
+                        {
+                            <a class="btn btn-primary" href="CreateProjectCategory/@i.Id"><i class="fa fa-plus"> Create Sub-Category </i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                        {
+                            <a class="btn btn-primary" href="UpdateCategory/@i.Id"><i class="fa fa-pen"> Update Sub-Category </i></a>
+                        }
+                    </li>
+
+                    @if (i.Childs.Any())
+                    {
+                        ShowTreeData(GetAll(i.Id));
+                    }
+
+                }
+
+            </ul>
+        }
+    }
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
