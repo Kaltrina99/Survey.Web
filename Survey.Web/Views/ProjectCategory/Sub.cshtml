@@ -21,6 +21,10 @@
         {
             return db.ProjectCategories.Include(x => x.Childs).AsEnumerable().Where(x => x.ParentID == id).ToList();
         }
+        public int countUser(int id)
+        {
+            return db.UserProjectCategories.Where(x => x.CategoryId == id).ToList().Count;
+        }
     }
     @functions {
         public void ShowTreeData(IEnumerable<ProjectCategory> issuers)
@@ -30,28 +34,28 @@
                 @foreach (var i in issuers)
                 {
 
-                    <li class="alert alert-success">
-                        Category Id:@i.Id <br />
-                        Category Name: @i.Name <br />
+                    <li class="alert alert-secondary">
+                        Category Id: @i.Id - Category Name: @i.Name <br />
+                        Number of users: @countUser(i.Id) <br />
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Add)).Result.Succeeded)
+                        {
+                            <a class="btn btn-success" href="CreateProjectCategory/@i.Id"><i class="fa fa-plus"> Create </i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                        {
+                            <a class="btn btn-info" href="Index/@i.ParentID"><i class="fa fa-list-dropdown"> View siblings list </i></a>
+                        }
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
                         {
                             <a class="btn btn-primary" href="Enroll/@i.Id"><i class="fa fa-file-signature"> Enroll </i></a>
                         }
-                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
                         {
-                            <a class="btn btn-info" href="Index/@i.ParentID"><i class="fa fa-list-dropdown"> View siblings </i></a>
+                            <a class="btn btn-warning" href="UpdateCategory/@i.Id"><i class="fa fa-pen"> Update </i></a>
                         }
                         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
                         {
                             <a class="btn btn-danger" href="DeleteCategory/@i.Id"><i class="fa fa-trash"> Delete </i></a>
-                        }
-                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Add)).Result.Succeeded)
-                        {
-                            <a class="btn btn-primary" href="CreateProjectCategory/@i.Id"><i class="fa fa-plus"> Create Sub-Category </i></a>
-                        }
-                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
-                        {
-                            <a class="btn btn-primary" href="UpdateCategory/@i.Id"><i class="fa fa-pen"> Update Sub-Category </i></a>
                         }
                     </li>
 

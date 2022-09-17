@@ -262,15 +262,24 @@ namespace Survey.Web.Controllers
             foreach (var cat in categ)
             {
                 var t = _dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == cat);
-                if (proj.Count > 0)
+                if (t != null)
                 {
-                    foreach (var item in proj)
+                    if (proj.Count > 0)
                     {
-                        if (item != t.Id)
+                    
+                        foreach (var item in proj)
                         {
-                            proj.Add(t.Id);
+                        
+                            if (item != t.Id)
+                            {
+                                proj.Add(t.Id);
+                            }
                         }
                     }
+                }
+                else if(t==null)
+                {
+
                 }
                 else
                 {

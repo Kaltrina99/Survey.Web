@@ -44,13 +44,6 @@ namespace Survey.Web.Controllers
             return View();
         }
 
-        //public  IActionResult SubCategory()
-        //{
-        //    //IList<ProjectCategory> comments = _dbContext.ProjectCategories.Where(c => c.ParentID == null).ToList();
-        //    //return View(comments);
-        //    return View();
-        //}
-
         #region Create Project Category
         [Authorize(Permissions.PremissionList.Category_Add)]
         public IActionResult CreateProjectCategory(int? id)
@@ -209,23 +202,7 @@ namespace Survey.Web.Controllers
         #endregion
 
         #region Enroll Users
-        [Authorize(Permissions.PremissionList.Category_AssignUser)]
-        public IActionResult EnrollUsersToClients(string id)
-        {
-            ViewBag.u = id;
-
-            var u = _userManager.GetUserAsync(HttpContext.User);
-            var t = _dbContext.ProjectCategories.FirstOrDefault(x => (x.Id).ToString() == id);
-            if (t == null)
-            {
-                ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
-                return View("NotFound");
-            }
-            var model = new List<ProjectViewModel>();
-
-
-            return View(model);
-        }
+     
         [Authorize(Permissions.PremissionList.Category_AssignUser)]
         #endregion
         public IActionResult Enroll(int id)
