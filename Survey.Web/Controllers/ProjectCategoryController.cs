@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Survey.Core.Constants;
 using Microsoft.AspNetCore.Authorization;
+using NPOI.SS.Formula.Functions;
 
 namespace Survey.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace Survey.Web.Controllers
             ViewData["Id"] = id;
             var u = _userManager.GetUserAsync(HttpContext.User);
             IEnumerable<ProjectCategory> projectCategoryList = _projectCategory.GetAll();
-            var parent = projectCategoryList.Where(x => x.ParentID==id);
+            var parent = projectCategoryList.Where(x => x.ParentID == id);
             return View(parent);
         }
 
@@ -42,7 +43,7 @@ namespace Survey.Web.Controllers
         {
             return View();
         }
-        
+
         //public  IActionResult SubCategory()
         //{
         //    //IList<ProjectCategory> comments = _dbContext.ProjectCategories.Where(c => c.ParentID == null).ToList();
@@ -57,7 +58,7 @@ namespace Survey.Web.Controllers
             ProjectCategory model = new ProjectCategory();
             if (id == null || id == 0)
             {
-                model.ParentID =null;
+                model.ParentID = null;
                 return View(model);
             }
             else
@@ -71,12 +72,34 @@ namespace Survey.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateProjectCategory(ProjectCategory projectCategory)
         {
-            projectCategory.Id = 0;
+            var idS = projectCategory.ParentID;
+           projectCategory.Id = 0;
+           
             var u = _userManager.GetUserAsync(HttpContext.User);
             if (ModelState.IsValid)
             {
                 _projectCategory.Add(projectCategory);
                 _projectCategory.Save();
+                var us = _dbContext.UserProjectCategories.Where(x => x.CategoryId == idS);
+                foreach (var item in us)
+                {
+                    UserProjectCategory model1 = new UserProjectCategory()
+                    {
+                        UserId = item.UserId,
+                        CategoryId = projectCategory.Id
+                    };
+                    _dbContext.UserProjectCategories.Add(model1);
+                    
+
+                }
+                try
+                {
+                    _dbContext.SaveChanges();
+                }
+                catch (DbUpdateException exception) when (exception?.InnerException?.Message.Contains("Cannot insert duplicate key row in object") ?? false)
+                {
+                    //We know that the actual exception was a duplicate key row
+                }
                 return RedirectToAction("Index");
             }
             return View(projectCategory);
@@ -178,7 +201,7 @@ namespace Survey.Web.Controllers
             foreach (var subFolder in subFolders)
             {
                 allFolders.Add(subFolder);
-                allFolders.AddRange( SubCat(subFolder.Id));
+                allFolders.AddRange(SubCat(subFolder.Id));
             }
 
             return allFolders;
@@ -192,7 +215,7 @@ namespace Survey.Web.Controllers
             ViewBag.u = id;
 
             var u = _userManager.GetUserAsync(HttpContext.User);
-            var t = _dbContext.ProjectCategories.FirstOrDefault(x => (x.Id).ToString() == id /*&& x.Tenant_Id == ten.Id*/);
+            var t = _dbContext.ProjectCategories.FirstOrDefault(x => (x.Id).ToString() == id);
             if (t == null)
             {
                 ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
@@ -211,7 +234,7 @@ namespace Survey.Web.Controllers
 
             var u = _userManager.GetUserAsync(HttpContext.User);
             var t = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id);
-          
+
             var model = new List<CategoryPartUserViewModel>();
             var us = _dbContext.Users.ToList();
 
@@ -242,26 +265,47 @@ namespace Survey.Web.Controllers
         public IActionResult Enroll(List<CategoryPartUserViewModel> model, int id)
         {
             var u = _userManager.GetUserAsync(HttpContext.User);
-            var t = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id );
+            var t = _dbContext.ProjectCategories.FirstOrDefault(x => x.Id == id);
             if (t == null)
             {
                 ViewBag.ErrorMessage = $"Team with Id = {id} cannot be found";
                 return View("NotFound");
             }
+
+
             for (int i = 0; i < model.Count; i++)
             {
+                var list = PreorderCategories(id, t.Id);
                 var user = _dbContext.Users.FirstOrDefault(x => x.Id == model[i].UserId);
 
                 var d = _dbContext.UserProjectCategories.AsNoTracking().FirstOrDefault(x => x.UserId == user.Id && x.CategoryId == t.Id);
-                if (model[i].IsSelected && !(d != null))
-                {
-                    UserProjectCategory model1 = new UserProjectCategory()
+
+                  if (model[i].IsSelected && !(d != null))
                     {
-                        UserId = user.Id,
-                        CategoryId = t.Id
-                    };
-                    var result = _dbContext.UserProjectCategories.Add(model1);
-                    _dbContext.SaveChanges();
+                        UserProjectCategory model1 = new UserProjectCategory()
+                        {
+                            UserId = user.Id,
+                            CategoryId = t.Id
+                        };
+                        var result = _dbContext.UserProjectCategories.Add(model1);
+                    foreach (var c in list)
+                    {
+                        UserProjectCategory modelchild = new UserProjectCategory()
+                        {
+                            UserId = user.Id,
+                            CategoryId = c.Item1
+                        };
+                        _dbContext.UserProjectCategories.Add(modelchild);
+                      
+                    }
+                    try
+                    {
+                        _dbContext.SaveChanges();
+                    }
+                    catch (DbUpdateException exception) when (exception?.InnerException?.Message.Contains("Cannot insert duplicate key row in object") ?? false)
+                    {
+                        //We know that the actual exception was a duplicate key row
+                    }
                 }
                 else if (!model[i].IsSelected && d != null)
                 {
@@ -271,13 +315,40 @@ namespace Survey.Web.Controllers
                         CategoryId = t.Id
                     };
                     var result = _dbContext.UserProjectCategories.Remove(model1);
-                    _dbContext.SaveChanges();
+                    try
+                    {
+                        _dbContext.SaveChanges();
+                    }
+                    catch (DbUpdateException exception) when (exception?.InnerException?.Message.Contains("Cannot insert duplicate key row in object") ?? false)
+                    {
+                        //We know that the actual exception was a duplicate key row
+                    }
                 }
+
+
+
 
             }
 
             return RedirectToAction("Index");
         }
-       
+
+        List<Tuple<int, string>> PreorderCategories(int id, int? p)
+        {
+            var data = _dbContext.ProjectCategories.Include(x => x.Childs).AsNoTracking().Where(x => x.Id == p).ToList();
+            return PreorderCategories(data, p);
+        }
+        List<Tuple<int, string>> PreorderCategories(List<ProjectCategory> categories, int? parentID)
+        {
+            var result = new List<Tuple<int, string>>();
+           
+            var children = _dbContext.ProjectCategories.Include(x => x.Childs).AsNoTracking().Where(x => x.ParentID == parentID).ToList();//categories.Where(c => c.Id == parentID);
+            foreach (var category in children)
+            {
+                result.Add(new Tuple<int, string>(category.Id, category.Name));
+                result.AddRange(PreorderCategories(categories, category.Id));
+            }
+            return result;
+        }
     }
 }

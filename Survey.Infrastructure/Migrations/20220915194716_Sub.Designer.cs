@@ -10,8 +10,8 @@ using Survey.Infrastructure.Data;
 namespace Survey.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220913162856_init")]
-    partial class init
+    [Migration("20220915194716_Sub")]
+    partial class Sub
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,35 +51,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "d369df0f-1688-4e7b-9d77-e86b7143dcec",
+                            ConcurrencyStamp = "9e4d9708-04e6-4acf-a9e7-7d5a7b527ede",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "ff11e0d6-dddd-4afd-8216-db50d2eff179",
+                            ConcurrencyStamp = "08f1828e-08f6-4c33-87c4-2ea556c9f75e",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "4a11c707-4777-4646-8828-f6d7a76e04a6",
+                            ConcurrencyStamp = "09b96a13-c7bd-4066-9d23-a600044a0d1b",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "8286dc41-bd6a-4587-937d-ac6c17f7e0bf",
+                            ConcurrencyStamp = "29373141-f981-4e07-9e32-009212b2a147",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "dbdf1f56-02d0-4254-bcf6-274e451353a2",
+                            ConcurrencyStamp = "7fc46614-5cdf-4612-a597-ababad39c97b",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -620,14 +620,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4e2f87b7-b56b-43ad-a27e-2d514bccf13f",
+                            ConcurrencyStamp = "de6ef7fa-5c68-41f0-9f48-2dc0408b18bc",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBGUuVEDIt4LTsrTxK9++poFHfmOboL4DHGexGA+ouPI15LBYlBKCTNCPxJgDHVPfA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGVA3ewO5lma8KUANvtLM1Jw6gop88ssHCsra3AxXBi9o4n7mDN7rXqWxrhwutYMpg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e25b3fe-0e58-4284-833e-4adbe96dac3a",
+                            SecurityStamp = "fdc241dd-1092-471a-8822-063290b04dfa",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -972,7 +972,12 @@ namespace Survey.Infrastructure.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<int?>("ParentID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentID");
 
                     b.ToTable("ProjectCategories");
                 });
@@ -1339,6 +1344,16 @@ namespace Survey.Infrastructure.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("Survey.Core.Models.ProjectCategory", b =>
+                {
+                    b.HasOne("Survey.Core.Models.ProjectCategory", "Parent")
+                        .WithMany("Childs")
+                        .HasForeignKey("ParentID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Survey.Core.Models.Projects", b =>
                 {
                     b.HasOne("Survey.Core.Models.ProjectCategory", "ProjectCategory")
@@ -1492,6 +1507,8 @@ namespace Survey.Infrastructure.Migrations
 
             modelBuilder.Entity("Survey.Core.Models.ProjectCategory", b =>
                 {
+                    b.Navigation("Childs");
+
                     b.Navigation("UserList");
                 });
 

@@ -1,8 +1,12 @@
-﻿@model Survey.Core.ViewModels.ProjectViewModel
-
+﻿@using Microsoft.EntityFrameworkCore
+@using Survey.Core.Models
+@model Survey.Core.ViewModels.ProjectViewModel
+@inject Survey.Infrastructure.Data.ApplicationDbContext db
 @{
     ViewData["Title"] = "UpdateProject";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<ProjectCategory> issuers1 = db.ProjectCategories.Include(c => c.Childs).Where(x => x.ParentID == null).ToList();
+
 }
 
 <!--begin::Wrapper-->
@@ -112,9 +116,13 @@
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label" for="exampleSelect1">Select Program or Client</label>
                                                 <div class="col-lg-9">
-                                                    <select asp-for="Project.ProjectCategoryId" asp-items="@Model.ProjectCategorySelectList" class="form-control selectpicker" id="exampleSelect1" data-live-search="true">
-                                                        <option disabled selected>--Select Program or Client--</option>
-                                                    </select>
+                                            <select asp-for="Project.ProjectCategoryId" class="form-control selectpicker " id="exampleSelect1" data-live-search="true">
+                                                <option disabled selected>--Select Category--</option>
+                                                @foreach (var item in PreorderCategories())
+                                                {
+                                                    <option value="@item.Item1">@item.Item2</option>
+                                                }
+                                            </select>
                                                 </div>
                                             </div>
 
@@ -152,6 +160,24 @@
 
 </div>
 <!--end::Wrapper-->
+@functions
+{
+    List<Tuple<int, string>> PreorderCategories()
+    {
+        return PreorderCategories("", db.ProjectCategories.ToList(), null);
+    }
+    List<Tuple<int, string>> PreorderCategories(string prefix, List<ProjectCategory> categories, int? parentID)
+    {
+        var result = new List<Tuple<int, string>>();
+        var children = categories.Where(c => c.ParentID == parentID);
+        foreach (var category in children)
+        {
+            result.Add(new Tuple<int, string>(category.Id, prefix + category.Name));
+            result.AddRange(PreorderCategories(prefix + "-", categories, category.Id));
+        }
+        return result;
+    }
+}
 
 <style>
     .card.card-custom {

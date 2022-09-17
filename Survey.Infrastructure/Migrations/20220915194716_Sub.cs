@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Survey.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class Sub : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -104,11 +104,18 @@ namespace Survey.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    ParentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectCategories_ProjectCategories_ParentID",
+                        column: x => x.ParentID,
+                        principalTable: "ProjectCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -586,17 +593,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "d369df0f-1688-4e7b-9d77-e86b7143dcec", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "ff11e0d6-dddd-4afd-8216-db50d2eff179", "Dean", "DEAN" },
-                    { "5", "4a11c707-4777-4646-8828-f6d7a76e04a6", "Student", "STUDENT" },
-                    { "3", "8286dc41-bd6a-4587-937d-ac6c17f7e0bf", "Professor", "PROFESSOR" },
-                    { "4", "dbdf1f56-02d0-4254-bcf6-274e451353a2", "QA", "QA" }
+                    { "1", "9e4d9708-04e6-4acf-a9e7-7d5a7b527ede", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "08f1828e-08f6-4c33-87c4-2ea556c9f75e", "Dean", "DEAN" },
+                    { "5", "09b96a13-c7bd-4066-9d23-a600044a0d1b", "Student", "STUDENT" },
+                    { "3", "29373141-f981-4e07-9e32-009212b2a147", "Professor", "PROFESSOR" },
+                    { "4", "7fc46614-5cdf-4612-a597-ababad39c97b", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "4e2f87b7-b56b-43ad-a27e-2d514bccf13f", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEBGUuVEDIt4LTsrTxK9++poFHfmOboL4DHGexGA+ouPI15LBYlBKCTNCPxJgDHVPfA==", null, false, "7e25b3fe-0e58-4284-833e-4adbe96dac3a", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "de6ef7fa-5c68-41f0-9f48-2dc0408b18bc", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEGVA3ewO5lma8KUANvtLM1Jw6gop88ssHCsra3AxXBi9o4n7mDN7rXqWxrhwutYMpg==", null, false, "fdc241dd-1092-471a-8822-063290b04dfa", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
@@ -762,6 +769,11 @@ namespace Survey.Infrastructure.Migrations
                 name: "IX_Forms_Project_Id",
                 table: "Forms",
                 column: "Project_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectCategories_ParentID",
+                table: "ProjectCategories",
+                column: "ParentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectCategoryId",
