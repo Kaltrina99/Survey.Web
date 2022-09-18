@@ -14,31 +14,7 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
-    <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
-        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-1">
-                <!--begin::Page Heading-->
-                <div class="d-flex align-items-baseline flex-wrap mr-5">
-                    <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">Projects</h5>
-                    <!--end::Page Title-->
-                    <!--begin::Breadcrumb-->
-                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                        <li class="breadcrumb-item text-muted">
-                            <a href="" class="text-muted">Manage</a>
-                        </li>
-                        <li class="breadcrumb-item text-muted">
-                            <a class="text-muted">Projects </a>
-                        </li>
-                    </ul>
-                    <!--end::Breadcrumb-->
-                </div>
-                <!--end::Page Heading-->
-            </div>
-            <!--end::Info-->
-        </div>
-    </div>
+  
     <!--end::Subheader-->
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
@@ -50,15 +26,14 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            Projects or Activities
-                            <span class="d-block text-muted pt-2 font-size-sm">Find all the projects or activities below:</span>
+                            Projects
                         </h3>
                     </div>
                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Add)).Result.Succeeded)
                     {
                         <div class="card-toolbar">
 
-                            <a asp-controller="Project" asp-action="CreateProject" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                            <a asp-controller="Project" asp-action="CreateProject" type="button" class="btn btn-success btn-rounded" data-mdb-ripple-color="dark">
                                 <i class="fa fa-plus"></i>New Project
                             </a>
 
@@ -97,14 +72,14 @@
                     <table class="table" id="kt_datatable">
                         <thead>
                             <tr>
-                                <th class="p-0 min-w-200px">Id</th>
-                                <th class="p-0 min-w-200px">Title</th>
-                                <th class="p-0 min-w-100px">Code</th>
-                                <th class="p-0 min-w-125px">Category</th>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Code</th>
+                                <th>Category</th>
                                 @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded ||
                                 (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
                                 {
-                                    <th title="Field #8">Actions</th>
+                                    <th >Actions</th>
                                 }
                             </tr>
                         </thead>
@@ -121,20 +96,29 @@
                                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
                                     {
                                         <td style="text-align:right;" class="text-right">
+                                            <table><tr>
+                                                    <td>
+                                            <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@project.Id">Enroll</a>
+                                            </td>
                                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
                                             {
-                                                <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-primary">
-                                                    <i class="flaticon-edit"></i>Edit
+                                                <td>
+                                                <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-warning">
+                                                    <i class="flaticon-edit"></i>Update
                                                 </a>
+                                                </td>
                                             }
                                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded)
                                             {
+                                                <td>
                                                 <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
                                                     <i class="flaticon2-trash"></i>Delete
                                                 </a>
+                                                </td>
                                             }
-                                            <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@project.Id">Enroll</a>
-                                        </td>
+                                                </tr>
+                                            </table>
+                                             </td>
                                     }
 
                                 </tr>
@@ -154,59 +138,59 @@
 <!--end::Content-->
 <style>
     th span {
-        color: #b5b5c3 !important;
-        font-size: .9rem;
-        text-transform: uppercase;
-        font-weight: 600 !important;
-        letter-spacing: .1rem;
-    }
+            color: #b5b5c3 !important;
+            font-size: .9rem;
+            text-transform: uppercase;
+            font-weight: 600 !important;
+            letter-spacing: .1rem;
+        }
 
-    th:last-child span {
-        text-align: right;
-    }
+        th:last-child span {
+            text-align: right;
+        }
 
-    [data-field="ID"] span, [data-field="ID"] th {
-        width: 34px !important;
-    }
+        [data-field="ID"] span, [data-field="ID"] th {
+            width: 34px !important;
+        }
 
-    .card.card-custom {
-        box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
-        border: 0;
-    }
+        .card.card-custom {
+            box-shadow: 0px 0px 30px 0px rgb(82 63 105 / 18%);
+            border: 0;
+        }
 
-    tbody tr:hover {
-        background-color: #F3F6F9;
-    }
+        tbody tr:hover {
+            background-color: #F3F6F9;
+        }
 
-    .datatable-row {
-        border-bottom: 1px solid #EBEDF3;
-    }
+        .datatable-row {
+            border-bottom: 1px solid #EBEDF3;
+        }
 
-    @@media only screen and (min-width: 1024px) {
-        [data-field="Actions"] span {
+        @@media only screen and (min-width: 1024px) {
+            [data-field="Actions"] span {
+                float: right;
+                padding-right: 32px;
+            }
+        }
+
+
+        th:last-child span {
             float: right;
-            padding-right: 32px;
+            padding-right: 40px;
         }
-    }
 
-
-    th:last-child span {
-        float: right;
-        padding-right: 40px;
-    }
-
-    .datatable-row > .datatable-cell:first-child {
-        padding-left: 10px !important;
-    }
-
-    .form-control:focus {
-        border-color: #ED7D31 !important;
-    }
-
-    @@media only screen and (max-width: 500px) {
-        table {
-            width: 100%;
-            overflow-x: auto !important;
+        .datatable-row > .datatable-cell:first-child {
+            padding-left: 10px !important;
         }
-    }
+
+        .form-control:focus {
+            border-color: #ED7D31 !important;
+        }
+
+        @@media only screen and (max-width: 500px) {
+            table {
+                width: 100%;
+                overflow-x: auto !important;
+            }
+        }
 </style>

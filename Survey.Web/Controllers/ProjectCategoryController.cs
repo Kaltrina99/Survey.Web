@@ -13,18 +13,20 @@ using System.Threading.Tasks;
 using Survey.Core.Constants;
 using Microsoft.AspNetCore.Authorization;
 using NPOI.SS.Formula.Functions;
+using Microsoft.CodeAnalysis;
 
 namespace Survey.Web.Controllers
 {
     public class ProjectCategoryController : Controller
     {
         private readonly IProjectCategory _projectCategory;
-
+        private readonly IProjects _projects;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
 
-        public ProjectCategoryController(IProjectCategory projectCategory, UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)
+        public ProjectCategoryController(IProjectCategory projectCategory, IProjects projects,UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)
         {
+            _projects = projects;
             _projectCategory = projectCategory;
             _userManager = userManager;
             _dbContext = dbContext;
@@ -177,7 +179,29 @@ namespace Survey.Web.Controllers
             var cToDelete = SubCat(category.Id);
             cToDelete.Add(category);
             _dbContext.ProjectCategories.RemoveRange(cToDelete);
+            var p=_dbContext.Projects.Where(x => x.ProjectCategoryId == id).ToList();
+            foreach (var item in p)
+            {
+                _projects.Remove(item);
+                var f=_dbContext.Forms.Where(x => x.Project_Id == item.Id).ToList();
+                foreach (var q in f)
+                {
+                    var qu=_dbContext.Questions.Where(x => x.Form_Id == q.Id).ToList();
+                    foreach (var r in qu)
+                    {
+                        var sl = _dbContext.SkipLogic.Where(x => x.Parent_Question_Id == r.Id).ToList();
+                        _dbContext.SkipLogic.RemoveRange(sl);
+                    }
+                    _dbContext.Questions.RemoveRange(qu);
+                    var aw=_dbContext.Answers.Where(x=>x.Form_Id == q.Id).ToList();
+                    _dbContext.Answers.RemoveRange(aw);
+                }
+               _dbContext.SaveChanges();
+               // _projects.Save();
+            }
+            
             _dbContext.SaveChanges();
+           
             //_projectCategory.Remove(category);
             //_projectCategory.Save();
             TempData[WebConstants.Success] = "Action Completed Successfully !";

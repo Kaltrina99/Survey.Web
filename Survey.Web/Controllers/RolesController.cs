@@ -71,6 +71,8 @@ namespace Survey.Web.Controllers
             {
                 if (user.Name != null)
                 {
+                    user.Name = role.Name;
+                    user.NormalizedName = role.Name.ToUpper();
                     IdentityResult result = await _roleManager.UpdateAsync(user);
                     if (result.Succeeded)
                         return RedirectToAction("Index");

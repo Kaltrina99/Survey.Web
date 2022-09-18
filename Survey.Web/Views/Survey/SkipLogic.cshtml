@@ -18,7 +18,7 @@
                     <!--begin::Page Heading-->
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
                         <!--begin::Page Title-->
-                        <h3 style="color: #ED7D31;font-weight:800;" class=" my-1 mr-5">Skip Logic</h3>
+                        <h3 style="font-weight:800;" class=" my-1 mr-5">Skip Logic</h3>
                         <!--end::Page Title-->
                     </div>
                     <!--end::Page Heading-->
@@ -74,7 +74,7 @@
                                                     </td>
                                                 }
                                                 <td>
-                                                    <a asp-controller="Survey" asp-action="DeleteSkipLogic" asp-route-id="@skip.Id" class="btn btn-icon btn-light-orange btn-sm mr-2">
+                                                    <a asp-controller="Survey" asp-action="DeleteSkipLogic" asp-route-id="@skip.Id" class="btn btn-icon btn-danger btn-sm mr-2">
                                                         <i class="icon-trash">Delete</i>
                                                     </a>
                                                 </td>
@@ -110,7 +110,7 @@
                                 </div>
                                 <p id="errorMessage" style="color:red"></p>
                                 <div class="card-footer text-center">
-                                    <input type="submit" value="Submit" class="btn btn-orange mr-2" />
+                                    <input type="submit" value="Submit" class="btn btn-success mr-2" />
                                     <a class="btn btn-grey" asp-action="Designer" asp-route-id="@Model.formid">Back to List</a>
                                 </div>
                             </div>

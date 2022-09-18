@@ -23,7 +23,7 @@
                 </div>
 
                 <span class="input-group-btn col-lg-3">
-                    <button type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark"><i class="fa fa-plus"></i>Add New Role</button>
+                    <button type="submit" class="btn btn-success btn-rounded" data-mdb-ripple-color="dark"><i class="fa fa-plus"></i>Add New Role</button>
                 </span>
             </div>
         </form>
@@ -67,16 +67,17 @@
                                 <div class="dropdown-menu">
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
                                     {
-                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@role.Id">Edit</a>
-                                    }
-                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded)
-                                    {
-                                        <a class="dropdown-item" asp-action="Delete" asp-route-Id="@role.Id" method="post">Delete</a>
+                                        <a class="dropdown-item" asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id">Manage Permissions</a>
                                     }
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Update)).Result.Succeeded)
                                     {
-                                        <a class="dropdown-item" asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id">Manage Permissions</a>
+                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@role.Id">Update</a>
                                     }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Role_Delete)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item " style="background-color:red; color:white;" asp-action="Delete" asp-route-Id="@role.Id" method="post">Delete</a>
+                                    }
+                                  
                                 </div>
                             </div>
 

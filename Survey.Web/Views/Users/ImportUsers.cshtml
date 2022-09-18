@@ -5,19 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <form method="post" asp-controller="Users" asp-action="ExportUser">
-    <input type="submit" class="form-control file btn-orange" value="Export Default Excel" />
+    <input type="submit" class="form-control file btn-info" value="Export Default Excel" />
 </form>
 <form enctype="multipart/form-data" method="post" asp-controller="Users" asp-action="ImportExcelFile">
-    <dl>
-        <dt>
+    
+        
             <label>Upload Excel:</label>
-        </dt>
-        <dd>
-            <input type="file" name="FormFile" class="form-control file btn-orange" id="FormFile">
+     
+            <input type="file" name="FormFile" class="file " id="FormFile">
 
-        </dd>
-    </dl>
-    <input class="btn" type="submit" class="form-control file btn-orange" value="Upload" />
+    <input type="submit" class="form-control file btn btn-success" value="Upload" />
 </form>
 <br />
 <div class="">

@@ -72,15 +72,7 @@
                         <h5 class="text-dark font-weight-bold my-1 mr-5">Survey</h5>
                         <!--end::Page Title-->
                         <!--begin::Breadcrumb-->
-                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                           
-                            <li class="breadcrumb-item text-muted">
-                                <a class="text-muted" href="/Survey/ManageForm">Manage Survey</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a class="text-muted">Design the form</a>
-                            </li>
-                        </ul>
+                       
                         <!--end::Breadcrumb-->
                     </div>
                     <!--end::Page Heading-->
@@ -279,7 +271,7 @@
                                                 </div>
 
                                             </div>
-                                            <button class="add_field_button btn btn-sm font-weight-bolder btn-light-orange"><i class="la la-plus"></i>Add</button>
+                                            <button class="add_field_button btn btn-sm font-weight-bolder btn-light-info"><i class="la la-plus"></i>Add</button>
                                         </div>
 
                                     </div>
@@ -287,8 +279,8 @@
                                     <div class="card-footer row mt-10">
                                         <div class="col-3"></div>
                                         <div class="col-6 text-center">
-                                            <input type="submit" value="Save" class="btn btn-orange mr-2 " />
-                                            <a asp-action="ManageForm" class="btn btn-secondary">Back to List</a>
+                                            <input type="submit" value="Save" class="btn btn-success mr-2 " />
+                                            <a asp-action="ManageForm" class="btn btn-secondary">Back to survey list</a>
                                                 <a asp-action="Survey" asp-route-id="@Model.formid" asp-route-SAgTRid="@GetUser()" class="btn btn-orange">Test Survey</a>
 
                                         </div>

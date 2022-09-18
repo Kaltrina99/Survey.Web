@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 
 namespace Survey.Web.Controllers
 {
@@ -142,7 +143,21 @@ namespace Survey.Web.Controllers
             {
                 return NotFound();
             }
-            _project.Remove(project);
+                _project.Remove(project);
+                var f = _dbContext.Forms.Where(x => x.Project_Id == project.Id).ToList();
+                foreach (var q in f)
+                {
+                    var qu = _dbContext.Questions.Where(x => x.Form_Id == q.Id).ToList();
+                    foreach (var r in qu)
+                    {
+                        var sl = _dbContext.SkipLogic.Where(x => x.Parent_Question_Id == r.Id).ToList();
+                        _dbContext.SkipLogic.RemoveRange(sl);
+                    }
+                    _dbContext.Questions.RemoveRange(qu);
+                    var aw = _dbContext.Answers.Where(x => x.Form_Id == q.Id).ToList();
+                    _dbContext.Answers.RemoveRange(aw);
+                }
+            //    _dbContext.SaveChanges();
             _project.Save();
 
             return RedirectToAction("Index");

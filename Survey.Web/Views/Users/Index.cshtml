@@ -21,10 +21,10 @@
     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_AddUser)).Result.Succeeded)
     {
         <div class="pt-10 pb-10">
-            <a asp-action="Create" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
+            <a asp-action="Create" type="button" class="btn btn-success btn-rounded" data-mdb-ripple-color="dark" style="cursor:pointer">
                 <i class="fa fa-plus"></i>  Add new user
             </a>
-            <a asp-action="ImportUsers" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+            <a asp-action="ImportUsers" type="button" class="btn btn-primary btn-rounded" data-mdb-ripple-color="dark">
                 <i class="fa fa-file-import"></i>Import New Users
             </a>
         </div>
@@ -86,16 +86,17 @@
                                 <div class="dropdown-menu">
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
                                     {
-                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@user.Id" method="post">Edit</a>
-                                    }
-                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded)
-                                    {
-                                        <a class="dropdown-item" asp-action="Delete" asp-route-Id="@user.Id" method="post">Delete</a>
+                                        <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
                                     }
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
                                     {
-                                        <a class="dropdown-item" asp-controller="UserRoles" asp-action="Index" asp-route-userId="@user.Id">Manage Roles</a>
+                                        <a class="dropdown-item" asp-action="Update" asp-route-Id="@user.Id" method="post">Update</a>
                                     }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_DeleteUser)).Result.Succeeded)
+                                    {
+                                        <a class="dropdown-item" style="background-color:red; color:white;" asp-action="Delete" asp-route-Id="@user.Id" method="post">Delete</a>
+                                    }
+                                  
                                 </div>
                             </div>
                         </td>

@@ -68,31 +68,7 @@
 <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Subheader-->
-        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
-            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="d-flex align-items-center flex-wrap mr-1">
-                    <!--begin::Page Heading-->
-                    <div class="d-flex align-items-baseline flex-wrap mr-5">
-                        <!--begin::Page Title-->
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Survey</h5>
-                        <!--end::Page Title-->
-                        <!--begin::Breadcrumb-->
-                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-
-                            <li class="breadcrumb-item text-muted">
-                                <a class="text-muted">Manage survey</a>
-                            </li>
-                        </ul>
-                        <!--end::Breadcrumb-->
-                    </div>
-                    <!--end::Page Heading-->
-                </div>
-                <!--end::Info-->
-            </div>
-        </div>
-        <!--end::Subheader-->
+     
         <!--begin::Entry-->
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
@@ -112,10 +88,10 @@
                             <div class="card-toolbar">
 
                                 <!--begin::Button-->
-                                <a asp-action="AddForm" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                <a asp-action="AddForm" type="button" class="btn btn-success btn-rounded" data-mdb-ripple-color="dark">
                                     <i class="fa fa-plus"></i> New Survey
                                 </a>
-                                <a asp-action="ImportSurvey" type="button" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark">
+                                <a asp-action="ImportSurvey" type="button" class="btn btn-primary btn-rounded" data-mdb-ripple-color="dark">
                                     <i class="fa fa-file-import"></i>Import New Survey
                                 </a>
 
@@ -206,12 +182,12 @@
                                         <td>
                                             <table>
                                                 <tr>
-                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Update)).Result.Succeeded)
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
                                                     {
                                                         <td>
-                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
+                                                            <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded btn-sm">
 
-                                                                <p class="nav-text">Update</p>
+                                                                <p class="nav-text"> Desinger</p>
                                                             </a>
                                                         </td>
                                                     }
@@ -219,7 +195,7 @@
                                                     {
 
                                                         <td>
-                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
+                                                            <a type="button" class="btn btn-outline-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
 
                                                                 <p class="nav-text">Results</p>
                                                             </a>
@@ -231,7 +207,7 @@
                                                         @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
                                                         {
                                                             <td>
-                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
+                                                                <a type="button" class="btn btn-outline-secondary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Collect</p>
                                                                 </a>
@@ -244,12 +220,12 @@
                                                         <td>
                                                             @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
                                                             {
-                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
+                                                                <a type="button" class="btn btn-outline-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Deactivate</p>
                                                                 </a>
                                                             <td>
-                                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
+                                                                <a type="button" class="btn btn-outline-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Email</p>
                                                                 </a>
@@ -257,7 +233,7 @@
                                                             }
                                                             else
                                                             {
-                                                            <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
+                                                            <a type="button" class="btn btn-outline-success btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="PublishForm" asp-route-id="@form.Id">
 
                                                                 <p class="nav-text">Publish</p>
                                                             </a>
@@ -267,30 +243,31 @@
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
                                                     {
                                             <td>
-                                                <a type="button" class="btn btn-outline-primary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
+                                                <a type="button" class="btn btn-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
 
                                                     <p class="nav-text">Export</p>
+                                                </a>
+                                            </td>
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Update)).Result.Succeeded)
+                                                    {
+                                            <td>
+                                                <a type="button" class="btn btn-warning btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
+
+                                                    <p class="nav-text">Update</p>
                                                 </a>
                                             </td>
                                                     }
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Delete)).Result.Succeeded)
                                                     {
                                             <td>
-                                                <a type="button" class="btn btn-outline-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
+                                                <a type="button" class="btn btn-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
 
                                                     <p class="nav-text">Delete</p>
                                                 </a>
                                             </td>
                                                     }
-                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
-                                                    {
-                                            <td>
-                                                <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded btn-sm">
-
-                                                    <p class="nav-text"> Desinger</p>
-                                                </a>
-                                            </td>
-                                                    }
+                                                   
                                     </tr>
                             </table>
                             </td>

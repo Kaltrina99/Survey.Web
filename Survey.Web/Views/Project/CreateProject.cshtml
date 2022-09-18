@@ -3,124 +3,95 @@
 @model Survey.Core.ViewModels.ProjectViewModel
 @inject Survey.Infrastructure.Data.ApplicationDbContext db
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "CreateProject";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IEnumerable<ProjectCategory> issuers1 = db.ProjectCategories.Include(c => c.Childs).Where(x => x.ParentID == null).ToList();
-  
+
 }
 
 <!--begin::Wrapper-->
-    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Subheader-->
-        <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
-            <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="d-flex align-items-center flex-wrap mr-1">
-                    <!--begin::Page Heading-->
-                    <div class="d-flex align-items-baseline flex-wrap mr-5">
-                        <!--begin::Page Title-->
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Projects</h5>
-                        <!--end::Page Title-->
-                        <!--begin::Breadcrumb-->
-                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                            <li class="breadcrumb-item text-muted">
-                                <a href="" class="text-muted">Manage</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a href="/Project" class="text-muted">Projects or Activities</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a class="text-muted">Create new project or activity</a>
-                            </li>
-                        </ul>
-                        <!--end::Breadcrumb-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-md-10 col-lg-6 center-block">
+
+                    <!--begin::Card-->
+                    <div class="card card-custom gutter-b example-compact">
+
+                        <!--begin::Form-->
+                        <form asp-action="CreateProject" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="card-body">
+                                <div class="form-group mb-8">
+                                    <div class="card card-custom">
+                                        <div style="box-shadow: 0 0 30px 0 #523f690d;" class="card-header flex-wrap border-0 pt-6 pb-0">
+                                            <div class="card-title">
+                                                <h4>
+                                                    Create new project
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Project Title</label>
+                                    <div class="col-lg-9">
+                                        <input asp-for="Project.Title" type="text" class="form-control" placeholder="Title" />
+                                        <span asp-validation-for="Project.Title" class="form-text text-muted text-bosh"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label" for="exampleSelect1">Assign a Category</label>
+                                    <div class="col-lg-9">
+                                        <select asp-for="Project.ProjectCategoryId" class="form-control selectpicker " id="exampleSelect1" data-live-search="true">
+                                            <option disabled selected>--Select Category--</option>
+                                            @foreach (var item in PreorderCategories())
+                                            {
+                                                <option value="@item.Item1">@item.Item2</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Project Code</label>
+                                    <div class="col-lg-9">
+                                        <input asp-for="Project.Code" type="text" class="form-control" placeholder="Code" />
+                                        <span asp-validation-for="Project.Code" class="form-text text-muted text-bosh"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-7 text-center">
+                                        <input type="submit" value="Create" class="btn btn-success mr-2" />
+                                        <a asp-action="Index" class="btn btn-secondary">Back to project list</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!--end::Form-->
                     </div>
-                    <!--end::Page Heading-->
+                    <!--end::Card-->
                 </div>
-                <!--end::Info-->
+                <div class="col-lg-3"></div>
             </div>
         </div>
-        <!--end::Subheader-->
-
-        <!--begin::Entry-->
-        <div class="d-flex flex-column-fluid">
-            <!--begin::Container-->
-            <div class="container">
-               
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-10 col-lg-6 center-block">
-
-                                <!--begin::Card-->
-                                <div class="card card-custom gutter-b example-compact">
-
-                                    <!--begin::Form-->
-                                    <form asp-action="CreateProject" method="post" enctype="multipart/form-data">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                        <div class="card-body">
-                                            <div class="form-group mb-8">
-                                                <div class="card-header">
-                                                    <h4 class="card-label text-center" style="color: #ED7D31;font-weight:800;">
-                                                        Create new project or activity
-                                                    </h4>
-                                                </div>
-                                       
-
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-lg-3 col-form-label">Project or Activity Title</label>
-                                                <div class="col-lg-9">
-                                                    <input asp-for="Project.Title" type="text" class="form-control" placeholder="Title" />
-                                                    <span asp-validation-for="Project.Title" class="form-text text-muted text-bosh"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label class="col-lg-3 col-form-label" for="exampleSelect1">Assign Project to a Client</label>
-                                                <div class="col-lg-9">
-                                                    <select asp-for="Project.ProjectCategoryId" class="form-control selectpicker " id="exampleSelect1" data-live-search="true">
-                                                        <option disabled selected>--Select Category--</option>
-                                                            @foreach (var item in PreorderCategories())
-                                                          {
-                                                            <option value="@item.Item1">@item.Item2</option>
-                                                          }
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label class="col-lg-3 col-form-label">Project or Activity Code</label>
-                                                <div class="col-lg-9">
-                                                    <input asp-for="Project.Code" type="text" class="form-control" placeholder="Code" />
-                                                    <span asp-validation-for="Project.Code" class="form-text text-muted text-bosh"></span>
-                                                </div>
-                                            </div>
-
-                                           
-
-                                        </div>
-                                        <div class="card-footer">
-                                            <div class="row">
-                                                <div class="col-lg-3"></div>
-                                                <div class="col-lg-6 text-center">
-                                                    <input type="submit" value="Create" class="btn btn-orange mr-2" />
-                                                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!--end::Form-->
-                                </div>
-                                <!--end::Card-->
-                            </div>
-                            <div class="col-lg-3"></div>
-                        </div>
-                    </div>
-                    <!--end::Container-->
-                </div>
-                <!--end::Entry-->
-            </div>
-    <!--end::Content-->
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+<!--end::Content-->
 <!--end::Wrapper-->
 @functions
 {
@@ -134,7 +105,7 @@
         var children = categories.Where(c => c.ParentID == parentID);
         foreach (var category in children)
         {
-            result.Add(new Tuple<int, string>(category.Id,prefix + category.Name));
+            result.Add(new Tuple<int, string>(category.Id, prefix + category.Name));
             result.AddRange(PreorderCategories(prefix + "-", categories, category.Id));
         }
         return result;
@@ -142,6 +113,8 @@
 }
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
 
