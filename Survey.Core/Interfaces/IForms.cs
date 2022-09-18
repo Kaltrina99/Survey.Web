@@ -22,7 +22,7 @@ namespace Survey.Core.Interfaces
         IEnumerable<SelectListItem> GetAllDropdownList(string obj);
         Task<ServiceResponse<XSSFWorkbook>> CreateExcelFromForm(int id);
         Task<ServiceResponse<bool>> CreateFormFromExcel(IFormFile file,int id);
-        IPagedList<Forms> GetForms( FormFilter filter, List<string>? id, List<int>? proj, int pagenumber,int pagesize);
+        IPagedList<Forms> GetForms( FormFilter filter, List<string>? id, List<int>? proj, int status, int pagenumber,int pagesize);
         List<Projects> GetProjects();
 
     }

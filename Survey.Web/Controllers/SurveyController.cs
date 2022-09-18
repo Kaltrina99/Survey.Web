@@ -251,6 +251,7 @@ namespace Survey.Web.Controllers
             var usersP = _dbContext.UserProject.Where(x => x.UserId == u.Result.Id).ToList();
             List<int> proj = new List<int>();
             List<int> categ = new List<int>();
+            int status = 1;
             foreach (var item in usersP)
             {
                 proj.Add(item.ProjectsId);
@@ -262,29 +263,27 @@ namespace Survey.Web.Controllers
             foreach (var cat in categ)
             {
                 var t = _dbContext.Projects.FirstOrDefault(x => x.ProjectCategoryId == cat);
+
                 if (t != null)
                 {
                     if (proj.Count > 0)
                     {
-                    
-                        foreach (var item in proj)
+
+                        foreach (var item in proj.ToList())
                         {
-                        
+
                             if (item != t.Id)
                             {
                                 proj.Add(t.Id);
                             }
                         }
                     }
+                    else
+                    {
+                        proj.Add(t.Id);
+                    }
                 }
-                else if(t==null)
-                {
-
-                }
-                else
-                {
-                    proj.Add(t.Id);
-                }
+               
             }
             var r = _dbContext.UserRoles.Where(x => x.UserId ==u.Result.Id).ToList();
             List<string> ids = new List<string>();
@@ -293,6 +292,10 @@ namespace Survey.Web.Controllers
                 var claim = _dbContext.RoleClaims.Where(x => x.RoleId == item.RoleId);
                 foreach (var c in claim)
                 {
+                    if (c.ClaimValue == "Permissions.Survey.SeeSurveyResults")
+                    {
+                        status = 2;
+                    }
                     if (c.ClaimValue != "Permissions.Survey.ViewAll")
                     {
                         ids.Add(c.RoleId);
@@ -304,9 +307,10 @@ namespace Survey.Web.Controllers
                     }
                 }
             }
+            var with = proj.Distinct();
             FormViewModel formViewModel = new FormViewModel()
             {
-                Forms = _form.GetForms(model.Filter,ids,proj, pageNumber, pageSize),
+                Forms = _form.GetForms(model.Filter,ids,with.ToList(),status, pageNumber, pageSize),
                 GetProjects = _projects.GetProjects(null, ""),
                 GetClients = _projectCategory.GetClients()
             };
@@ -327,6 +331,20 @@ namespace Survey.Web.Controllers
                     form.Form_Status = FormStatus.Deactive;
                     _form.Update(form);
                 }
+            }
+            var forms = _dbContext.Forms.FirstOrDefault(x => x.Id == id);
+            var usersProj = _dbContext.UserProject.Where(x => x.ProjectsId == forms.Project_Id).ToList();
+            foreach (var user in usersProj)
+            {
+                var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId);
+                FormViewModel viewModel = new FormViewModel()
+                {
+                    SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/SurveyResults/Index/" + id
+                };
+                string temporary_sender = emailuser.Email;
+
+                var email = _emailSender.SendEmailAsync(temporary_sender, "Results for survey [#" + id + "] ", $"<br><br>Pershendetje, <br/>Survey: {forms.FormTitle}, sapo eshte mbyllur, ju mund te shini rezultatet duke <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>klikuar ketu</a> , ose qasuni ne aplikacion.<br/>Faleminderit qe na ndihmoni ne permisimin e kualitetit te sherbimeve tona!");
+
             }
             _form.Save();
             return RedirectToAction("ManageForm");
@@ -754,23 +772,25 @@ namespace Survey.Web.Controllers
             var form = _dbContext.Forms.FirstOrDefault(x=>x.Id==id);
             var cat = _dbContext.Projects.FirstOrDefault(x => x.Id == form.Project_Id).ProjectCategoryId;
             var users = _dbContext.UserProjectCategories.Where(x => x.CategoryId == cat).ToList();
+           
             //var users=_dbContext.UserProjectCategories.Where 
             //var u = DateTime.Now.Ticks;
-            foreach (var user in users)
-            {
-                var hasSub = _dbContext.SurveySubmissions.FirstOrDefault(x => x.FormId == id && x.AgentId == user.UserId);
-                if (hasSub == null)
+                foreach (var user in users)
                 {
-                    var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId);
-                    FormViewModel viewModel = new FormViewModel()
+                    var hasSub = _dbContext.SurveySubmissions.FirstOrDefault(x => x.FormId == id && x.AgentId == user.UserId);
+                    if (hasSub == null)
                     {
-                        SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id + "?SAgTRid=" + user.UserId
-                    };
-                    string temporary_sender = emailuser.Email;
+                        var emailuser = _dbContext.Users.FirstOrDefault(x => x.Id == user.UserId);
+                        FormViewModel viewModel = new FormViewModel()
+                        {
+                            SurveyLink = Request.Scheme + "://" + HttpContext.Request.Host + "/Survey/Survey/" + id + "?SAgTRid=" + user.UserId
+                        };
+                        string temporary_sender = emailuser.Email;
 
-                    var email = _emailSender.SendEmailAsync(temporary_sender, "New Survey [#" + id + "] ", $"<br><br>Pershendetje, <br/>Ju lutem plotsoni survey: {form.FormTitle}, mjafton te <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>klikoni ketu</a>.<br/>Faleminderit qe na ndihmoni ne permisimin e kualitetit te sherbimeve tona!");
+                        var email = _emailSender.SendEmailAsync(temporary_sender, "New Survey [#" + id + "] ", $"<br><br>Pershendetje, <br/>Ju lutem plotsoni survey: {form.FormTitle}, mjafton te <a href='{HtmlEncoder.Default.Encode(viewModel.SurveyLink)}'>klikoni ketu</a>.<br/>Faleminderit qe na ndihmoni ne permisimin e kualitetit te sherbimeve tona!");
+                    }
                 }
-            }
+         
             return View();
         }
         [AllowAnonymous]

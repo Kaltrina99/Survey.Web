@@ -69,6 +69,44 @@ namespace Survey.Infrastructure.Utility.Email_Service
             });
                
             }
+            else if (subject.StartsWith("Results for survey"))
+            {
+                request = new MailjetRequest
+                {
+                    Resource = Send.Resource,
+                }
+              .Property(Send.Messages, new JArray {
+                 new JObject {
+                  {
+                   "From",
+                   new JObject {
+                    {"Email",admin_email },
+                    {"Name", admin_email}
+                   }
+                  }, {
+                   "To",
+                   new JArray {
+                    new JObject {
+                     {
+                      "Email",
+                      email
+                     }, {
+                      "Name",
+                      "CLIENT "
+                     }
+                    }
+                   }
+                  }, {
+                   "Subject",
+                   subject
+                  }, {
+                   "HTMLPart",
+                    htmlMessage
+                     },
+                 }
+            });
+
+            }
             else
             {
                 request = new MailjetRequest

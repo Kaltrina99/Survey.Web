@@ -140,7 +140,7 @@ namespace Survey.Infrastructure.Repositories
             }
             return response;
         }
-        public IPagedList<Forms> GetForms(FormFilter filter, List<string>? id, List<int>? proj, int pagenumber, int pagesize)
+        public IPagedList<Forms> GetForms(FormFilter filter, List<string>? id, List<int>? proj,int status, int pagenumber, int pagesize)
         {
             if (id.Count==0) { 
             List<Forms> results = new List<Forms>();
@@ -154,7 +154,12 @@ namespace Survey.Infrastructure.Repositories
 
                 foreach ( var nr in proj)
                 {
-                    List<Forms> tem = _dbContext.Forms.Where(x => x.Project_Id == nr && (int)x.Form_Status==1).ToList();
+                    List<Forms> tem = new List<Forms>();
+                    if (status==2)
+                    {
+                        tem.AddRange( _dbContext.Forms.Where(x => x.Project_Id == nr && (int)x.Form_Status == status).ToList());
+                    }
+                    tem.AddRange(_dbContext.Forms.Where(x => x.Project_Id == nr && (int)x.Form_Status == 1).ToList());
                     results.AddRange(tem);
                 }
                 return results.ToPagedList(pagenumber, pagesize);
