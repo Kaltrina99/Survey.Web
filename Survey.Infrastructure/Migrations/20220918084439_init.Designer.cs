@@ -10,8 +10,8 @@ using Survey.Infrastructure.Data;
 namespace Survey.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220915194716_Sub")]
-    partial class Sub
+    [Migration("20220918084439_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,35 +51,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "9e4d9708-04e6-4acf-a9e7-7d5a7b527ede",
+                            ConcurrencyStamp = "6cfcbf6f-a241-4f62-b99c-7cf3dd5888e0",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "08f1828e-08f6-4c33-87c4-2ea556c9f75e",
+                            ConcurrencyStamp = "62566348-d01e-40e2-8678-27002fa37213",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "09b96a13-c7bd-4066-9d23-a600044a0d1b",
+                            ConcurrencyStamp = "4a36a36f-6516-4cfb-b912-e5d13d4cd416",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "29373141-f981-4e07-9e32-009212b2a147",
+                            ConcurrencyStamp = "d72511d8-e221-4375-9b5e-f5bc137c85c1",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "7fc46614-5cdf-4612-a597-ababad39c97b",
+                            ConcurrencyStamp = "a0972ae0-e97d-4608-a9cb-415abdb980ab",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -302,245 +302,175 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = 28,
                             ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AddCases",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AssignCases",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.DeleteCases",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.ViewCases",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.UpdateCases",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.ViewAll",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 34,
+                            Id = 29,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.View",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 35,
+                            Id = 30,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.Create",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 36,
+                            Id = 31,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.Update",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 37,
+                            Id = 32,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.Delete",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 38,
+                            Id = 33,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.Collect",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 39,
+                            Id = 34,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.SeeSurveyResults",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 40,
+                            Id = 35,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Survey.Publish",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 41,
+                            Id = 36,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.User.ViewUsers",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 42,
+                            Id = 37,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.User.UpdateUser",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 43,
+                            Id = 38,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.User.DeleteUser",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 44,
+                            Id = 39,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.User.AddUser",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 45,
+                            Id = 40,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Role.Add",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 46,
+                            Id = 41,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Role.Delete",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 47,
+                            Id = 42,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Role.PermissionsView",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 48,
+                            Id = 43,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Role.View",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 49,
+                            Id = 44,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Project.Add",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 50,
+                            Id = 45,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Project.Delete",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 51,
+                            Id = 46,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Project.Update",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 52,
+                            Id = 47,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Project.View",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 53,
+                            Id = 48,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Category.Add",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 54,
+                            Id = 49,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Category.AssignUsers",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 55,
+                            Id = 50,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Category.Delete",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 56,
+                            Id = 51,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Category.Update",
                             RoleId = "2"
                         },
                         new
                         {
-                            Id = 57,
+                            Id = 52,
                             ClaimType = "Permission",
                             ClaimValue = "Permissions.Category.View",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AddCases",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 59,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.AssignCases",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 60,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.DeleteCases",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 61,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.ViewCases",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 62,
-                            ClaimType = "Permission",
-                            ClaimValue = "Permissions.DataSet.UpdateCases",
                             RoleId = "2"
                         });
                 });
@@ -620,14 +550,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de6ef7fa-5c68-41f0-9f48-2dc0408b18bc",
+                            ConcurrencyStamp = "ce564eee-37ce-4a2f-9dcf-a1c2301831da",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGVA3ewO5lma8KUANvtLM1Jw6gop88ssHCsra3AxXBi9o4n7mDN7rXqWxrhwutYMpg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPNjJhjOg9et+L3bKWunQ9tcze0qC9asjNi+BxFLtss7IzEq3WbSOKo70JmW4XKXDA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fdc241dd-1092-471a-8822-063290b04dfa",
+                            SecurityStamp = "fb4cbf09-1d4e-4374-80f3-9a962aec7a20",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });
@@ -753,179 +683,6 @@ namespace Survey.Infrastructure.Migrations
                     b.HasIndex("SubmissionId");
 
                     b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CaseAssignedForms", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Assigned_Form")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CaseExcelData_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Case_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Form_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CaseAssignedForms");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CaseAssignedUsers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Assigned_To")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Assigned_Type")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Assigned_to_Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CaseExcelData_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Case_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CaseAssignedIdentityUsers");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.Cases", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CaseData_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Label")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Dataset_Id");
-
-                    b.ToTable("Cases");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CasesExcelData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Case_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Cell_Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Header_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Dataset_Id");
-
-                    b.ToTable("CasesExcelData");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CasesExcelHeaders", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Column_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Header")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Dataset_Id");
-
-                    b.ToTable("CasesExcelHeaders");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.Dataset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("No_Cases")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type_of_TA")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Dataset");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.EnrollDataset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Dataset_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Dataset_Id");
-
-                    b.ToTable("EnrollDataset");
                 });
 
             modelBuilder.Entity("Survey.Core.Models.Forms", b =>
@@ -1165,8 +922,6 @@ namespace Survey.Infrastructure.Migrations
 
                     b.HasIndex("AgentId");
 
-                    b.HasIndex("CaseId");
-
                     b.HasIndex("FormId");
 
                     b.ToTable("SurveySubmissions");
@@ -1289,50 +1044,6 @@ namespace Survey.Infrastructure.Migrations
                     b.Navigation("Submission");
                 });
 
-            modelBuilder.Entity("Survey.Core.Models.Cases", b =>
-                {
-                    b.HasOne("Survey.Core.Models.Dataset", "dataset")
-                        .WithMany()
-                        .HasForeignKey("Dataset_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("dataset");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CasesExcelData", b =>
-                {
-                    b.HasOne("Survey.Core.Models.Dataset", "dataset")
-                        .WithMany()
-                        .HasForeignKey("Dataset_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("dataset");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.CasesExcelHeaders", b =>
-                {
-                    b.HasOne("Survey.Core.Models.Dataset", "dataset")
-                        .WithMany()
-                        .HasForeignKey("Dataset_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("dataset");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.EnrollDataset", b =>
-                {
-                    b.HasOne("Survey.Core.Models.Dataset", "dataset")
-                        .WithMany()
-                        .HasForeignKey("Dataset_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("dataset");
-                });
-
             modelBuilder.Entity("Survey.Core.Models.Forms", b =>
                 {
                     b.HasOne("Survey.Core.Models.Projects", "Project")
@@ -1434,10 +1145,6 @@ namespace Survey.Infrastructure.Migrations
                         .HasForeignKey("AgentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Survey.Core.Models.Cases", "Case")
-                        .WithMany("Submissions")
-                        .HasForeignKey("CaseId");
-
                     b.HasOne("Survey.Core.Models.Forms", "Form")
                         .WithMany("Submissions")
                         .HasForeignKey("FormId")
@@ -1445,8 +1152,6 @@ namespace Survey.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Agent");
-
-                    b.Navigation("Case");
 
                     b.Navigation("Form");
                 });
@@ -1487,11 +1192,6 @@ namespace Survey.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Survey.Core.Models.Cases", b =>
-                {
-                    b.Navigation("Submissions");
                 });
 
             modelBuilder.Entity("Survey.Core.Models.Forms", b =>

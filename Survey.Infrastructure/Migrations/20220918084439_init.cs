@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Survey.Infrastructure.Migrations
 {
-    public partial class Sub : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,57 +45,6 @@ namespace Survey.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CaseAssignedForms",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false),
-                    Case_Id = table.Column<int>(type: "int", nullable: false),
-                    Form_Id = table.Column<int>(type: "int", nullable: false),
-                    CaseExcelData_Id = table.Column<int>(type: "int", nullable: false),
-                    Assigned_Form = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseAssignedForms", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CaseAssignedIdentityUsers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false),
-                    Case_Id = table.Column<int>(type: "int", nullable: false),
-                    CaseExcelData_Id = table.Column<int>(type: "int", nullable: false),
-                    Assigned_To = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Assigned_to_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Assigned_Type = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseAssignedIdentityUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Dataset",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    No_Cases = table.Column<int>(type: "int", nullable: false),
-                    Type_of_TA = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dataset", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,90 +169,6 @@ namespace Survey.Infrastructure.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cases",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false),
-                    CaseData_Id = table.Column<int>(type: "int", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cases", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cases_Dataset_Dataset_Id",
-                        column: x => x.Dataset_Id,
-                        principalTable: "Dataset",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CasesExcelData",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false),
-                    Case_Id = table.Column<int>(type: "int", nullable: false),
-                    Header_Id = table.Column<int>(type: "int", nullable: false),
-                    Cell_Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CasesExcelData", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CasesExcelData_Dataset_Dataset_Id",
-                        column: x => x.Dataset_Id,
-                        principalTable: "Dataset",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CasesExcelHeaders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false),
-                    Column_Id = table.Column<int>(type: "int", nullable: false),
-                    Header = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CasesExcelHeaders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CasesExcelHeaders_Dataset_Dataset_Id",
-                        column: x => x.Dataset_Id,
-                        principalTable: "Dataset",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EnrollDataset",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Dataset_Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnrollDataset", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EnrollDataset_Dataset_Dataset_Id",
-                        column: x => x.Dataset_Id,
-                        principalTable: "Dataset",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -477,12 +342,6 @@ namespace Survey.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_SurveySubmissions_Cases_CaseId",
-                        column: x => x.CaseId,
-                        principalTable: "Cases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_SurveySubmissions_Forms_FormId",
                         column: x => x.FormId,
                         principalTable: "Forms",
@@ -593,17 +452,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "9e4d9708-04e6-4acf-a9e7-7d5a7b527ede", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "08f1828e-08f6-4c33-87c4-2ea556c9f75e", "Dean", "DEAN" },
-                    { "5", "09b96a13-c7bd-4066-9d23-a600044a0d1b", "Student", "STUDENT" },
-                    { "3", "29373141-f981-4e07-9e32-009212b2a147", "Professor", "PROFESSOR" },
-                    { "4", "7fc46614-5cdf-4612-a597-ababad39c97b", "QA", "QA" }
+                    { "1", "6cfcbf6f-a241-4f62-b99c-7cf3dd5888e0", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "62566348-d01e-40e2-8678-27002fa37213", "Dean", "DEAN" },
+                    { "5", "4a36a36f-6516-4cfb-b912-e5d13d4cd416", "Student", "STUDENT" },
+                    { "3", "d72511d8-e221-4375-9b5e-f5bc137c85c1", "Professor", "PROFESSOR" },
+                    { "4", "a0972ae0-e97d-4608-a9cb-415abdb980ab", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "de6ef7fa-5c68-41f0-9f48-2dc0408b18bc", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEGVA3ewO5lma8KUANvtLM1Jw6gop88ssHCsra3AxXBi9o4n7mDN7rXqWxrhwutYMpg==", null, false, "fdc241dd-1092-471a-8822-063290b04dfa", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "ce564eee-37ce-4a2f-9dcf-a1c2301831da", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEPNjJhjOg9et+L3bKWunQ9tcze0qC9asjNi+BxFLtss7IzEq3WbSOKo70JmW4XKXDA==", null, false, "fb4cbf09-1d4e-4374-80f3-9a962aec7a20", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
@@ -611,38 +470,33 @@ namespace Survey.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 3, "Permission", "Permissions.Survey.ViewAll", "1" },
-                    { 36, "Permission", "Permissions.Survey.Update", "2" },
-                    { 37, "Permission", "Permissions.Survey.Delete", "2" },
-                    { 38, "Permission", "Permissions.Survey.Collect", "2" },
-                    { 39, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
-                    { 40, "Permission", "Permissions.Survey.Publish", "2" },
-                    { 41, "Permission", "Permissions.User.ViewUsers", "2" },
-                    { 42, "Permission", "Permissions.User.UpdateUser", "2" },
-                    { 43, "Permission", "Permissions.User.DeleteUser", "2" },
-                    { 44, "Permission", "Permissions.User.AddUser", "2" },
-                    { 45, "Permission", "Permissions.Role.Add", "2" },
-                    { 46, "Permission", "Permissions.Role.Delete", "2" },
-                    { 47, "Permission", "Permissions.Role.PermissionsView", "2" },
-                    { 48, "Permission", "Permissions.Role.View", "2" },
-                    { 35, "Permission", "Permissions.Survey.Create", "2" },
-                    { 49, "Permission", "Permissions.Project.Add", "2" },
-                    { 51, "Permission", "Permissions.Project.Update", "2" },
-                    { 52, "Permission", "Permissions.Project.View", "2" },
-                    { 53, "Permission", "Permissions.Category.Add", "2" },
-                    { 54, "Permission", "Permissions.Category.AssignUsers", "2" },
-                    { 55, "Permission", "Permissions.Category.Delete", "2" },
-                    { 56, "Permission", "Permissions.Category.Update", "2" },
-                    { 57, "Permission", "Permissions.Category.View", "2" },
-                    { 58, "Permission", "Permissions.DataSet.AddCases", "2" },
-                    { 59, "Permission", "Permissions.DataSet.AssignCases", "2" },
-                    { 60, "Permission", "Permissions.DataSet.DeleteCases", "2" },
-                    { 61, "Permission", "Permissions.DataSet.ViewCases", "2" },
-                    { 62, "Permission", "Permissions.DataSet.UpdateCases", "2" },
+                    { 31, "Permission", "Permissions.Survey.Update", "2" },
+                    { 32, "Permission", "Permissions.Survey.Delete", "2" },
+                    { 33, "Permission", "Permissions.Survey.Collect", "2" },
+                    { 34, "Permission", "Permissions.Survey.SeeSurveyResults", "2" },
+                    { 35, "Permission", "Permissions.Survey.Publish", "2" },
+                    { 36, "Permission", "Permissions.User.ViewUsers", "2" },
+                    { 37, "Permission", "Permissions.User.UpdateUser", "2" },
+                    { 38, "Permission", "Permissions.User.DeleteUser", "2" },
+                    { 39, "Permission", "Permissions.User.AddUser", "2" },
+                    { 40, "Permission", "Permissions.Role.Add", "2" },
+                    { 41, "Permission", "Permissions.Role.Delete", "2" },
+                    { 42, "Permission", "Permissions.Role.PermissionsView", "2" },
+                    { 43, "Permission", "Permissions.Role.View", "2" },
+                    { 44, "Permission", "Permissions.Project.Add", "2" },
+                    { 45, "Permission", "Permissions.Project.Delete", "2" },
+                    { 46, "Permission", "Permissions.Project.Update", "2" },
+                    { 47, "Permission", "Permissions.Project.View", "2" },
+                    { 48, "Permission", "Permissions.Category.Add", "2" },
+                    { 49, "Permission", "Permissions.Category.AssignUsers", "2" },
+                    { 50, "Permission", "Permissions.Category.Delete", "2" },
+                    { 51, "Permission", "Permissions.Category.Update", "2" },
+                    { 52, "Permission", "Permissions.Category.View", "2" },
                     { 1, "Permission", "Permissions.Survey.View", "5" },
-                    { 50, "Permission", "Permissions.Project.Delete", "2" },
+                    { 30, "Permission", "Permissions.Survey.Create", "2" },
                     { 2, "Permission", "Permissions.Survey.Collect", "5" },
-                    { 34, "Permission", "Permissions.Survey.View", "2" },
-                    { 32, "Permission", "Permissions.DataSet.UpdateCases", "1" },
+                    { 29, "Permission", "Permissions.Survey.View", "2" },
+                    { 27, "Permission", "Permissions.Category.View", "1" },
                     { 4, "Permission", "Permissions.Survey.View", "1" },
                     { 5, "Permission", "Permissions.Survey.Create", "1" },
                     { 6, "Permission", "Permissions.Survey.Update", "1" },
@@ -651,7 +505,12 @@ namespace Survey.Infrastructure.Migrations
                     { 9, "Permission", "Permissions.Survey.SeeSurveyResults", "1" },
                     { 10, "Permission", "Permissions.Survey.Publish", "1" },
                     { 11, "Permission", "Permissions.User.ViewUsers", "1" },
-                    { 12, "Permission", "Permissions.User.UpdateUser", "1" }
+                    { 12, "Permission", "Permissions.User.UpdateUser", "1" },
+                    { 13, "Permission", "Permissions.User.DeleteUser", "1" },
+                    { 14, "Permission", "Permissions.User.AddUser", "1" },
+                    { 15, "Permission", "Permissions.Role.Add", "1" },
+                    { 16, "Permission", "Permissions.Role.Delete", "1" },
+                    { 17, "Permission", "Permissions.Role.PermissionsView", "1" }
                 });
 
             migrationBuilder.InsertData(
@@ -659,12 +518,7 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[,]
                 {
-                    { 13, "Permission", "Permissions.User.DeleteUser", "1" },
-                    { 14, "Permission", "Permissions.User.AddUser", "1" },
-                    { 15, "Permission", "Permissions.Role.Add", "1" },
-                    { 16, "Permission", "Permissions.Role.Delete", "1" },
-                    { 33, "Permission", "Permissions.Survey.ViewAll", "2" },
-                    { 17, "Permission", "Permissions.Role.PermissionsView", "1" },
+                    { 18, "Permission", "Permissions.Role.View", "1" },
                     { 19, "Permission", "Permissions.Project.Add", "1" },
                     { 20, "Permission", "Permissions.Project.Delete", "1" },
                     { 21, "Permission", "Permissions.Project.Update", "1" },
@@ -673,12 +527,7 @@ namespace Survey.Infrastructure.Migrations
                     { 24, "Permission", "Permissions.Category.AssignUsers", "1" },
                     { 25, "Permission", "Permissions.Category.Delete", "1" },
                     { 26, "Permission", "Permissions.Category.Update", "1" },
-                    { 27, "Permission", "Permissions.Category.View", "1" },
-                    { 28, "Permission", "Permissions.DataSet.AddCases", "1" },
-                    { 29, "Permission", "Permissions.DataSet.AssignCases", "1" },
-                    { 30, "Permission", "Permissions.DataSet.DeleteCases", "1" },
-                    { 31, "Permission", "Permissions.DataSet.ViewCases", "1" },
-                    { 18, "Permission", "Permissions.Role.View", "1" }
+                    { 28, "Permission", "Permissions.Survey.ViewAll", "2" }
                 });
 
             migrationBuilder.InsertData(
@@ -746,26 +595,6 @@ namespace Survey.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cases_Dataset_Id",
-                table: "Cases",
-                column: "Dataset_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CasesExcelData_Dataset_Id",
-                table: "CasesExcelData",
-                column: "Dataset_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CasesExcelHeaders_Dataset_Id",
-                table: "CasesExcelHeaders",
-                column: "Dataset_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EnrollDataset_Dataset_Id",
-                table: "EnrollDataset",
-                column: "Dataset_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Forms_Project_Id",
                 table: "Forms",
                 column: "Project_Id");
@@ -821,11 +650,6 @@ namespace Survey.Infrastructure.Migrations
                 column: "AgentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SurveySubmissions_CaseId",
-                table: "SurveySubmissions",
-                column: "CaseId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SurveySubmissions_FormId",
                 table: "SurveySubmissions",
                 column: "FormId");
@@ -862,21 +686,6 @@ namespace Survey.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CaseAssignedForms");
-
-            migrationBuilder.DropTable(
-                name: "CaseAssignedIdentityUsers");
-
-            migrationBuilder.DropTable(
-                name: "CasesExcelData");
-
-            migrationBuilder.DropTable(
-                name: "CasesExcelHeaders");
-
-            migrationBuilder.DropTable(
-                name: "EnrollDataset");
-
-            migrationBuilder.DropTable(
                 name: "SkipLogic");
 
             migrationBuilder.DropTable(
@@ -901,13 +710,7 @@ namespace Survey.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Cases");
-
-            migrationBuilder.DropTable(
                 name: "Questions");
-
-            migrationBuilder.DropTable(
-                name: "Dataset");
 
             migrationBuilder.DropTable(
                 name: "Forms");

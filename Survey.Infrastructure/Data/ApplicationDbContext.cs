@@ -22,13 +22,6 @@ namespace Survey.Infrastructure.Data
         public DbSet<QuestionOptions> QuestionOptions { get; set; }
         public DbSet<Answers> Answers { get; set; }
         public DbSet<SkipLogic> SkipLogic { get; set; }
-        public DbSet<Dataset> Dataset { get; set; }
-        public DbSet<EnrollDataset> EnrollDataset { get; set; }
-        public DbSet<Cases> Cases { get; set; }
-        public DbSet<CasesExcelHeaders> CasesExcelHeaders { get; set; }
-        public DbSet<CasesExcelData> CasesExcelData { get; set; }
-        public DbSet<CaseAssignedUsers> CaseAssignedIdentityUsers { get; set; }
-        public DbSet<CaseAssignedForms> CaseAssignedForms { get; set; }
         public DbSet<SurveySubmission> SurveySubmissions { get; set; }
         public DbSet<SurveyDownload> SurveyDownloads { get; set; }
         public DbSet<UserProjectCategory> UserProjectCategories { get; set; }

@@ -139,6 +139,7 @@ namespace Survey.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
+
                     var rol = _db.Roles.FirstOrDefault(x => x.Name.Contains("Student"));
                     IdentityUserRole<string> GoogleRole = new IdentityUserRole<string>()
                     {

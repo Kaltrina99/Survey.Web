@@ -21,7 +21,6 @@ namespace Survey.Core.Models
         public string SubmitFromIP { get; set; }
         public virtual Forms Form { get; set; }
         public int? CaseId { get; set; }
-        public virtual Cases Case { get; set; }
         public virtual List<Answers> Answers { get; set; } = new List<Answers>();
     }
 }

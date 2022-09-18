@@ -56,13 +56,7 @@ namespace Survey.Core.Constants
             public const string Role_View = "Permissions.Role.View";
             #endregion
 
-            #region Cases Permissions
-            public const string DataSet_AssignCases = "Permissions.DataSet.AssignCases";
-            public const string DataSet_AddCases = "Permissions.DataSet.AddCases";
-            public const string DataSet_DeleteCases = "Permissions.DataSet.DeleteCases";
-            public const string DataSet_Update = "Permissions.DataSet.UpdateCases";
-            public const string DataSet_View = "Permissions.DataSet.ViewCases";
-            #endregion
+          
            
             public static List<string> GetAllUserPermissionList()
             {
@@ -92,12 +86,8 @@ namespace Survey.Core.Constants
                     Category_AssignUser,
                     Category_Delete,
                     Category_Update,
-                    Category_View,
-                    DataSet_AddCases,
-                    DataSet_AssignCases,
-                    DataSet_DeleteCases,
-                    DataSet_View,
-                    DataSet_Update
+                    Category_View
+                   
                 };
 
                 return list;

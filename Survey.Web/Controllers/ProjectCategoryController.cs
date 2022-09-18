@@ -291,12 +291,16 @@ namespace Survey.Web.Controllers
                         var result = _dbContext.UserProjectCategories.Add(model1);
                     foreach (var c in list)
                     {
-                        UserProjectCategory modelchild = new UserProjectCategory()
+                        var check = _dbContext.UserProjectCategories.Any(x=>x.UserId==user.Id && x.CategoryId==c.Item1);
+                        if (!check)
                         {
-                            UserId = user.Id,
-                            CategoryId = c.Item1
-                        };
-                        _dbContext.UserProjectCategories.Add(modelchild);
+                            UserProjectCategory modelchild = new UserProjectCategory()
+                            {
+                                UserId = user.Id,
+                                CategoryId = c.Item1
+                            };
+                            _dbContext.UserProjectCategories.Add(modelchild);
+                        }
                       
                     }
                     try
@@ -316,6 +320,20 @@ namespace Survey.Web.Controllers
                         CategoryId = t.Id
                     };
                     var result = _dbContext.UserProjectCategories.Remove(model1);
+                    foreach (var c in list)
+                    {
+                        var check = _dbContext.UserProjectCategories.Any(x => x.UserId == user.Id && x.CategoryId == c.Item1);
+                        if (check)
+                        {
+                            UserProjectCategory modelchild = new UserProjectCategory()
+                            {
+                                UserId = user.Id,
+                                CategoryId = c.Item1
+                            };
+                            _dbContext.UserProjectCategories.Remove(modelchild);
+                        }
+
+                    }
                     try
                     {
                         _dbContext.SaveChanges();
