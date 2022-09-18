@@ -7,17 +7,29 @@
 <form method="post" asp-controller="Users" asp-action="ExportUser">
     <input type="submit" class="form-control file btn-info" value="Export Default Excel" />
 </form>
-<form enctype="multipart/form-data" method="post" asp-controller="Users" asp-action="ImportExcelFile">
+<form enctype="multipart/form-data" id="uploadForm" method="post" asp-controller="Users" asp-action="ImportExcelFile">
     
         
-            <label>Upload Excel:</label>
-     
-            <input type="file" name="FormFile" class="file " id="FormFile">
+            <label></label>
 
-    <input type="submit" class="form-control file btn btn-success" value="Upload" />
+    <label class="col-lg-2 col-form-label" for="exampleSelect1">Upload File</label>
+    <div class="col-md-3 col-lg-2 custom-file file-input1">
+        <input type="file" name="FormFile" class="file " id="FormFile" class="form-control file btn-orange">
+    </div>
+    <input type="submit" id="send" class="form-control file btn btn-success" value="Upload" />
 </form>
 <br />
 <div class="">
     <!--Show Message if file is uploaded or not-->
     @ViewBag.Message
 </div>
+
+<script>
+    document.getElementById("send").onclick = function (e) {
+        if (document.getElementById("file").value == "") {
+            e.preventDefault();
+            alert("Please select a file.");
+        }
+    }
+
+</script> 

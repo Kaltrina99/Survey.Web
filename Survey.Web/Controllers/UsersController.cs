@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
@@ -30,15 +32,15 @@ namespace Survey.Web.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        // private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<IdentityUser> _userManager;
         readonly ApplicationDbContext _dbContext;
-        public UsersController(IConfiguration configuration,UserManager<IdentityUser> userManager, ApplicationDbContext dbContext)// IEmailSender emailSender)
+        public UsersController(IConfiguration configuration,UserManager<IdentityUser> userManager, ApplicationDbContext dbContext,IEmailSender emailSender)
         {
             _userManager = userManager;
             _dbContext = dbContext;
             _configuration = configuration;
-            // _emailSender = emailSender;
+            _emailSender = emailSender;
         }
         [Authorize(Permissions.PremissionList.User_ViewUsers)]
 
@@ -166,6 +168,9 @@ namespace Survey.Web.Controllers
 
             try
             {
+                var DefaultPassword = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultPassword"];
+                var DefaultEmail = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultEmail"];
+                var DefaultLink = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultLink"];
                 var fileextension = Path.GetExtension(FormFile.FileName);
                 var filename = Guid.NewGuid().ToString() + fileextension;
                 var filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadsUsers", filename);
@@ -181,59 +186,73 @@ namespace Survey.Web.Controllers
                 {
                     if (rowno != 1)
                     {
+                        
                         var test = row.Cell(1).Value.ToString();
-                        if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
+                        var exist = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
+                        if(!exist)
                         {
-                            break;
-                        }
-                        IdentityUser student;
-                        student = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
-                        if (student == null)
-                        {
-                            student = new IdentityUser();
-                        }
-                        student.UserName = row.Cell(2).Value.ToString();
-                        student.Email = row.Cell(3).Value.ToString();
-                        student.EmailConfirmed = true;
-                        student.NormalizedUserName=row.Cell(2).Value.ToString();
-                        student.NormalizedEmail = row.Cell(3).Value.ToString().ToUpper();
-                        IdentityResult result = await _userManager.CreateAsync(student, "P@ssw0rd");
-                        
-                        var usCheck = _dbContext.Users.Any(x=>x.Email== row.Cell(3).Value.ToString());
-                        
-                        if (usCheck)
-                        {
-                            var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(3).Value.ToString()).Id;
-                            if (!String.IsNullOrEmpty(row.Cell(6).Value.ToString()))
+                            if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
                             {
-                                UserProjectCategory p = new UserProjectCategory();
-
-                                p.UserId = idu;
-
-                                p.CategoryId = int.Parse(row.Cell(6).Value.ToString());
-                                _dbContext.UserProjectCategories.Add(p);
+                                break;
                             }
-                            if (!String.IsNullOrEmpty(row.Cell(5).Value.ToString()))
+                            IdentityUser student;
+                            student = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
+                            if (student == null)
                             {
-                                UserProject p = new UserProject();
-
-                                p.UserId = idu;
-
-                                p.ProjectsId = int.Parse(row.Cell(5).Value.ToString());
-                                _dbContext.UserProject.Add(p);
+                                student = new IdentityUser();
                             }
-                            if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
+                            student.UserName = row.Cell(1).Value.ToString();
+                            student.Email = row.Cell(1).Value.ToString();
+                            student.EmailConfirmed = true;
+                            student.NormalizedUserName = row.Cell(1).Value.ToString().ToUpper();
+                            student.NormalizedEmail = row.Cell(1).Value.ToString().ToUpper();
+                            IdentityResult result = await _userManager.CreateAsync(student, DefaultPassword);
+
+                            if (!student.Email.Contains(DefaultEmail))
                             {
-                                IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}'> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
+                            }
+                            else
+                            {
+                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}'> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
+                            }
+                            var usCheck = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
+                            if (usCheck)
+                            {
+                                var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(1).Value.ToString()).Id;
+                                if (!String.IsNullOrEmpty(row.Cell(6).Value.ToString()))
                                 {
-                                    RoleId = row.Cell(4).Value.ToString(),
-                                    UserId = idu //user.Id
-                                };
-                                var ut = _dbContext.UserRoles.Add(iur);
-                            }
+                                    UserProjectCategory p = new UserProjectCategory();
+
+                                    p.UserId = idu;
+
+                                    p.CategoryId = int.Parse(row.Cell(6).Value.ToString());
+                                    _dbContext.UserProjectCategories.Add(p);
+                                }
+                                if (!String.IsNullOrEmpty(row.Cell(5).Value.ToString()))
+                                {
+                                    UserProject p = new UserProject();
+
+                                    p.UserId = idu;
+
+                                    p.ProjectsId = int.Parse(row.Cell(5).Value.ToString());
+                                    _dbContext.UserProject.Add(p);
+                                }
+                                if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
+                                {
+                                    IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                    {
+                                        RoleId = row.Cell(4).Value.ToString(),
+                                        UserId = idu //user.Id
+                                    };
+                                    var ut = _dbContext.UserRoles.Add(iur);
+                                }
+                            } 
                         }
-                        else
-                            _dbContext.Users.Update(student);
+                        else {
+                            IdentityUser user= _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
+                            _dbContext.Users.Update(user);
+                        }
                     }
                     else
                     {
@@ -254,8 +273,7 @@ namespace Survey.Web.Controllers
         public IActionResult ExportUser()
         {
             DataTable dt = new DataTable("UsersExcel");
-            dt.Columns.AddRange(new DataColumn[6] { new DataColumn("Name"),
-                                        new DataColumn("UserName"),
+            dt.Columns.AddRange(new DataColumn[4] {
                                         new DataColumn("Email"),
                                         new DataColumn("RoleId"),
                                         new DataColumn("ProjectId"),

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Survey.Core.Models;
 using Survey.Infrastructure.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace Survey.Web.Areas.Identity.Pages.Account
 {
@@ -130,51 +131,91 @@ namespace Survey.Web.Areas.Identity.Pages.Account
                 ErrorMessage = "Error loading external login information during confirmation.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
+            var DefaultRole = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultRole"];
+            var DefaultEmail = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultEmail"];
+
 
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-
+                var chekUserName = _db.Users.Any(x => x.Email == Input.Email);
+                
                 var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+                if (chekUserName)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
-
-                    var rol = _db.Roles.FirstOrDefault(x => x.Name.Contains("Student"));
-                    IdentityUserRole<string> GoogleRole = new IdentityUserRole<string>()
+                    var userid = _db.Users.FirstOrDefault(x => x.Email == Input.Email).Id;
+                    IdentityUserLogin<string> userLogin = new IdentityUserLogin<string>()
                     {
-                        UserId = user.Id,
-                        RoleId = rol.Id
+                        LoginProvider = info.LoginProvider,
+                        ProviderDisplayName = info.ProviderDisplayName,
+                        ProviderKey = info.ProviderKey,
+                        UserId = userid
                     };
-                    _db.UserRoles.Add(GoogleRole);
+                    _db.UserLogins.Add(userLogin);
+                    _db.SaveChanges();
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userid, code = code },
+                        protocol: Request.Scheme);
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+
+                    return LocalRedirect(returnUrl);
+                }
+                else
+                {
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        result = await _userManager.AddLoginAsync(user, info);
 
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
-
-
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        if (result.Succeeded)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            if (Input.Email.Contains(DefaultEmail))
+                            {
+                                var rol = _db.Roles.FirstOrDefault(x => x.Name.Contains(DefaultRole));
+                                IdentityUserRole<string> GoogleRole = new IdentityUserRole<string>()
+                                {
+                                    UserId = user.Id,
+                                    RoleId = rol.Id
+                                };
+                                _db.UserRoles.Add(GoogleRole);
+                                _db.SaveChanges();
+                            }
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            var userId = await _userManager.GetUserIdAsync(user);
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = userId, code = code },
+                                protocol: Request.Scheme);
+
+
+                            // If account confirmation is required, we need to show the link if we don't have a real email sender
+                            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                            {
+                                return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            }
+
+                            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+
+                            return LocalRedirect(returnUrl);
                         }
-
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-
-                        return LocalRedirect(returnUrl);
                     }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
