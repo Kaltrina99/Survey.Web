@@ -52,7 +52,7 @@ namespace Survey.Infrastructure.Utility.Email_Service
                       email
                      }, {
                       "Name",
-                      "CLIENT "
+                      "Student"
                      }
                     }
                    }
@@ -90,7 +90,7 @@ namespace Survey.Infrastructure.Utility.Email_Service
                       email
                      }, {
                       "Name",
-                      "CLIENT "
+                      "USERS"
                      }
                     }
                    }
