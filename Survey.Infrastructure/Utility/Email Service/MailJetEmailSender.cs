@@ -21,8 +21,6 @@ namespace Survey.Infrastructure.Utility.Email_Service
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            
-            
             _mailJetOptions = _configuration.GetSection("MailJet").Get<MailJetOptions>();
             string admin_email =_mailJetOptions.Email;
             MailjetClient client = new MailjetClient(_mailJetOptions.ApiKey, _mailJetOptions.SecretKey)

@@ -8,8 +8,8 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IEnumerable<ProjectCategory> issuers1 = db.ProjectCategories.Include(c => c.Childs).Where(x => x.ParentID == null).ToList();
-    ShowTreeData(issuers1);
+    IEnumerable<ProjectCategory> categories = db.ProjectCategories.Include(c => c.Childs).Where(x => x.ParentID == null).ToList();
+    ShowTreeData(categories);
 
 
 }
@@ -27,11 +27,11 @@
         }
     }
     @functions {
-        public void ShowTreeData(IEnumerable<ProjectCategory> issuers)
+        public void ShowTreeData(IEnumerable<ProjectCategory> projectCategories)
         {
             <ul class="nested">
 
-                @foreach (var i in issuers)
+                @foreach (var i in projectCategories)
                 {
 
                     <li class="alert alert-secondary">
