@@ -558,8 +558,6 @@ namespace Survey.Web.Controllers
             {
                 return BadRequest("Please Select An Operator For The Skip Logic");
             }
-
-
             try
             {
 

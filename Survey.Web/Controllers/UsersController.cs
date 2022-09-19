@@ -220,29 +220,29 @@ namespace Survey.Web.Controllers
                             if (usCheck)
                             {
                                 var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(1).Value.ToString()).Id;
-                                if (!String.IsNullOrEmpty(row.Cell(6).Value.ToString()))
+                                if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
                                 {
                                     UserProjectCategory p = new UserProjectCategory();
 
                                     p.UserId = idu;
 
-                                    p.CategoryId = int.Parse(row.Cell(6).Value.ToString());
+                                    p.CategoryId = int.Parse(row.Cell(4).Value.ToString());
                                     _dbContext.UserProjectCategories.Add(p);
                                 }
-                                if (!String.IsNullOrEmpty(row.Cell(5).Value.ToString()))
+                                if (!String.IsNullOrEmpty(row.Cell(3).Value.ToString()))
                                 {
                                     UserProject p = new UserProject();
 
                                     p.UserId = idu;
 
-                                    p.ProjectsId = int.Parse(row.Cell(5).Value.ToString());
+                                    p.ProjectsId = int.Parse(row.Cell(3).Value.ToString());
                                     _dbContext.UserProject.Add(p);
                                 }
-                                if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
+                                if (!String.IsNullOrEmpty(row.Cell(2).Value.ToString()))
                                 {
                                     IdentityUserRole<string> iur = new IdentityUserRole<string>
                                     {
-                                        RoleId = row.Cell(4).Value.ToString(),
+                                        RoleId = row.Cell(2).Value.ToString(),
                                         UserId = idu //user.Id
                                     };
                                     var ut = _dbContext.UserRoles.Add(iur);
