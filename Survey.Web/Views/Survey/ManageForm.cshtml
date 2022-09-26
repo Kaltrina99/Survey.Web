@@ -62,6 +62,7 @@
 
         return true;
     }
+    
 }
 <link rel="stylesheet" href="~/css/ManageForm.css" type="text/css" />
 <!--begin::Wrapper-->
@@ -107,15 +108,15 @@
                                     <div class="row align-items-center">
                                         <div class="col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
                                             <div class="input-icon">
-                                                <input type="text" class="form-control" form="form1" placeholder="Search..." asp-for="Filter.SearchingWord" />
+                                                <input type="text" class="form-control" onkeyup="myFunction()" id="myInput" form="form1" placeholder="Search..." asp-for="Filter.SearchingWord" />
                                                 <span>
                                                     <i class="flaticon2-search-1 text-muted"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
+                                       <div class="col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
                                             <div class="d-flex align-items-center">
-                                                <label class="mr-3 mb-0 d-none d-md-block">Program or client:</label>
+                                                <label class="mr-3 mb-0 d-none d-md-block">Category:</label>
                                                 <select class="form-control" form="form1" asp-for="Filter.FilterClientId">
                                                     <option value="">All</option>
                                                     @foreach (var client in Model.GetClients)
@@ -128,7 +129,7 @@
                                         </div>
                                         <div class=" col-lg-3 col-md-6 col-sm-6 my-2 my-md-0">
                                             <div class="d-flex align-items-center">
-                                                <label class="mr-3 mb-0 d-none d-md-block">Project or  activity:</label>
+                                                <label class="mr-3 mb-0 d-none d-md-block">Project:</label>
                                                 <select class="form-control" form="form1" asp-for="Filter.FilterProjectId">
                                                     <option value="">All</option>
                                                     @foreach (var project in Model.GetProjects)
@@ -139,9 +140,10 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @*
                                         <div class="col-lg-3 col-md-6 col-sm-6 ">
                                             <button form="form1" type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xl-6 mt-5 mt-lg-0">
@@ -179,57 +181,49 @@
                                                 <p class="label font-weight-bold label-lg label-light-danger label-inline">@form.Form_Status</p>
                                             }
                                         </td>
-                                        <td>
-                                            <table>
-                                                <tr>
+                                        <td class="col-sm-12 flex">
+                                            
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
                                                     {
-                                                        <td>
                                                             <a asp-controller="Survey" asp-action="Designer" asp-route-id="@form.Id" type="button" class="btn btn-outline-primary btn-rounded btn-sm">
 
                                                                 <p class="nav-text"> Desinger</p>
                                                             </a>
-                                                        </td>
                                                     }
                                                     @if (IsEnroll(form.Project_Id) == true && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_SeeResults)).Result.Succeeded)
                                                     {
 
-                                                        <td>
                                                             <a type="button" class="btn btn-outline-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="SurveyResults" asp-action="Index" asp-route-id="@form.Id">
 
                                                                 <p class="nav-text">Results</p>
                                                             </a>
-                                                        </td>
 
                                                     }
                                                     @if (IsEnrollCat(GetCat(form.Project_Id)) && (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Collect)).Result.Succeeded)
                                                     {
                                                         @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
                                                         {
-                                                            <td>
                                                                 <a type="button" class="btn btn-outline-secondary btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="Collect" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Collect</p>
                                                                 </a>
-                                                            </td>
                                                         }
 
                                                     }
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Publish)).Result.Succeeded)
                                                     {
-                                                        <td>
+                                                     
                                                             @if (form.Form_Status == Survey.Core.HelperClasses.FormStatus.Active)
                                                             {
                                                                 <a type="button" class="btn btn-outline-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeactivateForm" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Deactivate</p>
                                                                 </a>
-                                                            <td>
                                                                 <a type="button" class="btn btn-outline-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="EmailSuccessfullySend" asp-route-id="@form.Id">
 
                                                                     <p class="nav-text">Email</p>
                                                                 </a>
-                                                            </td>
+                                                            
                                                             }
                                                             else
                                                             {
@@ -238,39 +232,38 @@
                                                                 <p class="nav-text">Publish</p>
                                                             </a>
                                                             }
-                                            </td>
+                                           
                                                     }
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Create)).Result.Succeeded)
                                                     {
-                                            <td>
+                                          
                                                 <a type="button" class="btn btn-info btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="CreateExcelFromSurvey" asp-route-id="@form.Id">
 
                                                     <p class="nav-text">Export</p>
                                                 </a>
-                                            </td>
+                                        
                                                     }
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Update)).Result.Succeeded)
                                                     {
-                                            <td>
+                                           
                                                 <a type="button" class="btn btn-warning btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="UpdateForm" asp-route-id="@form.Id">
 
                                                     <p class="nav-text">Update</p>
                                                 </a>
-                                            </td>
+                                          
                                                     }
                                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Survey_Delete)).Result.Succeeded)
                                                     {
-                                            <td>
+                                           
                                                 <a type="button" class="btn btn-danger btn-rounded btn-sm" data-mdb-ripple-color="dark" asp-controller="Survey" asp-action="DeleteForm" asp-route-id="@form.Id">
 
                                                     <p class="nav-text">Delete</p>
                                                 </a>
-                                            </td>
+                                          
                                                     }
                                                    
-                                    </tr>
-                            </table>
-                            </td>
+                                 
+                            
 
                             </tr>
                                 }
@@ -294,6 +287,7 @@
 
     <script src="~/Admin/theme/demo4/dist/assets/js/pages/features/ktdatatable/base/html-table.js"></script>
     <style>
+
         .label.label-light-warning {
             color: #35b653;
             background-color: #35b65345;
@@ -369,3 +363,32 @@
         }
     </style>
 
+    <script>
+
+        function myFunction() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("kt_datatable");
+            tr = table.getElementsByTagName("tr");
+            for (var i = 0; i < tr.length; i++) {
+                var tds = tr[i].getElementsByTagName("td");
+                var flag = false;
+                for (var j = 0; j < tds.length; j++) {
+                    var td = tds[j];
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    tr[i].style.display = "";
+                }
+                else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+
+
+    </script>

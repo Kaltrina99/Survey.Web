@@ -56,7 +56,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6 my-2 my-md-0">
                                         <div class="input-icon">
-                                            <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
+                                            <input type="text" onkeyup="myFunction()" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
                                             <span>
                                                 <i class="flaticon2-search-1 text-muted"></i>
                                             </span>
@@ -93,46 +93,33 @@
                                     <td id="kot">@item.Id</td>
                                     <td>   @Html.DisplayFor(modelItem => item.Name)</td>
                                     <td>@countUser(@item.Id)</td>
-
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded || (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded || (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
                                     {
-                                        <td>
-                                            <table>
-                                            <tr>
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
-                                                {
-                                                    <td>
-                                                        <a asp-controller="ProjectCategory" asp-action="Index" asp-route-id="@item.Id" class="btn btn-info" title="SubCategory">
-                                                            <i class="flaticon2-trash"></i>SubCategory
-                                                        </a>
-                                                    </td>
-                                                }
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
-                                                {
-                                                    <td>
-                                                        <a class="btn btn-primary" title="Enroll" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
-                                                    </td>
-                                                }
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
-                                                {
-                                                    <td>
-                                                        <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-warning" title="Update">
-                                                            <i class="flaticon-edit"></i>Update
-                                                        </a>
-                                                    </td>
-                                                }
-                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
-                                                {
-                                                    <td>
-                                                        <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
-                                                            <i class="flaticon2-trash"></i>Delete
-                                                        </a>
-                                                    </td>
-                                                }
-
-                                            </tr>
-                                            </table>
+                                        <td class="align-self-end">
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_View)).Result.Succeeded)
+                                                    {
+                                                    <a asp-controller="ProjectCategory" asp-action="Index" asp-route-id="@item.Id" class="btn btn-info" title="SubCategory">
+                                                                <i class="flaticon2-trash"></i>SubCategory
+                                                            </a>
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_AssignUser)).Result.Succeeded)
+                                                    {
+                                                            <a class="btn btn-primary" title="Enroll" asp-action="Enroll" asp-route-id="@item.Id">Enroll</a>
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Update)).Result.Succeeded)
+                                                    {
+                                                            <a asp-controller="ProjectCategory" asp-action="UpdateCategory" asp-route-id="@item.Id" class="btn btn-warning" title="Update">
+                                                                <i class="flaticon-edit"></i>Update
+                                                            </a>
+                                                    }
+                                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Category_Delete)).Result.Succeeded)
+                                                    {
+                                                    <a asp-controller="ProjectCategory" asp-action="DeleteCategory" asp-route-id="@item.Id" class="btn btn-danger" title="Delete">
+                                                                <i class="flaticon2-trash"></i>Delete
+                                                            </a>
+                                                    }
                                         </td>
+                                 
                                     }
                                 </tr>
                                
@@ -210,3 +197,33 @@
         }
     }
 </style>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("kt_datatable_search_query");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("kt_datatable");
+        tr = table.getElementsByTagName("tr");
+        console.log(table.getElementsByTagName("tr"))
+        for (var i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var flag = false;
+            for (var j = 0; j < tds.length; j++) {
+                var td = tds[j];
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                tr[i].style.display = "";
+            }
+            else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+
+</script>

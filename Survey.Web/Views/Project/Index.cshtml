@@ -47,19 +47,14 @@
                         <div class="row align-items-center">
                             <form asp-action="Index">
                                 <div class="col-lg-12 col-xl-12">
-                                    <div class="row align-items-center">
-                                        <div class=" col-lg-4 col-md-4 col-sm-6 my-2 my-md-0">
                                             <div class="input-icon">
-                                                <input type="text" class="form-control" placeholder="Search..." name="searchingword" />
+                                                <input type="text" onkeyup="myFunction()" id="myInput"  class="form-control" placeholder="Search..." name="searchingword" />
                                                 <span>
                                                     <i class="flaticon2-search-1 text-muted"></i>
                                                 </span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-3 col-md-4 col-sm-6">
+                                      @*  <div class="col-lg-3 col-md-4 col-sm-6">
                                             <button type="submit" class="btn btn-light px-6 font-weight-bold">Search</button>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </div>
 
@@ -95,30 +90,21 @@
                                     @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded ||
                                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
                                     {
-                                        <td style="text-align:right;" class="text-right">
-                                            <table><tr>
-                                                    <td>
-                                            <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@project.Id">Enroll</a>
-                                            </td>
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
-                                            {
-                                                <td>
-                                                <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-warning">
-                                                    <i class="flaticon-edit"></i>Update
-                                                </a>
-                                                </td>
-                                            }
-                                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded)
-                                            {
-                                                <td>
-                                                <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
-                                                    <i class="flaticon2-trash"></i>Delete
-                                                </a>
-                                                </td>
-                                            }
-                                                </tr>
-                                            </table>
-                                             </td>
+                                        <td class="align-self-end">
+                                                <a class="btn btn-primary" title="Edit" asp-action="Enroll" asp-route-id="@project.Id">Enroll</a>
+                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Update)).Result.Succeeded)
+                                                {
+                                                    <a asp-controller="Project" asp-action="UpdateProject" asp-route-id="@project.Id" class="btn btn-warning">
+                                                        <i class="flaticon-edit"></i>Update
+                                                    </a>
+                                                }
+                                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.Project_Delete)).Result.Succeeded)
+                                                {
+                                                    <a asp-action="DeleteProject" asp-route-id="@project.Id" class="btn btn-danger">
+                                                        <i class="flaticon2-trash"></i>Delete
+                                                    </a>
+                                                }
+                                        </td>
                                     }
 
                                 </tr>
@@ -194,3 +180,32 @@
             }
         }
 </style>
+<script>
+
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("kt_datatable");
+        tr = table.getElementsByTagName("tr");
+        for (var i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var flag = false;
+            for (var j = 0; j < tds.length; j++) {
+                var td = tds[j];
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                tr[i].style.display = "";
+            }
+            else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+
+</script>

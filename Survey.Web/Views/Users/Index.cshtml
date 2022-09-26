@@ -29,6 +29,9 @@
             </a>
         </div>
     }
+   <div class="pt-10 pb-10">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." class="form-control" title="Type in a name">
+        </div>
     <table class="table table-striped  table-hover paginated-table mb-15" id="userTable">
         <thead>
             <tr>
@@ -78,7 +81,7 @@
                    (AuthorizationService.AuthorizeAsync(User, Permissions.PremissionList.User_UpdateUser)).Result.Succeeded)
                     {
                         <td>
-                            <div class="btn-group">
+                            <div >
 
                                 <button type="button" class="btn btn-light-orange dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Action
@@ -108,7 +111,7 @@
     @*      <form asp-action="Index" id="form1">
     <partial name="~/Views/Shared/_Paging.cshtml" model='(Model.Forms as IPagedList,$"/users/Index");' data-="" />
     </form>*@
-    <span class="prev btn btn-rounded btn-light"><i class="fa fa-angle-double-left"></i> Previous</span> <span class="next  btn btn-rounded btn-light"><i class="fa fa-angle-double-right"></i> Next</span>
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     @*<script>
@@ -121,78 +124,31 @@
 </div>
 <script>
 
-
-    var maxRows = 5;	// Define per page element count
-
-
-    console.log('hi')
-    $('.paginated-table').each(function () {
-        var cTable = $(this);
-        var cRows = cTable.find('tr:gt(0)');
-        var cRowCount = cRows.size();
-        console.log(cRowCount);
-
-        if (cRowCount < maxRows) {
-            return;
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("userTable");
+        tr = table.getElementsByTagName("tr");
+        for (var i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var flag = false;
+            for (var j = 0; j < tds.length; j++) {
+                var td = tds[j];
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                tr[i].style.display = "";
+            }
+            else {
+                tr[i].style.display = "none";
+            }
         }
-
-        cRows.each(function (i) {
-            $(this).find('td:first').text(function (j, val) {
-                return val;
-            });
-        });
-
-        cRows.filter(':gt(' + (maxRows - 1) + ')').hide();
+    }
 
 
-        var cPrev = cTable.siblings('.prev');
-        var cNext = cTable.siblings('.next');
-
-        cPrev.addClass('disabled');
-
-        cPrev.click(function () {
-            var cFirstVisible = cRows.index(cRows.filter(':visible'));
-
-            if (cPrev.hasClass('disabled')) {
-                return false;
-            }
-
-            cRows.hide();
-            if (cFirstVisible - maxRows - 1 > 0) {
-                cRows.filter(':lt(' + cFirstVisible + '):gt(' + (cFirstVisible - maxRows - 1) + ')').show();
-            } else {
-                cRows.filter(':lt(' + cFirstVisible + ')').show();
-            }
-
-            if (cFirstVisible - maxRows <= 0) {
-                cPrev.addClass('disabled');
-            }
-
-            cNext.removeClass('disabled');
-
-            return false;
-        });
-
-        cNext.click(function () {
-            var cFirstVisible = cRows.index(cRows.filter(':visible'));
-
-            if (cNext.hasClass('disabled')) {
-                return false;
-            }
-
-            cRows.hide();
-            cRows.filter(':lt(' + (cFirstVisible + 2 * maxRows) + '):gt(' + (cFirstVisible + maxRows - 1) + ')').show();
-
-            if (cFirstVisible + 2 * maxRows >= cRows.size()) {
-                cNext.addClass('disabled');
-            }
-
-            cPrev.removeClass('disabled');
-
-            return false;
-        });
-
-    });
 
 </script>
 
