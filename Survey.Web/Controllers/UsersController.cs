@@ -210,11 +210,11 @@ namespace Survey.Web.Controllers
 
                             if (!student.Email.Contains(DefaultEmail))
                             {
-                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
+                               // var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
                             }
                             else
                             {
-                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
+                                //var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
                             }
                             var usCheck = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
                             if (usCheck)
@@ -222,30 +222,39 @@ namespace Survey.Web.Controllers
                                 var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(1).Value.ToString()).Id;
                                 if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
                                 {
-                                    UserProjectCategory p = new UserProjectCategory();
-
-                                    p.UserId = idu;
-
-                                    p.CategoryId = int.Parse(row.Cell(4).Value.ToString());
-                                    _dbContext.UserProjectCategories.Add(p);
+                                    var c = _dbContext.ProjectCategories.Any(x => x.Id.ToString() == row.Cell(4).Value.ToString());
+                                   if (c) {
+                                        UserProjectCategory p = new UserProjectCategory();
+                                        p.UserId = idu;
+                                        p.CategoryId = int.Parse(row.Cell(4).Value.ToString());
+                                        _dbContext.UserProjectCategories.Add(p);
+                                    }
                                 }
                                 if (!String.IsNullOrEmpty(row.Cell(3).Value.ToString()))
                                 {
-                                    UserProject p = new UserProject();
+                                    var c = _dbContext.Projects.Any(x => x.Id.ToString() == row.Cell(3).Value.ToString());
+                                    if (c)
+                                    {
+                                        UserProject p = new UserProject();
 
-                                    p.UserId = idu;
+                                        p.UserId = idu;
 
-                                    p.ProjectsId = int.Parse(row.Cell(3).Value.ToString());
-                                    _dbContext.UserProject.Add(p);
+                                        p.ProjectsId = int.Parse(row.Cell(3).Value.ToString());
+                                        _dbContext.UserProject.Add(p);
+                                    }
                                 }
                                 if (!String.IsNullOrEmpty(row.Cell(2).Value.ToString()))
                                 {
-                                    IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                    var c = _dbContext.Roles.FirstOrDefault(x => x.Id == row.Cell(2).Value.ToString());
+                                   if (c!=null)
                                     {
-                                        RoleId = row.Cell(2).Value.ToString(),
-                                        UserId = idu //user.Id
-                                    };
-                                    var ut = _dbContext.UserRoles.Add(iur);
+                                        IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                        {
+                                            RoleId = row.Cell(2).Value.ToString(),
+                                            UserId = idu //user.Id
+                                        };
+                                        var ut = _dbContext.UserRoles.Add(iur);
+                                    }
                                 }
                             } 
                         }
