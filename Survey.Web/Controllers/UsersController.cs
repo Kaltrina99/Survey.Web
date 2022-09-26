@@ -210,11 +210,11 @@ namespace Survey.Web.Controllers
 
                             if (!student.Email.Contains(DefaultEmail))
                             {
-                               // var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
+                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
                             }
                             else
                             {
-                                //var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
+                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
                             }
                             var usCheck = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
                             if (usCheck)
