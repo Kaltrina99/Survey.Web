@@ -21,14 +21,15 @@
     <fieldset @(Model.Questions[i].Skip_Logic ? "style=display:none; disabled data-val-ctype="+(int)Model.Questions[i].SkipLogicType : "class=activeform")  data-val-question="question_@Model.Questions[i].Id">
         <div class="questioncontainer">
 
-
             <div class="card-body isquestion">
                 <input type="hidden" class="questionInput" value="@Model.Questions[i].Id" asp-for="@Model.Questions[i].Id" />
                 <input type="hidden" class="questionInput" value="@Model.Questions[i].QuestionText" asp-for="@Model.Questions[i].QuestionText" />
+                <input type="hidden" class="questionInput" value="@Model.Questions[i].QuestionDescription" asp-for="@Model.Questions[i].QuestionDescription" />
                 <input type="hidden" class="questionInput" value="@Model.Questions[i].Field_Type" asp-for="@Model.Questions[i].Field_Type" />
 
                <label>@Model.Questions[i].QuestionText</label>
-
+               <br/>
+                <label><small>@Model.Questions[i].QuestionDescription</small></label>
 
                 @if (Model.Questions[i].Field_Type == Survey.Core.HelperClasses.QType.Text)
                 {

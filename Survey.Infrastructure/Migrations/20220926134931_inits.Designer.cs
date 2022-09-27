@@ -10,8 +10,8 @@ using Survey.Infrastructure.Data;
 namespace Survey.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220918084439_init")]
-    partial class init
+    [Migration("20220926134931_inits")]
+    partial class inits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,35 +51,35 @@ namespace Survey.Infrastructure.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "6cfcbf6f-a241-4f62-b99c-7cf3dd5888e0",
+                            ConcurrencyStamp = "ed9e915e-7edb-4329-8d67-4bfbc42147e1",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "62566348-d01e-40e2-8678-27002fa37213",
+                            ConcurrencyStamp = "2e23a2f5-38ad-470a-81f7-92b3e936ee53",
                             Name = "Dean",
                             NormalizedName = "DEAN"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "4a36a36f-6516-4cfb-b912-e5d13d4cd416",
+                            ConcurrencyStamp = "4297a5af-f04e-470a-958e-d4cd3bd9115f",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "d72511d8-e221-4375-9b5e-f5bc137c85c1",
+                            ConcurrencyStamp = "5fbe9a9e-b90a-4b1e-893c-da45a1cc3188",
                             Name = "Professor",
                             NormalizedName = "PROFESSOR"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "a0972ae0-e97d-4608-a9cb-415abdb980ab",
+                            ConcurrencyStamp = "31daea34-3f15-4645-8129-6d037cc78156",
                             Name = "QA",
                             NormalizedName = "QA"
                         });
@@ -550,14 +550,14 @@ namespace Survey.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce564eee-37ce-4a2f-9dcf-a1c2301831da",
+                            ConcurrencyStamp = "24bd707b-05e1-4ec4-bba3-b840efc3c1ac",
                             Email = "admin@riinvest.net",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@RIINVEST.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPNjJhjOg9et+L3bKWunQ9tcze0qC9asjNi+BxFLtss7IzEq3WbSOKo70JmW4XKXDA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO3VV678iLtvVRJEvPpSSHzN6SThfs283ciCRsnEfJqwYul884rn2WaX9siZjUlTTQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb4cbf09-1d4e-4374-80f3-9a962aec7a20",
+                            SecurityStamp = "4c722e04-97ef-49a2-a0f2-e6159a787541",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         });

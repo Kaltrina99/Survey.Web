@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Survey.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class inits : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -452,17 +452,17 @@ namespace Survey.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "6cfcbf6f-a241-4f62-b99c-7cf3dd5888e0", "SuperAdmin", "SUPERADMIN" },
-                    { "2", "62566348-d01e-40e2-8678-27002fa37213", "Dean", "DEAN" },
-                    { "5", "4a36a36f-6516-4cfb-b912-e5d13d4cd416", "Student", "STUDENT" },
-                    { "3", "d72511d8-e221-4375-9b5e-f5bc137c85c1", "Professor", "PROFESSOR" },
-                    { "4", "a0972ae0-e97d-4608-a9cb-415abdb980ab", "QA", "QA" }
+                    { "1", "ed9e915e-7edb-4329-8d67-4bfbc42147e1", "SuperAdmin", "SUPERADMIN" },
+                    { "2", "2e23a2f5-38ad-470a-81f7-92b3e936ee53", "Dean", "DEAN" },
+                    { "5", "4297a5af-f04e-470a-958e-d4cd3bd9115f", "Student", "STUDENT" },
+                    { "3", "5fbe9a9e-b90a-4b1e-893c-da45a1cc3188", "Professor", "PROFESSOR" },
+                    { "4", "31daea34-3f15-4645-8129-6d037cc78156", "QA", "QA" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "ce564eee-37ce-4a2f-9dcf-a1c2301831da", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEPNjJhjOg9et+L3bKWunQ9tcze0qC9asjNi+BxFLtss7IzEq3WbSOKo70JmW4XKXDA==", null, false, "fb4cbf09-1d4e-4374-80f3-9a962aec7a20", false, "SuperAdmin" });
+                values: new object[] { "1", 0, "24bd707b-05e1-4ec4-bba3-b840efc3c1ac", "IdentityUser", "admin@riinvest.net", true, false, null, "ADMIN@RIINVEST.NET", null, "AQAAAAEAACcQAAAAEO3VV678iLtvVRJEvPpSSHzN6SThfs283ciCRsnEfJqwYul884rn2WaX9siZjUlTTQ==", null, false, "4c722e04-97ef-49a2-a0f2-e6159a787541", false, "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoleClaims",
