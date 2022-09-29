@@ -165,116 +165,125 @@ namespace Survey.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ImportExcelFile(IFormFile FormFile)
         {
-
-            try
+            if (FormFile == null)
             {
-                var DefaultPassword = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultPassword"];
-                var DefaultEmail = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultEmail"];
-                var DefaultLink = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultLink"];
-                var fileextension = Path.GetExtension(FormFile.FileName);
-                var filename = Guid.NewGuid().ToString() + fileextension;
-                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadsUsers", filename);
-                using (FileStream fs = System.IO.File.Create(filepath))
-                {
-                    FormFile.CopyTo(fs);
-                }
-                int rowno = 1;
-                XLWorkbook workbook = XLWorkbook.OpenFromTemplate(filepath);
-                var sheets = workbook.Worksheets.First();
-                var rows = sheets.Rows().ToList();
-                foreach (var row in rows)
-                {
-                    if (rowno != 1)
-                    {
-                        
-                        var test = row.Cell(1).Value.ToString();
-                        var exist = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
-                        if(!exist)
-                        {
-                            if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
-                            {
-                                break;
-                            }
-                            IdentityUser student;
-                            student = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
-                            if (student == null)
-                            {
-                                student = new IdentityUser();
-                            }
-                            student.UserName = row.Cell(1).Value.ToString();
-                            student.Email = row.Cell(1).Value.ToString();
-                            student.EmailConfirmed = true;
-                            student.NormalizedUserName = row.Cell(1).Value.ToString().ToUpper();
-                            student.NormalizedEmail = row.Cell(1).Value.ToString().ToUpper();
-                            IdentityResult result = await _userManager.CreateAsync(student, DefaultPassword);
+                return RedirectToAction("ImportUsers");
+            }
+            else
+            {
 
-                            if (!student.Email.Contains(DefaultEmail))
+                try
+                {
+                    var DefaultPassword = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultPassword"];
+                    var DefaultEmail = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultEmail"];
+                    var DefaultLink = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["DefaultLink"];
+                    var fileextension = Path.GetExtension(FormFile.FileName);
+                    var filename = Guid.NewGuid().ToString() + fileextension;
+                    var filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadsUsers", filename);
+                    using (FileStream fs = System.IO.File.Create(filepath))
+                    {
+                        FormFile.CopyTo(fs);
+                    }
+                    int rowno = 1;
+                    XLWorkbook workbook = XLWorkbook.OpenFromTemplate(filepath);
+                    var sheets = workbook.Worksheets.First();
+                    var rows = sheets.Rows().ToList();
+                    foreach (var row in rows)
+                    {
+                        if (rowno != 1)
+                        {
+
+                            var test = row.Cell(1).Value.ToString();
+                            var exist = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
+                            if (!exist)
                             {
-                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
+                                if (string.IsNullOrWhiteSpace(test) || string.IsNullOrEmpty(test))
+                                {
+                                    break;
+                                }
+                                IdentityUser student;
+                                student = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
+                                if (student == null)
+                                {
+                                    student = new IdentityUser();
+                                }
+                                student.UserName = row.Cell(1).Value.ToString();
+                                student.Email = row.Cell(1).Value.ToString();
+                                student.EmailConfirmed = true;
+                                student.NormalizedUserName = row.Cell(1).Value.ToString().ToUpper();
+                                student.NormalizedEmail = row.Cell(1).Value.ToString().ToUpper();
+                                IdentityResult result = await _userManager.CreateAsync(student, DefaultPassword);
+
+                                if (!student.Email.Contains(DefaultEmail))
+                                {
+                                    var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword}");
+                                }
+                                else
+                                {
+                                    var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
+                                }
+                                var usCheck = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
+                                if (usCheck)
+                                {
+                                    var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(1).Value.ToString()).Id;
+                                    if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
+                                    {
+                                        var c = _dbContext.ProjectCategories.Any(x => x.Id.ToString() == row.Cell(4).Value.ToString());
+                                        if (c)
+                                        {
+                                            UserProjectCategory p = new UserProjectCategory();
+                                            p.UserId = idu;
+                                            p.CategoryId = int.Parse(row.Cell(4).Value.ToString());
+                                            _dbContext.UserProjectCategories.Add(p);
+                                        }
+                                    }
+                                    if (!String.IsNullOrEmpty(row.Cell(3).Value.ToString()))
+                                    {
+                                        var c = _dbContext.Projects.Any(x => x.Id.ToString() == row.Cell(3).Value.ToString());
+                                        if (c)
+                                        {
+                                            UserProject p = new UserProject();
+
+                                            p.UserId = idu;
+
+                                            p.ProjectsId = int.Parse(row.Cell(3).Value.ToString());
+                                            _dbContext.UserProject.Add(p);
+                                        }
+                                    }
+                                    if (!String.IsNullOrEmpty(row.Cell(2).Value.ToString()))
+                                    {
+                                        var c = _dbContext.Roles.FirstOrDefault(x => x.Id == row.Cell(2).Value.ToString());
+                                        if (c != null)
+                                        {
+                                            IdentityUserRole<string> iur = new IdentityUserRole<string>
+                                            {
+                                                RoleId = row.Cell(2).Value.ToString(),
+                                                UserId = idu //user.Id
+                                            };
+                                            var ut = _dbContext.UserRoles.Add(iur);
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                var email = _emailSender.SendEmailAsync(student.Email, "New user", $"<br><br>Pershendetje, <br/>Sapo jeni shtuar si perdorues ne RiVlersim, aplikacion ky nga kolegji Riinvest per krijimin e anketave.<br/>Kliko <a href={HtmlEncoder.Default.Encode(DefaultLink)}> ketu</a> per te vazhdua ne platformen RiVlersim <br/> Ju mund te qasini me keto kredenciale <br/>Email: {student.Email} <br/>Password: {DefaultPassword} <br/> Apo permes Google Account Authentification qe ju eshte ofruar nga Kolegji Riinvest ");
+                                IdentityUser user = _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
+                                _dbContext.Users.Update(user);
                             }
-                            var usCheck = _dbContext.Users.Any(x => x.Email == row.Cell(1).Value.ToString());
-                            if (usCheck)
-                            {
-                                var idu = _dbContext.Users.FirstOrDefault(x => x.Email == row.Cell(1).Value.ToString()).Id;
-                                if (!String.IsNullOrEmpty(row.Cell(4).Value.ToString()))
-                                {
-                                    var c = _dbContext.ProjectCategories.Any(x => x.Id.ToString() == row.Cell(4).Value.ToString());
-                                   if (c) {
-                                        UserProjectCategory p = new UserProjectCategory();
-                                        p.UserId = idu;
-                                        p.CategoryId = int.Parse(row.Cell(4).Value.ToString());
-                                        _dbContext.UserProjectCategories.Add(p);
-                                    }
-                                }
-                                if (!String.IsNullOrEmpty(row.Cell(3).Value.ToString()))
-                                {
-                                    var c = _dbContext.Projects.Any(x => x.Id.ToString() == row.Cell(3).Value.ToString());
-                                    if (c)
-                                    {
-                                        UserProject p = new UserProject();
-
-                                        p.UserId = idu;
-
-                                        p.ProjectsId = int.Parse(row.Cell(3).Value.ToString());
-                                        _dbContext.UserProject.Add(p);
-                                    }
-                                }
-                                if (!String.IsNullOrEmpty(row.Cell(2).Value.ToString()))
-                                {
-                                    var c = _dbContext.Roles.FirstOrDefault(x => x.Id == row.Cell(2).Value.ToString());
-                                   if (c!=null)
-                                    {
-                                        IdentityUserRole<string> iur = new IdentityUserRole<string>
-                                        {
-                                            RoleId = row.Cell(2).Value.ToString(),
-                                            UserId = idu //user.Id
-                                        };
-                                        var ut = _dbContext.UserRoles.Add(iur);
-                                    }
-                                }
-                            } 
                         }
-                        else {
-                            IdentityUser user= _dbContext.Users.Where(s => s.UserName == row.Cell(1).Value.ToString()).FirstOrDefault();
-                            _dbContext.Users.Update(user);
+                        else
+                        {
+                            rowno = 2;
                         }
                     }
-                    else
-                    {
-                        rowno = 2;
-                    }
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("Index");
+
                 }
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index");
-                
-            }
-            catch (Exception e)
-            {
-                throw e;
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
 
         }

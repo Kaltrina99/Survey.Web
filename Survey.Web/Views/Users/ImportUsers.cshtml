@@ -16,14 +16,13 @@
     <div class="col-md-3 col-lg-2 custom-file file-input1">
         <input type="file" name="FormFile" class="file " id="FormFile" class="form-control file btn-orange">
     </div>
-    <input type="submit" id="send" class="form-control file btn btn-success" value="Upload" />
+    <input type="submit"  id="send" class="form-control file btn btn-success" value="Upload" />
 </form>
 <br />
 <div class="">
     <!--Show Message if file is uploaded or not-->
     @ViewBag.Message
 </div>
-
 <script>
     document.getElementById("send").onclick = function (e) {
         if (document.getElementById("file").value == "") {
@@ -31,4 +30,5 @@
             alert("Please select a file.");
         }
     }
+
 </script> 
